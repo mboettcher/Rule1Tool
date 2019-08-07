@@ -1,0 +1,136 @@
+<?php
+//Analysen-Auswahl
+if($this->analysis_list)
+{
+	?>
+	<div id="stock_title">
+		<span id="name"><h1><?=$this->company->getName();?></h1></span>
+		<span id="isin"><h2><?=$this->company->getISIN();?></h2></span>
+	</div>
+	<?=$this->clearDiv();?>
+	
+	
+	<div id="stock_col_logo"><?php echo $this->printCompanyPicture($this->company);?></div>
+	<div class="stock_col_trenner"></div>
+	<div id="analysis_head_analysisauswahl">	
+	<?
+	
+	echo $this->formHidden("analysis_company_id", $this->company->getId(), null);
+	echo $this->formHidden("analysis_analysis_id", $this->analysis->getId(), null);
+
+
+    /*
+    $formselect = $this->formSelect("AID", $this->analysis->getId(), 
+                array("onchange" => "this.form.submit()"),
+                $this->formPrepareArray($this->analysis_list, 
+                						"analysis_id", 
+                						"value"));
+    $attribs = array("method" => "post", "action" => $this->url(array("CID" => $this->company->getId()), "analysis_show", null));
+    $form = $this->form("analysis_select", $attribs, $formselect);
+	*/
+    $date_add = new Zend_Date($this->analysis->getDateAdd(), Zend_Date::TIMESTAMP);
+    $date_edit = new Zend_Date($this->analysis->getDateEdit(), Zend_Date::TIMESTAMP);
+	
+    ?>
+		<table cellspacing="0" width="100%">
+			<tr>
+				<td colspan=2><a style="display:block;" href="<?=$this->url(array(
+    									"CID" => $this->company->getId(), 
+    									"language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+										"FRAMED" => $this->isFramed
+														), "analysis_create")?>">Neue Analyse anlegen</a></td>
+			</tr>
+		
+		<?php 
+			//Vorselektierung scrollen
+			$selectScript = '$(document).ready(function() {
+								//$("#analysis_id_'.$this->analysis->getId().'").scrollIntoView(true);
+								var el = document.getElementById("analysis_id_'.$this->analysis->getId().'");
+     							el.scrollIntoView(false);
+								//window.location.href = "#analysis_id_'.$this->analysis->getId().'";
+							});';
+			$this->headScript()->appendScript($selectScript);
+		
+			$clickScript = "";
+			
+		    foreach ($this->analysis_list as $key => $analysis)
+		    {
+		        $user = new User($analysis["user_id"]);
+		        $nickname = $user->getNickname();
+		        $date = date("Y-m-d",$analysis["date_edit"]);
+		        echo '<tr';
+		        if($this->analysis->getId() == $analysis["analysis_id"])
+		        	echo ' class="active"';
+
+		        if($analysis["analysis_id"] == $this->company->getPreselectedAnalysisId(Zend_Registry::get("Zend_Auth")->getIdentity()->user_id))
+		        	$star = "on";
+		        else
+		        	$star = "off"; 
+		        	
+		        echo '><td id="analysis_id_'.$analysis["analysis_id"].'">'.$date." - ".$nickname.'</td>
+		        	   <td class="star '.$star.'" CID="'.$this->company->getId().'" AID="'.$analysis["analysis_id"].'" UID="'.Zend_Registry::get("Zend_Auth")->getIdentity()->user_id.'"></td>
+		       	</tr>';  
+
+		        $clickScript .= '$("#analysis_id_'.$analysis["analysis_id"].'").click(
+									function (event) { 
+										window.location.href = "'.$this->url(array("CID" => $this->company->getId(), 
+																				"AID" => $analysis["analysis_id"], 
+																				"language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+																				"FRAMED" => $this->isFramed), "analysis_show").'";
+									});';
+		    }
+		    $clickScript = '$(document).ready(function() {
+								'.$clickScript.'
+							});';
+			$this->headScript()->appendScript($clickScript);
+		
+		?>
+		</table>
+	
+	</div>
+	<img id="analysis_head_pfeil" src="<?=$this->baseUrlShort();?>/public/images/analyse_pfeil.png" alt=""/>
+	<div id="analysis_head_analysisdetails">
+		<div id="analysis_head_details_dates">
+			<p>Erstellt am: <?=$date_add->get(Zend_Date::DATES);?></p>
+			<p>Geändert am: <?=$date_edit->get(Zend_Date::DATES);?></p>
+		</div>
+		
+		<?php 
+			if($this->analysis->getCreator()->getUserId() == Zend_Registry::get("Zend_Auth")->getIdentity()->user_id)
+				echo $this->button("bearbeiten", $this->url(array("AID" => $this->analysis->getId(), "language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+										"FRAMED" => $this->isFramed), "analysis_edit"), array("style"=>"margin-top:10px;"));
+			else 
+				echo $this->button("kopieren", $this->url(array("CID" => $this->company->getId(),"AID" => $this->analysis->getId(), "COPIE" => 1, "language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+										"FRAMED" => $this->isFramed), "analysis_create"), array("style"=>"margin-top:10px;"));
+		?>
+		
+		<div style="float:right; margin-right:4px;margin-top:4px;">
+			<?php echo $this->printUserPicture($this->analysis->getCreator(), "s");?>
+			<p class="image_userpic_username">
+				<?php echo $this->link($this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "username" => $this->analysis->getCreator()->getNickname()), "user_profile"), $this->analysis->getCreator()->getNickname(), null, null, "_parent");?>
+			</p>
+		</div>
+		
+		<div id="analysis_head_details_description"><?=$this->analysis->getNote();?></div>
+	</div>
+	
+<?=$this->clearDiv();?>
+
+<div id="analysis_head_moat">
+<?php echo $this->capTop("div");?>
+	<div class="head"><?php echo $this->translate("Burggraben / Alleinstellungsmerkmal");?></div>
+	<div class="description"><?=$this->analysis->getMoat();?></div>
+<?php echo $this->capBottom();?>
+</div>
+
+<div id="analysis_head_management">
+<?php echo $this->capTop("div");?>
+	<div class="head"><?php echo $this->translate("Management");?></div>
+	<div class="description"><?=$this->analysis->getManagement();?></div>
+<?php echo $this->capBottom();?>
+</div>
+
+
+    <?
+}
+?>

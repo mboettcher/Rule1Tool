@@ -1,0 +1,410 @@
+<div class="contentContainer stocks">
+<? $_toNumberOptions = array('locale' => Zend_Registry::get("Zend_Locale"), 'precision' => 2); ?>
+	<?php echo $this->printCompanyPicture($this->company);?>
+	<h1><?=$this->company->getName();?></h1>
+	<h3><?=$this->company->getISIN();?></h3>
+	
+	
+	<div id="stock_col_middle">	
+		<?
+			if($this->company->getQuotes($this->company->getMainMarketId())) //überhaupt was da?
+			{
+				$quote = $this->company->getQuotes($this->company->getMainMarketId())->getLastQuote();
+				if ($quote->getClose() !== null)
+				{
+					$zdate = new Zend_Date($quote->date, Zend_Date::ISO_8601);
+					$date = "Datum: ".$zdate->get(Zend_Date::DATES)
+							. " ";
+					if($this->company->isStock())
+						$date .= $this->company->getQuotes($this->company->getMainMarketId())->getMarket()->getName();
+					$currency = $this->company->getQuotes($this->company->getMainMarketId())->getMarket()->getCurrency();
+					$close = $quote->getClose(true, 999);
+					$change = $quote->getChange(true);
+				}
+				else
+				{
+					$close = "xx,xx";
+					$change = "x,x";
+					$currency = "";
+					$date = $this->translate("keine Daten vorhanden");
+				}	
+			}
+			else
+			{
+				$close = "xx,xx";
+				$change = "x,x";
+				$currency = "";
+				$date = $this->translate("keine Daten vorhanden");
+			}
+			
+		 ?>
+		
+		<div id="last_quote">
+			
+			<div id="quote"><?=$close; ?></div>
+
+			<div class="quoteInfos">
+			<div><?=$change; ?> %</div>
+			<?php 
+			if($this->company->isStock()) 
+			{
+				?>
+				<div><?= $currency; ?></div>
+				<?
+			}
+			?>
+			</div>
+			<div class="date">
+				<?=$date; ?>
+			</div>
+			
+		</div>
+	</div>
+	<div class="clearDiv"></div>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$("#accordion").accordion({
+			autoHeight: false,
+			active: false,
+			collapsible: true
+		});
+	});
+	</script>
+	
+		<div id="accordion">
+		
+		<?php 
+		if($this->company->isStock())
+		{
+		?>
+		<h3><a href="#">Regel 1 Informationen</a></h3>
+		<div>
+			<?php 
+				if(isset($this->analysis))
+				{
+			?>
+			
+			<?php 
+			
+			if($currency != $this->analysis->getCurrency())
+				$analysisCurrency = " ".$this->analysis->getCurrency();
+			else 
+				$analysisCurrency = "";
+			
+				
+			$analyseQuote = $this->company->getQuotesByCurrency($this->analysis->getCurrency());
+			if($analyseQuote)
+			{
+				$paybacktimePrice = $this->analysis->getPaybackTimePrice(true, 0, false, $analyseQuote->getLastQuote()->getClose());
+				if($paybacktimePrice)
+					$paybacktimePrice .= " Jahre";
+				else
+					$paybacktimePrice = "n/a";
+			}
+			else 
+				$paybacktimePrice = "n/a";
+				
+			?>
+			
+			<div id="mos">Sicherheitspreis(MOS): <?=$this->analysis->getMOS().$analysisCurrency;?></div>
+			<div id="sticker">Empfehlungspreis: <?=$this->analysis->getStickerPrice().$analysisCurrency;?></div>
+			<div id="paybacktime">Payback Time (akt. Kurs): <?=$paybacktimePrice;?></div>
+			
+			<div class="analysis_table">
+				<div class="row head">
+					<div class="block">&nbsp;</div>
+					<div class="block margin">ROIC</div>
+					<div class="block margin">Eigenkap.</div>
+					<div class="block margin">EPS</div>
+				</div>
+				<div class="spacerrow"></div>
+				<div class="row periode">
+					<div class="block first">Periode</div>
+					<div class="block numberblock margin">
+						<div class="ele">1</div>
+						<div class="ele">5</div>
+						<div class="ele">10</div>
+					</div>
+					<div class="block numberblock margin">
+						<div class="ele">1</div>
+						<div class="ele">5</div>
+						<div class="ele">9</div>
+					</div>
+					<div class="block numberblock margin">
+						<div class="ele">1</div>
+						<div class="ele">5</div>
+						<div class="ele">9</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="block first">Durchschnitt</div>
+					<div class="block numberblock margin">
+						<div class="ele first"><?=$this->printNA($this->analysis->getDataAverage("roic", 1, true, 0)); ?></div>
+						<div class="ele second"><?=$this->printNA($this->analysis->getDataAverage("roic", 5, true, 0)); ?></div>
+						<div class="ele third"><?=$this->printNA($this->analysis->getDataAverage("roic", 10, true, 0)); ?></div>
+					</div>
+					<div class="block numberblock margin">
+						<div class="ele first"><?=$this->printNA($this->analysis->getDataAverage("equity",1, true, 0)); ?></div>
+						<div class="ele second"><?=$this->printNA($this->analysis->getDataAverage("equity",5, true, 0)); ?></div>
+						<div class="ele third"><?=$this->printNA($this->analysis->getDataAverage("equity",9, true, 0)); ?></div>
+					</div>
+					<div class="block numberblock margin">
+						<div class="ele first"><?=$this->printNA($this->analysis->getDataAverage("eps",1, true, 0)); ?></div>
+						<div class="ele second"><?=$this->printNA($this->analysis->getDataAverage("eps",5, true, 0)); ?></div>
+						<div class="ele third"><?=$this->printNA($this->analysis->getDataAverage("eps",9, true, 0)); ?></div>
+					</div>
+				</div>			
+			</div>
+			
+			<div class="analysis_table">
+				<div class="row head">
+					<div class="block">&nbsp;</div>
+					<div class="block margin">Umsatz</div>
+					<div class="block margin">Cash</div>
+				</div>
+				<div class="spacerrow"></div>
+				<div class="row periode">
+					<div class="block first">Periode</div>
+					<div class="block numberblock margin">
+						<div class="ele">1</div>
+						<div class="ele">5</div>
+						<div class="ele">9</div>
+					</div>
+					<div class="block numberblock margin">
+						<div class="ele">1</div>
+						<div class="ele">5</div>
+						<div class="ele">9</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="block first">Durchschnitt</div>
+					
+					<div class="block numberblock margin">
+						<div class="ele first"><?=$this->printNA($this->analysis->getDataAverage("revenue",1, true, 0)); ?></div>
+						<div class="ele second"><?=$this->printNA($this->analysis->getDataAverage("revenue",5, true, 0)); ?></div>
+						<div class="ele third"><?=$this->printNA($this->analysis->getDataAverage("revenue",9, true, 0)); ?></div>
+					</div>
+					<div class="block numberblock margin">
+						<div class="ele first"><?=$this->printNA($this->analysis->getDataAverage("cashflow",1, true, 0)); ?></div>
+						<div class="ele second"><?=$this->printNA($this->analysis->getDataAverage("cashflow",5, true, 0)); ?></div>
+						<div class="ele third"><?=$this->printNA($this->analysis->getDataAverage("cashflow",9, true, 0)); ?></div>
+					</div>
+				</div>			
+			</div>
+		<?php 
+			}
+			else
+			{
+			 ?>
+			 
+			 <h2>
+				<?=$this->translate("Es existiert noch keine Analyse zu  %1\$s. Bitte benutzen Sie einen herkömmlichen PC um eine eigene Analyse anzulegen.",$this->company->getName());?>
+			</h2>
+			 <?php 
+			}
+		?>
+		</div>
+		<?php 
+		} //isStock - ENDE
+		?>
+		<h3><a href="#"><?=$this->translate("Aktionen & Links");?></a></h3>
+		<div>
+			<div class="sitelinks extern" ><? if ($website = $this->company->getWebsite()) echo '<a target=_blank href="'.$website.'">Website</a>'; ?></div>
+			<div class="sitelinks extern"><? if ($wikipedia = $this->company->getWikipedia()) echo '<a target=_blank href="'.$wikipedia.'">Wikipedia</a>'; ?></div>
+		
+			<div class="stock_row_trenner"></div>
+			<?php 
+				if($this->company->getMainMarketId() != NULL)
+				{
+			?>
+			<div class="sitelinks"><a href="<?php echo $this->url(array(
+									"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+									"CID" => $this->company->getId(),
+									"WID" => $this->watchlist_id,
+									"MID" => $this->company->getMainMarketId(),
+									"username" => Zend_Registry::get("UserObject")->getNickname()), "user_watchlist_add");?>">Zur Watchlist hinzufügen</a>
+									</div>
+			<?php
+				}
+			?>
+			<!--
+			<div class="sitelinks">Zum Portfolio hinzufügen</div>
+			<div class="sitelinks">Der Gruppe beitreten</div>
+			-->
+			<?php 
+				if($this->company->isStock() && isset($this->analysis))
+				{
+			?>
+			<div class="sitelinks"><a href="<?=$this->url(array("CID" => $this->company->getId(),
+									 "language" => Zend_Registry::get('Zend_Locale')->getLanguage()
+								), "analysis_create");?>">
+								<?=$this->translate("Eigene Analyse erstellen");?></a></div>
+			<div class="sitelinks"><a href="<?=$this->url(array("CID" => $this->company->getId(),
+									 "language" => Zend_Registry::get('Zend_Locale')->getLanguage()
+								), "analysis_show");?>">
+								<?=$this->translate("Favorisierte Analyse festlegen");?></a></div>
+			<?php 
+				} //isStock - ENDE
+			?>	
+		</div>
+		
+		<h3><a href="#"><?=$this->translate("News");?></a></h3>
+		<div>
+			<ul id="yahooNewsResults">
+			
+		<?php 
+			try {
+				//externe verbindungen werfen halt manchmal fehler
+				$yahoo = new Zend_Service_Yahoo("0rYuMKXV34Fql6Nl0261BNndehWwUgCRYpSTQ6CNeyNCnEA1cdFYnkxQ26go");
+				$results = $yahoo->newsSearch($this->company->getName(), array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()));
+				foreach ($results as $result) {
+				    echo "<li>".$this->link($result->Url,$result->Title, null, null, "_blank").'</li>';
+				}
+			}catch (Zend_Exception $e)
+			{
+				//nix machen :)		
+			}
+				
+		?>
+			</ul>
+		</div>
+		
+		<h3><a href="#"><?=$this->translate("Charts");?></a></h3>
+		<div class="lessPadding" id="stockCharts">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				
+			
+				$(document).iPhone.orientchange(
+						function(){
+							//alert('the iphone has rotated the screen to portrait');
+							$("#stockCharts img").each(function()
+									{
+										$(this).addClass("small").removeClass("large");	
+									}
+									);
+						},
+						function(){
+							//alert('the iphone has rotated the screen to landscape');
+							$("#stockCharts img").each(function()
+									{
+										$(this).addClass("large").removeClass("small");	
+									}
+									);
+						}
+					);
+			});
+		</script>	
+		<?
+		if($this->charts)
+		{
+		    foreach($this->charts as $chart)
+		    	echo $this->image($chart, null, null, "small");	
+		
+		}
+		?>
+		</div>
+		
+		<!-- accordion end -->
+		</div>
+	
+	
+	
+	
+
+
+
+<?php 
+
+/*
+
+	<div class="yahooNewsBox"  id="yahooNewsToggle">
+<?=Zend_Registry::get("Zend_View")->capTop();?>
+<div class="inner">
+		<div class="title"><h4><?php echo $this->translate("Nachrichten:");?></h4></div>
+	<ul id="yahooNewsResults">
+		<li>loading...</li>
+	<?php 
+	
+	$selectScript = '$(document).ready(function() {
+									searchYahoo("'.$this->company->getName().'", "'.Zend_Registry::get('Zend_Locale')->getLanguage().'");
+								});';
+	$this->headScript()->appendScript($selectScript);
+		
+	
+	/*
+	$yahoo = new Zend_Service_Yahoo("YAHOO_APPLICATION_ID");
+	$results = $yahoo->newsSearch($this->company->getName());
+	foreach ($results as $result) {
+	    echo $result->Title .'<br />';
+	}
+	*/
+/*	
+	?>
+	</ul>
+	</div>
+	<?=Zend_Registry::get("Zend_View")->capBottom();?>
+	</div>
+	
+
+	
+	<div class="stock_comments">
+		<div class="head head1" id="stock_comment_header">
+
+			<div class="content" id="stock_comments_company_toggle"><div style="float:left;"><?=$this->commentPaginatorCompany->getTotalItemCount();?> Kommentare zum Unternehmen</div><img id="stock_comment_head_pf_1_left" style="display:block;margin-top:3px;margin-left:3px;float:left"  src="<?php echo $this->baseUrlShort();?>/public/images/pfeil_left_grau.png" alt=""/><img id="stock_comment_head_pf_1_down" style="display:none;margin-top:3px;margin-left:3px;float:left" src="<?php echo $this->baseUrlShort();?>/public/images/pfeil_down_grau.png" alt=""/></div>
+
+			<div class="content" id="stock_comments_analysis_toggle"><div style="float:left;"><?if($this->commentPaginatorAnalysis) echo $this->commentPaginatorAnalysis->getTotalItemCount(); else echo "0";?> Kommentare zur Analyse</div><img id="stock_comment_head_pf_2_left" style="display:block;margin-top:3px;margin-left:3px;float:left"  src="<?php echo $this->baseUrlShort();?>/public/images/pfeil_left_grau.png" alt=""/><img id="stock_comment_head_pf_2_down" style="display:none;margin-top:3px;margin-left:3px;float:left" src="<?php echo $this->baseUrlShort();?>/public/images/pfeil_down_grau.png" alt=""/></div>
+
+		</div>
+		<div style="float:left;">
+		<div style="float:left;" id="stock_comment_body">
+			<div class="body">
+				<div class="content">
+					<div id="stock_comments_company">
+							<?php 
+							if($this->CommentPageCompany == 1)
+							{
+							?>
+							<div class="stockNewCommentBox">
+								<input type="hidden" id="stock_comment_c_thread_id" value="<?=$this->company->getThread()->getThreadId();?>"/>
+								<?php echo $this->printUserPicture(Zend_Registry::get("UserObject"), "s");?>
+								<textarea id="stock_new_c_comment_text" class="commentNewBox"></textarea>
+								<input type="button" id="stock_new_c_comment_send" value="Kommentar abschicken">
+							</div>
+							<?php 
+							}
+							else //Wenn nicht, dann bitte Box-AUSKLAPPEN! 
+							{
+								$selectScript = '$(document).ready(function() {
+									commentBoxCompanyToggle();
+								});';
+								$this->headScript()->appendScript($selectScript);
+							}
+							?>
+							<div id="stockCommentsCompany">
+								<?=$this->commentPaginator($this->commentPaginatorCompany, "company");?>
+							</div>
+					</div>
+					<div id="stock_comments_analysis">
+						<?php echo $this->render("stocks/commentsAnalysis.phtml"); ?>
+					</div>
+					
+				</div>
+			</div>
+			<div class="foot">
+				<div class="left"></div>
+				<div class="main"></div>
+				<div class="right"></div>
+			</div>
+		</div>
+		</div>
+	</div>
+
+
+
+ */
+?>	
+
+
+</div>

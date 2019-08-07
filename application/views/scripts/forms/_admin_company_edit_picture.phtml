@@ -1,0 +1,13 @@
+<form action="<?= $this->escape($this->element->getAction()) ?>"
+      method="<?= $this->escape($this->element->getMethod()) ?>"
+      enctype ="<?= $this->escape($this->element->getAttrib("enctype"))?>"
+      >
+      
+
+	<?php echo $this->translate("Bilddatei auswählen:");?>
+	<?=$this->element->image;?>
+
+         
+<?=$this->element->submit; ?>
+<?=$this->element->reset; ?>
+</form>

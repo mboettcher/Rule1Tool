@@ -1,0 +1,129 @@
+<script type="text/javascript">
+$(document).ready(function() {	
+	$(".watchlistMosNS").simpletooltip(true); 
+});
+</script>
+
+<?php
+
+if (count($this->paginator))
+{
+	?>
+<table cellspacing=0 width="100%" class="stocksOverviewTable">
+<thead>
+<tr>
+	<td><?php echo $this->translate("Name");?></td>
+	<td><?php echo $this->translate("ISIN");?></td>
+	<td><?php echo $this->translate("Kurs");?></td>
+	<td><?php echo $this->translate("MOS");?></td>
+</tr>
+</thead>
+<tbody>	
+	<?php 
+	foreach($this->paginator as $item)
+	{
+		echo '<tr>
+				<td>'.$this->link(
+						$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "isin" => $item->getIsin()), "stock"),$item->getName())
+				.'</td>
+				<td>'.$this->link(
+						$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "isin" => $item->getIsin()), "stock"),$item->getIsin())
+				.'</td>';
+		
+		
+		if ($this->localsearch == true)
+		{
+			echo '<td>';
+			if($item->getQuotes($item->getMainMarketId()))
+			{
+				if($item->getQuotes($item->getMainMarketId())->getLastQuote()->getClose() !== null)
+				{
+					echo $item->getQuotes($item->getMainMarketId())->getLastQuote()->getClose(true);
+					if($item->isStock()) 
+					{
+						echo ' '
+							.$item->getQuotes($item->getMainMarketId())->getMarket()->getCurrency();
+					}
+				}			
+				else 
+					echo 'n/a';			
+			}
+			else 
+				echo 'n/a';		
+	
+			echo '</td>';
+			
+			if($analysis_id = $item->getPreselectedAnalysisId(Zend_Registry::get("UserObject")->getUserId()))
+			{
+				$analysis = new Analysis_Calculator();
+				$analysis->getAnalysisById($analysis_id);
+				//$mos = $analysis->getMOS()." ".$analysis->getCurrency();
+				$date = new Zend_Date($analysis->getDateEdit());
+				$mos = '<span title="Analyse erstellt am '.$date->get(Zend_Date::DATES).' von '.$analysis->getCreator()->getNickname().'" class="watchlistMosNS">'
+						.$analysis->getMOS()
+						." "
+						.$analysis->getCurrency()
+						.'</span>';	
+			}
+			else 
+				$mos = "n/a";
+			echo '<td>'.$mos.'</td>';
+		}
+		else 
+		{
+			echo "<td></td><td></td>";
+		}
+			
+		echo '</tr>';
+	}
+	?>
+</tbody>
+</table>
+<?
+
+echo $this->paginationControl($this->paginator,
+	                             'Sliding',
+	                             "paginator.phtml");
+?>
+<?php 
+if ($this->localsearch == true)
+{
+	?>
+	<div>
+<p class="note small"><?php echo $this->translate("Hinweis: Nicht das gesuchte Unternehmen gefunden? Probieren Sie es mit einem exakteren Suchwort oder am besten mit der ISIN des Unternehmens.");?></p>
+	
+	</div>
+	<?php 
+}
+?>
+
+	
+	<?php
+}
+else 
+{
+if($this->mbox)
+{
+	echo $this->messageBox($this->mbox, "input");
+	echo $this->clearDiv();
+}
+?>
+<div class="stockSearchBox" style="text-align:center;">
+<form action="<?php echo $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "stocksearch")?>">
+<input name="q" type="text" class="inputtext" onfocus="this.value='';this.style.color='#333';" onblur="if(this.value == '') {this.value='ISIN oder Name oder Symbol';this.style.color='#b9b9b9';}" value="ISIN oder Name oder Symbol"/>
+<button name="send" type="submit" value="search">suchen</button>
+</form>	
+<br/><br/><br/>
+<p class="note small">
+<strong>Hinweis: </strong>
+Die Suchfunktion ist die einfachste und schnellste Möglichkeit Unternehmen in Rule1Tool zu finden. 
+Hiermit können Sie außerdem Unternehmen, die noch nicht in der "Liste der Unternehmen" enthalten sind, zu Rule1Tool hinzufügen, 
+indem Sie z.B. nach der ISIN oder einem relativ präzisen Unternehmensnamen suchen.</p>
+</div>
+
+<?php 
+
+}
+
+?>
+

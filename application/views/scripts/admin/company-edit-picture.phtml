@@ -1,0 +1,35 @@
+
+<?php 
+if($this->form)
+{
+?>
+<h1><?php echo $this->company->getName().$this->translate("'s Profilbild ändern");?></h1>
+
+<?php 
+if($this->mbox)
+{
+	echo $this->messageBox($this->mbox, "input");
+	echo $this->clearDiv();
+}
+?>
+
+<div class="userProfilPictureBox">
+
+<?php echo $this->printCompanyPicture($this->company);?>
+
+
+</div>
+
+<div class="userProfilUserDataBox">
+	<?php echo $this->form;?>
+</div>
+
+<?php 
+}
+else 
+{
+	if($this->mbox)
+		echo $this->messageBox($this->mbox);
+}
+?>
+

@@ -1,0 +1,17 @@
+<h1 style="font-size:1.5em;
+	line-height:1.8em;
+	margin:0px;"><?php echo $this->translate("Sie wurden von %1\$s zu Rule1Tool eingeladen", $this->data["absender_name"]);?></h1>
+<p style="font-size:1.2em;
+	line-height:1.6em;
+	margin:0px 0px 8px;"><?php echo $this->translate("Nutzen Sie jetzt Ihre exklusive Chance und melden sich gleich an! Die Anmeldung ist ausschließlich über den unten stehenden Link möglich.");?>
+</p>
+
+<p style="margin:0px 0px 5px;">
+<?php echo $this->translate("Account erstellen:");?><br/>
+<a href="<?php echo "http://".$_SERVER["SERVER_NAME"].
+$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "INVITE" => $this->data["invitation_key"]), "user_register");?>
+"><?php echo "http://".$_SERVER["SERVER_NAME"].
+$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "INVITE" => $this->data["invitation_key"]), "user_register");?></a>
+</p>
+<p style="margin:10px 0px 5px;"><?php echo $this->translate("Ihr Rule1Tool Team");?>
+</p>

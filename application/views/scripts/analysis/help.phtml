@@ -1,0 +1,91 @@
+<h1>Eine kleine Hilfe zur Analysenerstellung</h1>
+<p class="h2InfoLine">Die Daten für eine Analyse zusammen zu bekommen kann echt anstrengend sein &ndash; besonders bei der ersten Analyse. 
+Diese kleine Hilfe soll die Startschwierigkeiten aus den Weg räumen, in dem gezeigt wird, woher die Zahlen kommen 
+und was sonst noch zu beachten ist.</p>
+
+<h2>Woher kommen die Daten?</h2>
+<p>Im Folgenden soll erklärt werden, wo man die Kennzahlen auf den Seiten von money.de.msn.com und maxblue.de findet.</p>
+<div id="analysis_help">
+<?=Zend_Registry::get("Zend_View")->capTop();?>
+<table cellspacing="0">
+
+<thead>
+
+<tr>
+	<td>rule1tool.com</td>
+	<td>maxblue.de</td>
+	<td>money.de.msn.com</td>
+	<td>finance.yahoo.com</td>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+	<th>Erwartetes Wachstum (Analysten)</th>
+	<td>n/a</td>
+	<td>Gewinnschätzungen -> Gewinnwachstum (in %) -> <strong>der nächsten 5 Jahre</strong></td>
+	<td>Analyst Estimates -> Growth Est -> <strong>Next 5 Years (per annum)</strong></td>
+</tr>
+
+<tr>
+	<th>Aktueller Ertrag pro Aktie (EPA)</th>
+	<td>n/a</td>
+	<td>Kursdaten -> <strong>EPA</strong></td>
+	<td>Summary -> <strong>EPS</strong></td>
+</tr>
+
+<tr>
+	<th>Ertrag nach Steuern</th>
+	<td>Ergebnis nach Steuern</td>
+	<td>Geschäftsbericht -> 10-Jahres-Übersicht -> <strong>Gesamtergebnis</strong></td>
+	<td>Income Statement -> <strong>Net Income</strong></td>
+</tr>
+
+<tr>
+	<th>Umsatz</th>
+	<td><strong>Umsatzerlöse</strong> oder <strong>Umsatz</strong></td>
+	<td>Geschäftsbericht -> 10-Jahres-Übersicht -> <strong>Umsatzerlöse</strong></td>
+	<td>Income Statement -> <strong>Total Revenue</strong></td>
+</tr>
+
+<tr>
+	<th>Eigenkapital</th>
+	<td><strong>Eigenkapital</strong> oder <strong>Eigenkapital (wirtschaftliches)</strong></td>
+	<td>Geschäftsbericht -> Bilanz -> <strong>Summe Eigenkapital</strong></td>
+	<td>Balance Sheet -> <strong>Total Stockholder Equity</strong></td>
+</tr>
+
+<tr>
+	<th>Earning per Share(EPS)/Ertrag pro Aktie(EPA)</th>
+	<td><strong>Gewinn pro Aktie</strong> oder <strong>Ergebnis je Aktie netto</strong></td>
+	<td>Geschäftsbericht -> 10-Jahres-Übersicht -> <strong>EPA</strong></td>
+	<td>n/a</td>
+</tr>
+
+<tr>
+	<th>Cashflow</th>
+	<td><strong>Zahlungsmittel und -äquivalente</strong> oder <strong>Liquide Mittel</strong></td>
+	<td>Geschäftsbericht -> Kapitalflussrechnung -> <strong>Cashflow (netto) - Endsaldo</strong></td>
+	<td>n/a (nur Cashflow-Änderung)</strong></td>
+</tr>
+
+<tr>
+	<th>langfristige Verbindlichkeiten</th>
+	<td><strong>Langfr. Verbindlichkeiten</strong> oder <strong>Verbindlichkeiten</strong></td>
+	<td>Geschäftsbericht -> 10-Jahres-Übersicht -> <strong>Langfristige Verbindlichkeiten</strong></td>
+	<td>Balance Sheet -> <strong>Long Term Debt</strong></td>
+</tr>
+
+<tr>
+	<th>KGV</th>
+	<td>n/a</td>
+	<td>Kennzahlen -> 10-Jahres-Analyse -> <strong>Durchschnittl. KGV</strong></td>
+	<td>n/a</td>
+</tr>
+
+</tbody>
+
+</table>
+<?=Zend_Registry::get("Zend_View")->capBottom();?>
+
+</div>

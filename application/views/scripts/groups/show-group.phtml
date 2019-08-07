@@ -1,0 +1,14 @@
+<?php		
+if($this->messages)
+	echo $this->messageBox($this->messages);
+if($this->group)
+{
+	?>
+	
+	<p><?php echo $this->group->getTitle();?></p>
+	<p><?php echo $this->group->getDescription();?></p>
+	<p><?php echo $this->group->getDateAdd();?></p>
+	<?php
+}
+
+?>		

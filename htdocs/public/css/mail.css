@@ -1,0 +1,84 @@
+body.mailBody {
+	background: #fff url(../images/background.jpg) top repeat-x;
+	background-position:0px -100px;
+}
+#container {
+	width:791px;
+	margin: 0 auto;
+}
+#site_container{
+	background-image: url(../images/logo.png);
+	background-repeat:no-repeat;
+	background-position:20px 20px;
+	float:left;
+	width:791px;
+}
+#container_header_spacer {
+	width:791px;
+	height:50px;
+	float:left;
+	clear:both;
+}
+
+#logo_click{
+	float:left;
+	margin-top:20px;
+	margin-left:20px;
+	width:119px;
+	height:28px;
+	cursor:pointer;
+	
+}
+
+
+#container_content{
+	float:left;
+	width:791px;
+	min-height:306px;
+	clear:both;
+	
+}
+#container_content_real{
+	float:left;
+	width:745px;
+	height:auto;
+	margin-left:23px;
+	margin-right:23px;
+	margin-top:5px;
+	margin-bottom:10px;
+	clear:both;
+
+}
+
+#footer {
+	background-image: url(../images/footer.jpg);
+	background-repeat:no-repeat;
+	background-position:0px 0px;
+	width:791px;
+	height:51px;
+	clear:both;
+	margin: 0 auto;
+	font-size:0.8em;
+}
+#footer_left{
+	float:left;
+	margin-left:40px;
+	margin-top:5px;
+}
+#footer_right{
+	float:right;
+	margin-right:160px;
+	margin-top:5px;
+	width:220px;
+	height:12px;
+
+}
+.footer_right_text{
+	float:left;
+	margin-left:2px;
+}
+.footer_right_img{
+	float:left;
+	margin-left:15px;
+}
+

@@ -1,0 +1,52 @@
+
+<h1>Die 25 zuletzt angelegten Analysen</h1>
+<table cellspacing=0 width="100%" class="stocksOverviewTable ">
+<thead>
+<tr class="small">
+	<th>Datum</th>
+	<th>Name<br/>ISIN </th>
+	<th>MOS</th>
+	<th>Ersteller</th>
+</tr>
+</thead>
+<tbody>	
+
+
+
+<?php
+
+$zdate = new Zend_Date();
+
+foreach ($this->lastAnalysises as $analysis)
+{
+	$user = new User($analysis->user_id);
+	$nickname = $user->getNickname();
+
+	$link = $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $analysis->isin), "stock");
+	 
+	$zdate->set($analysis->date_edit);
+
+
+	echo '<tr>';
+	echo '<td width=70>'.$zdate->get(Zend_Date::DATES).'</td>';
+	echo '<td>'.$this->link($link, $analysis->name."<br>".$analysis->isin).'</td>';
+	
+
+	$analysisCal = new Analysis_Calculator();
+	$analysisCal->getAnalysisById($analysis->analysis_id);
+	$date = new Zend_Date($analysisCal->getDateEdit());
+	$mos = 	$analysisCal->getMOS()
+			." "
+			.$analysisCal->getCurrency();
+		
+
+	echo '<td>'.$mos.'</td>';
+	
+	
+	echo '<td>'.$nickname.'</td>';
+	echo '</tr>';
+}
+?>
+</tbody>
+</table>

@@ -1,0 +1,90 @@
+<div class="homeBgContainer">
+ <?php
+ 
+$locale = Zend_Registry::get('Zend_Locale');
+//print_r($locale->getBrowser());
+$tmplan1 = array_keys($locale->getBrowser());
+$tmplan = explode('_', $tmplan1[0]);
+$language = $tmplan[0];
+
+//print_r($language);
+
+//if($language == 'de')
+//{
+    //Seite für Deutschsprachler
+    ?>
+    <div class="homeTLayerNew homeLayerAbout">
+
+	<img src="<?php echo $this->baseUrlShort();?>/public/images/home_teaser_h1.png" alt="Gute Investments sind kein Zufall" title=""/>
+	<p class="h2InfoLine"><?php echo $this->translate("Basierend auf den hervorragenden Grundlagen des Buchs “Regel Nummer 1” von Phil Town, bietet Rule1Tool die Werkzeuge für erfolgreiche Anleger.");?></p>
+
+    </div> 
+
+
+<div class="homeTLayerNew homeLayerReg">
+
+		<?php echo $this->link(
+					$this->url(
+						array(
+							"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), 
+							"user_register"), 
+						$this->translate("Zur Registrierung &raquo;"),
+						"");?>
+
+</div>
+
+<div class="homeTLayerNew homeLayerTour">
+		<?php echo $this->link(
+					$this->url(
+						array(
+							"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), 
+							"tour"), 
+						$this->translate("Zur Tour &raquo;"),
+						"");?>
+</div>
+</div>
+    
+    <?php    
+/*}
+else
+{
+    //Für alle anderen
+    ?>
+ <div class="homeTLayerNew homeLayerReg" style="width:414px;">
+
+		Aus technischen Gründen ist zurzeit keine Neuanmeldung möglich.
+
+</div>   
+    <?php
+}
+*/
+ ?>
+
+
+
+ <?php 
+/*
+<div class="homeTLayerNew homeLayerReg">
+
+		<?php echo $this->link(
+					$this->url(
+						array(
+							"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), 
+							"user_register"), 
+						$this->translate("Zur Registrierung &raquo;"),
+						"");?>
+
+</div>
+
+<div class="homeTLayerNew homeLayerTour">
+		<?php echo $this->link(
+					$this->url(
+						array(
+							"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), 
+							"tour"), 
+						$this->translate("Zur Tour &raquo;"),
+						"");?>
+</div>
+*/?>
+</div>
+

@@ -1,0 +1,24 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	var max = 0;
+	var maxEle = null;
+    $("dt").each(function(){
+        if ($(this).width() > max)
+        {
+            max = $(this).width();
+			maxEle = this;
+        }
+    });
+    $("dt").not(maxEle).width(max);
+	
+	
+});
+</script>
+<h1><?php echo $this->translate("Watchlist bearbeiten");?></h1>
+<?php 
+if($this->mbox)
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+?>
+<?php echo $this->form;?>

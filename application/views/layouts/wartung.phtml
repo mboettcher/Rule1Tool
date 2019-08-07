@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+
+	<?= $this->headTitle() ?>
+    <?= $this->headScript() ?>
+    <?= $this->headStyle() ?>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	
+	<link rel="stylesheet" href="<?php echo $this->baseUrlShort();?>/public/css/global.css" type="text/css" media="screen, projection" />
+	<link rel="stylesheet" href="<?php echo $this->baseUrlShort();?>/public/css/main.css" type="text/css" media="screen, projection" />
+	
+	<link rel="stylesheet" href="<?php echo $this->baseUrlShort();?>/public/css/wartung.css" type="text/css" media="screen, projection" />
+      
+    <link rel="shortcut icon" type="image/png" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_32.png" />
+    <link rel="icon" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_32.png" sizes="32x32"/>
+	<link rel="icon" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_64.png" sizes="64x64"/>	
+	<meta name="description" content="" />
+	<meta name="robots" content="noindex, nofollow" />		
+</head>
+<body>
+<div id="wcontainer">
+	<div id="wsite_container">
+
+	</div>
+</div>
+<div id="wcontainer_content">
+		<?php echo $this->layout()->content ?>
+</div>
+<?php 
+if(Zend_Registry::get('systemtype') == "live" && Zend_Registry::get("UserObject")->getRole() !== "admin")
+{
+	?>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-404043-6");
+pageTracker._trackPageview();
+} catch(err) {}</script>	
+	
+	<?php
+}
+?>	
+</body>
+</html>

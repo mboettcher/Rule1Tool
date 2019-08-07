@@ -1,0 +1,22 @@
+<div id="indexHero">
+
+<div id="homeTLayerAbout" class="homeTLayer">
+		<h1>Gute Investments sind kein Zufall</h1>
+</div>
+
+</div>
+<div class="contentContainer">
+<p class="h2InfoLine"><?php echo $this->translate("Basierend auf den hervorragenden Grundlagen des Buchs “Regel Nummer 1” von Phil Town, bietet Rule1Tool die Werkzeuge für erfolgreiche Anleger.");?></p>
+<p>
+<?php 
+echo $this->link(
+		$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()),
+		 "user_register"), $this->translate("Zur Registrierung &raquo;"),"abutton blue large");?>
+</p>
+<p>
+<?php 
+echo $this->link(
+		$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()),
+		 "user_login"), $this->translate("Anmelden &raquo;"),"abutton blue large");?>
+ </p>
+</div>

@@ -1,0 +1,158 @@
+
+<?php echo $this->doctype(); ?>
+<html>
+<head>
+	<meta name="robots" content="noindex, nofollow" />	
+
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="verify-v1" content="wIRJjPh9cxaFP7vxhN1gwbPPKB5VWhaar52gT7SSKVY=" />
+	
+	<link rel="stylesheet" href="<?php echo $this->baseUrlShort();?>/public/minify/?g=webcss&149" type="text/css" media="screen, projection" />
+		
+    <link rel="shortcut icon" type="image/png" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_32.png" />
+    <link rel="icon" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_32.png" sizes="32x32"/>
+	<link rel="icon" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_64.png" sizes="64x64"/>	
+	
+	<script type="text/javascript">var baseUrlShort = "<?php echo $this->baseUrlShort();?>";</script>	
+	<script type="text/javascript">var baseUrl = "<?php echo $this->baseUrl();?>";</script>
+	<script type="text/javascript">var layoutEnviroment = "standard";</script>
+	<script type="text/javascript">var tb_pathToImage = "<?php echo $this->baseUrlShort();?>/public/images/loadingAnimation.gif";</script>
+	
+	<script type="text/javascript" src="<?php echo $this->baseUrlShort();?>/public/minify/?g=jquerybase&147"></script>
+	
+	<?= $this->headTitle() ?>
+	<?= $this->headMeta(); ?>
+    <?= $this->headScript() ?>
+    <?= $this->headStyle() ?>
+    
+
+<link rel="alternate" type="application/rss+xml"  href="<?=$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()
+											), "rssr1tnews");?>" title="Rule1Tool Aktuelle Meldungen" />
+		
+</head>
+<body class="standardBody">
+<div id="container">
+	<div id="site_container">
+		<div id="container_header_spacer">		
+			<div id="login_state"><?=$this->render("LoginState.phtml"); ?></div>
+
+			<div id="logo_click" onClick="window.location='<?=$this->baseUrl(); ?>'"></div> 
+			<div id="stockquicksearch">
+					<form action="<?php echo $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "stocksearch")?>">
+					<input name="q" type="text" class="search" onfocus="this.value='';this.style.color='#333';" onblur="if(this.value == '') {this.value='ISIN oder Name oder Symbol';this.style.color='#b9b9b9';}" value="ISIN oder Name oder Symbol"/>
+					</form>		
+			</div>  
+			
+		</div>
+		<div id="container_menu_main">
+			<?php echo $this->createMenu();?>
+		</div>
+		<?php echo $this->createSubMenu();?>
+		<div id="container_content">
+			
+			<div id="container_content_real"><?php echo $this->layout()->content;?></div>
+		</div>
+	</div>
+	<?php /*
+	<div id="banner_skyscraper">
+<?php 
+if(Zend_Registry::get("Zend_Auth")->hasIdentity())
+{
+	
+	?>
+	<script type="text/javascript"><!--
+google_ad_client = "pub-1516258514039351";
+google_ad_slot = "8738416882";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+	<?php 
+	
+}
+?>	
+
+
+	</div>
+	*/?>
+</div>
+<div id="footer">
+	<div id="footer_left"><?php /*&copy; Rule1Tool 2011. Alle Rechte vorbehalten. Kurse sind Tagesendkurse.*/?></div>
+	<div id="footer_right">
+	<!-- 
+
+	<span><?php echo $this->link(
+					$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "about"), $this->translate("Über uns"));?>
+					</span>
+		|
+	 -->
+		
+		<span><?php echo $this->link(
+					$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "feedback"), $this->translate("Kontakt"));?>
+					</span>
+		|			
+		<span><?php echo $this->link(
+					$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "imprint"), $this->translate("Impressum"));?>
+</span>
+<?php 
+$ns = new Zend_Session_Namespace('Rule1Tool');
+if($ns->recommendedLayout == "mobile")
+{
+	?>
+ | 			
+		<span><?php echo $this->link(
+					$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "layout" => "mobile"), "setlayout"), $this->translate("Mobile-Ansicht"));?>
+	</span>			
+	<?php 
+}
+?>
+
+	</div>
+</div> 
+<div id="rule1Loading"><p>loading...</p></div>
+
+<div id="feedbackToggle"></div>
+
+<div style="display:none;">
+<div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable">
+   <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+      <span id="ui-dialog-title-dialog" class="ui-dialog-title"></span>
+      <a class="ui-dialog-titlebar-close ui-corner-all" href="#"><span class="ui-icon ui-icon-closethick">close</span></a>
+   </div>
+   <div style="height: 200px; min-height: 109px; width: auto;" class="ui-dialog-content ui-widget-content" id="dialog">
+      <p></p>
+   </div>
+</div>
+
+</div>
+
+<script type="text/javascript" src="<?php echo $this->baseUrlShort();?>/public/minify/?g=webjs&150"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+
+
+<?php 
+if(Zend_Registry::get('systemtype') == "live" 
+	&& Zend_Registry::get("UserObject")->getRole() !== "admin" 
+	&& !$this->noganalytics
+)
+{
+	?>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-404043-6");
+pageTracker._trackPageview();
+} catch(err) {}</script>	
+	
+	<?php
+}
+?>	
+</body>
+</html>

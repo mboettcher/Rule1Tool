@@ -1,0 +1,21 @@
+<h1>Top 25 der meist beobachteten Aktien</h1>
+<table cellspacing=0 width="100%" class="stocksOverviewTable ">
+
+<tbody>	
+
+<?php
+$i=1;
+foreach ($this->mostWatchedStocks as $stock)
+{
+	$url = $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $stock->isin), "stock");
+	echo '<tr><td width=30>'.$i.'.</td>';
+	echo '<td>'.$this->link($url, $stock->name).'</td>';
+	echo '<td>'.$this->link($url, $stock->isin).'</td>';
+	echo '</tr>';
+	$i++;
+}
+?>
+
+</tbody>
+</table>

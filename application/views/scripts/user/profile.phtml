@@ -1,0 +1,48 @@
+<h1><?php echo $this->user->getDisplayname().$this->translate("s Profil");?></h1>
+
+<div class="userProfilPictureBox">
+
+<?php echo $this->printUserPicture($this->user, "m");?>
+<center>
+<a href="<?php echo $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "username" => $this->user->getNickname()), "user_edit_picture")?>">
+<?php echo $this->translate("Bild ändern");?>
+</a></center>
+</div>
+<?php if($this->user->getUserId() == Zend_Registry::get("UserObject")->getUserId())
+{
+?>
+<div class="userProfilEditButtonBox">
+<a href="<?php echo $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "username" => $this->user->getNickname()), "user_edit")?>">
+<?php echo $this->translate("bearbeiten");?>
+</a>
+</div>
+<?php 
+}
+?>
+<div class="userProfilUserDataBox">
+
+<table cellspacing=0 border=0 class="userProfilUserData">
+<?php  if($this->user->isUseRealname()) 
+{
+?>
+<tr>
+	<th><?php echo $this->translate("Name:");?></th>
+	<td><?php echo $this->user->getFirstname()." ".$this->user->getLastname();?></td>
+</tr>
+<?php 
+}
+?>
+<tr>
+	<th><?php echo $this->translate("Mitgliedsname:");?></th>
+	<td><?php echo $this->user->getNickname();?></td>
+</tr>
+<tr>
+	<th><?php echo $this->translate("Mitglied seit:");?></th>
+	<td><?php 
+	$zdate = new Zend_Date($this->user->getRegDate(), false);
+	echo $zdate->get(Zend_Date::DATES);?></td>
+</tr>
+</table>
+</div>
+
+

@@ -1,0 +1,46 @@
+<?
+/*
+ * Formular um eine Analyse anzulegen
+ */
+
+
+
+if($this->analysis_create === true)
+{
+    echo $this->messageBox($this->mbox);
+}
+else 
+{
+	
+	?>
+	
+	<?
+	//Prevent that a click on the overlay closes the thickbox
+$clickScript = '$(document).ready(function() {
+
+							parent.tb_unbindOverlay();
+							
+							$("#TB_overlay", parent.document.body).click(
+							function(){alert("'.$this->translate("Um versehentliches schließen zu verhindern, wurde dieser Klickbereich deaktiviert. Bitte klicken Sie auf 'close' um das Fenster zu schließen.").'");});
+							});';
+			$this->headScript()->appendScript($clickScript);
+	
+	?>
+	<h1>Analyse zu <?php echo $this->company->getName();?> anlegen</h1>
+	<?php 
+	//liegt eine Message vor?
+	if(isset($this->mbox))
+		echo $this->messageBox($this->mbox, "input");
+	?>
+	
+	<p class="h2InfoLine"><?php echo $this->translate("Eine eigene Analyse anzulegen ist gar nicht so schwer! Alle benötigten Informationen bekommen Sie ganz einfach auf Seiten wie money.de.msn.com, finance.yahoo.com oder maxblue.de. Denken Sie daran: je sorgfältiger Sie bei der Recherche vorgehen, desto exakter wird Ihre Analyse!");?>
+	<?php echo $this->translate("Eine kleine Hilfe finden Sie %1\$s.", 
+					$this->link(
+					$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage())
+					, "analysis_help"), $this->translate("hier"), null, null, "_blank"));?>
+	
+	</p>
+	<?
+    echo $this->form;
+}
+?>

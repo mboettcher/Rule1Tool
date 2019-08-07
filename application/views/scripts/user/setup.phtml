@@ -1,0 +1,11 @@
+<h1><?php echo $this->translate("Einstellungen Ihres Mitgliedskontos");?></h1>
+
+<?php 
+if($this->mbox)
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+?>
+
+<?php echo $this->form;?>
+
+

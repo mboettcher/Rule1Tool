@@ -1,0 +1,28 @@
+<form action="<?= $this->escape($this->element->getAction()) ?>"
+      method="<?= $this->escape($this->element->getMethod()) ?>" class="modernForm">
+      
+ <table cellspacing=0 border=0 class="userProfilUserData">
+
+<tr>
+	<th><?php echo $this->translate("Vor- und Nachname:");?></th>
+	<td><?=$this->element->firstname;?> <?=$this->element->lastname;?></td>
+</tr>
+<tr>
+	<th><?php echo $this->translate("Ihren vollen Namen anzeigen:");?></th>
+	<td><?=$this->element->use_realname;?></td>
+</tr>
+<tr>
+	<th><?php echo $this->translate("Mitgliedsname:");?></th>
+	<td><?=$this->element->nickname;?></td>
+</tr>
+<tr>
+	<th><?php echo $this->translate("Mitglied seit:");?></th>
+	<td><?php
+	$zdate = new Zend_Date(Zend_Registry::get("Zend_View")->user->getRegDate(), false);
+	echo $zdate->get(Zend_Date::DATES);?></td>
+</tr>
+</table>   
+         
+<?=$this->element->submit; ?>
+<?=$this->element->reset; ?>
+</form>

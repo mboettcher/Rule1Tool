@@ -1,0 +1,179 @@
+
+<div style="clear:both;"></div>
+
+<div id="analysis_calculation" name="analysis_calculation">
+
+<a href="#analysis_calculation" id="analysis_refresh">Aktualisieren</a>
+<div style="clear:both;"></div>
+  <div class="analysis_show rule1growth" id="rule1growth">
+  <div class="cap top"><div class="left"></div><div class="right"></div></div>
+ 	<table cellspacing="0">
+ 		<tr>
+ 			<td colspan="4" class="headline">Regel1-Wachstum</td>
+ 		</tr>
+ 		<tr>
+ 			<td>Testwert</td>
+ 			<td class="leftborder" title="<?php echo $this->translate("Geschätzter Wachstumswert vom Erstellers der Analyse");?>">Benutzersch&auml;tzung</td>
+ 			<td class="leftborder" title="<?php echo $this->translate("Geschätzter Wachstumswert von Analysten");?>">Analystensch&auml;tzung</td>
+ 			<td class="leftborder" title="<?php echo $this->translate("Eigenkapitalwachstum %1\$s Jahre",$this->analysis->getMaxNumberEquityGrowth());?>">Historisches Wachstum</td>
+ 		</tr>
+ 		<tr>
+ 			<td class="topborder number<?if($this->analysis->getRule1Growth(false) == $this->analysis->my_estimated_growth_testvalue) echo " active"?>"><?=$this->formText("my_estimated_growth_testvalue", $this->analysis->getEstimatedGrowthTestvalue(),  array("size" => 4));?> %</td>
+ 			<td class="topborder leftborder number<?if($this->analysis->getRule1Growth(false) == $this->analysis->getMyEstimatedGrowth(false)) echo " active"?>"><?=$this->printNA($this->analysis->getMyEstimatedGrowth(), null, " %");?></td>
+ 			<td class="topborder leftborder number<?if($this->analysis->getRule1Growth(false) == $this->analysis->getAnalystsEstimatedGrowth(false)) echo " active"?>"><?=$this->printNA($this->analysis->getAnalystsEstimatedGrowth(), null, " %");?></td>
+ 			<td class="topborder leftborder number<?if($this->analysis->getRule1Growth(false) == $this->analysis->getHistoricalGrowth(false)) echo " active"?>"><?=$this->printNA($this->analysis->getHistoricalGrowth(), null, " %");?></td>
+ 		</tr>
+ 	</table>
+ 	<div class="cap bottom"><div class="left"></div><div class="right"></div></div>
+ </div>
+ 
+  <div class="analysis_show additionalkeydatas">
+ 	<div class="cap top"><div class="left"></div><div class="right"></div></div>
+ 	<table cellspacing="0">
+ 		<tr>
+ 			<td colspan="3" class="headline">Weitere Kennzahlen</td>
+ 		</tr>
+ 		<tr>
+ 			<td id="<?if($this->analysis->my_eps_testvalue != null) echo "currenteps_head"?>">Testwert EPS</td>
+ 			<td class="leftborder" id="<?if($this->analysis->my_eps_testvalue == null) echo "currenteps_head"?>" title="<?php echo $this->translate("Aktuelle Gewinn pro Aktie / Earning per Share");?>">EPS</td>
+ 			<td class="leftborder" id="rateofreturn_head" title="<?php echo $this->translate("Minimale Ertragsrate nach Regel Nummer 1");?>">Minimale Ertragsrate</td>
+ 		</tr>
+ 		<tr>
+ 			<td class="topborder number<?if($this->analysis->my_eps_testvalue != null) echo " active"?>" id="<?if($this->analysis->my_eps_testvalue != null) echo "currenteps_number"?>"><?=$this->formText("my_eps_testvalue", $this->analysis->getEpsTestvalue(),  array("size" => 4));?></td>
+ 			<td class="topborder leftborder number" id="<?if($this->analysis->my_eps_testvalue == null) echo "currenteps_number"?>"><?=$this->analysis->getCurrentEPS(); ?></td>
+ 			<td class="topborder leftborder number" id="rateofreturn_number"><?=$this->analysis->rate_of_return; ?> %</td>
+ 		</tr>
+ 	</table>
+ 	<div class="cap bottom"><div class="left"></div><div class="right"></div></div>
+ </div>
+ 
+  <div class="analysis_show future_kgv" id="futurekgv">
+  <div class="cap top"><div class="left"></div><div class="right"></div></div>
+ 	<table cellspacing="0">
+ 		<tr>
+ 			<td colspan="4" class="headline">Regel1 KGV / Zuk&uuml;nftiges KGV</td>
+ 		</tr>
+ 		<tr>
+ 			<td>Testwert</td>
+ 			<td class="leftborder" title="<?php echo $this->translate("KGV vom Ersteller der Analyse");?>">Benutzer-KGV</td>
+ 			<td class="leftborder" title="<?php echo $this->translate("KGV %1\$s-Jahre-Durchschnitt", $this->analysis->getMaxNumberHistoricalKgv());?>">Historisches KGV</td>
+ 			<td class="leftborder" id="futurekgv_rule1growth_head">Standard KGV<br/>(Regel1-Wachstum * 2)</td>
+ 		</tr>
+ 		<tr>
+ 			<td class="topborder number<?if($this->analysis->getFutureKgv(false) == $this->analysis->my_future_kgv_testvalue) echo " active"?>"><?=$this->formText("my_future_kgv_testvalue", $this->analysis->getFutureKgvTestvalue(), array("size" => 4));?></td>
+ 			<td class="topborder leftborder number<?if($this->analysis->getFutureKgv(false) == $this->analysis->getMyFutureKgv(false)) echo " active"?>"><?=$this->printNA($this->analysis->getMyFutureKgv());?></td>
+ 			<td class="topborder leftborder number<?if($this->analysis->getFutureKgv(false) == $this->analysis->getHistoricalKgv(false)) echo " active"?>"><?=$this->printNA($this->analysis->getHistoricalKgv());?></td>
+ 			<td id="futurekgv_rule1growth_number" class="topborder leftborder number<?if($this->analysis->getFutureKgv(false) == $this->analysis->getFutureKGV_Rule1Growth(false)) echo " active"?>"><?=$this->printNA($this->analysis->getFutureKGV_Rule1Growth());?></td>
+ 		</tr>
+ 	</table>
+ 	<div class="cap bottom"><div class="left"></div><div class="right"></div></div>
+ </div>
+ 
+   <div class="analysis_show future_eps" id="futureeps">
+ 	<div class="cap top"><div class="left"></div><div class="right"></div></div>
+ 	<table cellspacing="0">
+ 		<tr>
+ 			<td colspan=2 class="headline"><?=$this->escape("Zukünftiges EPS");?></td>
+ 		</tr>
+ 		<tr>
+ 			<td><span id="futureeps_currenteps">Aktuelles EPS</span> * (1 + <span id="futureeps_rule1growth">Regel1-Wachstum</span> / 100)<SUP><SMALL>10</SMALL></SUP></td>
+ 			<td class="number active"><?=$this->analysis->getFutureEPS(); ?></td>
+ 		</tr>
+ 	</table>
+ 	<div class="cap bottom"><div class="left"></div><div class="right"></div></div>
+ </div>
+ 
+ <br/>
+
+ <div class="analysis_show mos">
+ 	<h3>MOS-Berechnung</h3>
+ 	<div class="cap top"><div class="left"></div><div class="right"></div></div>
+ 	<table cellspacing="0">
+ 		<tr id="mos_stickerprice_head">
+ 			<td colspan=2 class="headline">Zuk&uuml;nftiger Aktienkurs</td>
+ 		</tr>
+ 		<tr id="mos_stickerprice_content">
+ 			<td><span id="mos_futurekgv">Zuk&uuml;nftiges KGV</span> * <span id="mos_futureeps">Zuk&uuml;nftiges EPS</span></td>
+ 			<td class="number"><?=$this->analysis->getFuturePrice();?></td>
+ 		</tr>
+ 		<tr id="mos_mos_head">
+ 		<td colspan=2 class="headline topborder">Empfehlungspreis / Marktpreis</td>
+ 		</tr>
+ 		<tr id="mos_mos_content">
+ 			<td><span id="mos_stickerprice">Zuk&uuml;nftiger Aktienkurs</span> * (1 - <span id="mos_rateofreturn">Ertragsrate</span> / 100) <SUP><SMALL>10</SMALL></SUP></td>
+ 			<td class="number"><?=$this->analysis->getStickerPrice();?></td>
+ 		</tr>
+ 		<tr id="mos_mos_mos_head">
+ 			<td colspan=2 class="headline topborder">Sicherheitspreis / MOS-Preis</td>
+ 		</tr>
+ 		<tr id="mos_mos_mos_content">
+ 			<td><span id="mos_mos">Empfehlungspreis</span> / 2</td>
+ 			<td class="active number"><?=$this->analysis->getMOS();?> <?=$this->analysis->getCurrency();?></td>
+ 		</tr>
+ 	</table>
+ 	<div class="cap bottom"><div class="left"></div><div class="right"></div></div>
+ </div>
+ 
+ <?php 		
+			$analyseQuote = $this->company->getQuotesByCurrency($this->analysis->getCurrency());
+			if($analyseQuote)
+			{
+				$paybacktimePrice = $this->analysis->getPaybackTimePrice(true, 0, false, $analyseQuote->getLastQuote()->getClose());
+				if($paybacktimePrice)
+					$paybacktimePrice .= " Jahre";
+				else
+					$paybacktimePrice = "n/a";
+					
+				$paybacktimePriceTitle = $analyseQuote->getLastQuote()->getClose(true)." ".$this->analysis->getCurrency();
+			}
+			else 
+			{
+				$paybacktimePrice = "n/a";
+				$paybacktimePriceTitle = "n/a";
+			}
+				
+			$paybacktimeMos = $this->analysis->getPaybackTimeMOS(true, 0, false);
+			if($paybacktimeMos)
+				$paybacktimeMos .= " Jahre";
+			else
+				$paybacktimeMos = "n/a";
+				
+			$paybacktimeSticker = $this->analysis->getPaybackTimePrice(true, 0, false, $this->analysis->getStickerPrice(false));
+			if($paybacktimeSticker)
+				$paybacktimeSticker .= " Jahre";
+			else
+				$paybacktimeSticker = "n/a";
+			?>
+ <div class="analysis_show paybacktime">
+ 	<h3>Payback Time -Berechnung <span id="paybacktimeTitleInfo"  class="small note" title="<small><strong>Hinweis zur Berechnung der Payback Time:</strong> 
+ 	Es wird berechnet, wie viele Jahre es dauert, bis der potentielle Aktien-Kaufpreis sich durch den Unternehmensgewinn-pro-Aktie (EPS) für den Investor amortisiert hat (eine rein theoretische Rechnung). Dabei sollte die Payback Time unter 10 Jahre liegen, wobei 6 und weniger Jahre exzellent sind.</small>">[i]</span></h3>
+ 	<div class="cap top"><div class="left"></div><div class="right"></div></div>
+ 	<table cellspacing="0">
+ 		<tr>
+ 			<td colspan=2 class="headline"></td>
+ 		</tr>
+ 		<tr>
+ 			<td><span id="paybacktime_price" title="<?=$paybacktimePriceTitle;?>">akt. Kurs</span> / <span class="paybacktime_eps">EPS</span></td>
+ 			<td class="number"><?=$paybacktimePrice;?></td>
+ 		</tr>
+ 		<tr>
+ 		<td colspan=2 class="headline topborder"></td>
+ 		</tr>
+ 		<tr>
+ 			<td><span id="paybacktime_sticker">Empfehlungspreis</span> / <span class="paybacktime_eps">EPS</span></td>
+ 			<td class="number"><?=$paybacktimeSticker;?></td>
+ 		</tr>
+ 		<tr>
+ 			<td colspan=2 class="headline topborder"></td>
+ 		</tr>
+ 		<tr>
+ 			<td><span id="paybacktime_mos">Sicherheitspreis</span> / <span class="paybacktime_eps">EPS</span></td>
+ 			<td class="active number"><?=$paybacktimeMos;?></td>
+ 		</tr>
+ 	</table>
+ 	<div class="cap bottom"><div class="left"></div><div class="right"></div></div>
+ 	
+ </div>
+ 
+ </div>
+ 

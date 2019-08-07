@@ -1,0 +1,32 @@
+
+<?php 
+if($this->form)
+{
+?>
+<h1><?php echo $this->user->getDisplayname().$this->translate("s Profil bearbeiten");?></h1>
+
+<?php 
+if($this->mbox)
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+?>
+
+<div class="userProfilPictureBox">
+
+<?php echo $this->printUserPicture($this->user, "m");?>
+
+</div>
+
+<div class="userProfilUserDataBox">
+	<?php echo $this->form;?>
+</div>
+
+<?php 
+}
+else 
+{
+	if($this->mbox)
+		echo $this->messageBox($this->mbox);
+}
+?>
+

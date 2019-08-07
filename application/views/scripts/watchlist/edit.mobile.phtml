@@ -1,0 +1,9 @@
+<div class="contentContainer">
+<h1><?php echo $this->translate("Watchlist bearbeiten");?></h1>
+<?php 
+if($this->mbox)
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+?>
+<?php echo $this->form;?>
+</div>

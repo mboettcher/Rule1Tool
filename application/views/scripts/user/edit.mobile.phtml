@@ -1,0 +1,25 @@
+<div class="contentContainer">
+<?php 
+if($this->form)
+{
+?>
+<h1><?php echo $this->user->getDisplayname().$this->translate("'s Profil bearbeiten");?></h1>
+
+<?php 
+if($this->mbox)
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+?>
+
+	<?php echo $this->form;?>
+
+<?php 
+}
+else 
+{
+	if($this->mbox)
+		echo $this->messageBox($this->mbox);
+}
+?>
+
+</div>

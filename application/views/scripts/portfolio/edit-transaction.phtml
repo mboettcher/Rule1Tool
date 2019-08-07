@@ -1,0 +1,16 @@
+<div id="contentWrapForAjax">
+<script type="text/javascript">
+url = "<?php echo $this->url(array(
+	"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), 
+"api_single_quote"); ?>";
+initAddTransaction(url);
+	
+</script>
+
+
+<?php
+echo $this->messageBox($this->mbox);
+
+echo $this->form;
+?>
+</div>

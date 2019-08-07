@@ -1,0 +1,42 @@
+<center>
+<table cellspacing=0 class="portfolioOverviewTable">
+<thead>
+<tr>
+	<td><?php echo $this->translate("Titel des Depots");?></td>
+	<td><?php echo $this->translate("Depotwert");?></td>
+</tr>
+</thead>	
+	<?php
+		foreach($this->list as $item)
+		{
+			if($this->user->getUserId() == Zend_Registry::get("UserObject")->getUserId())
+			{
+				/*
+				$delete = $this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"PID" => $item->getWatchlistId()
+												), "user_watchlist_delete"),
+									 $this->translate("löschen"), 
+									 "watchlistDelete");
+				*/
+			}
+			else 
+				$delete = null;
+				
+			$portfolio = new Portfolio($item->id);
+			$value = $portfolio->getPortfolioValue();
+				
+			echo '<tr>'
+					.'<td>'.$this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"PID" => $item->id
+									), "user_portfolio_transactions"),$item->name).'</td>'
+					.'<td class="depotwert">'.$this->toNumber($value,2).' '.$portfolio->getCurrency().'</td>'
+				."</tr>";
+		}
+?>
+
+</table>
+</center>

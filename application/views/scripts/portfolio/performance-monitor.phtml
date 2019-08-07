@@ -1,0 +1,269 @@
+<script type="text/javascript">
+imgurl = "<?php echo $this->baseUrlShort().'/public/images/'?>";
+$(document).ready(function() {
+
+	$(".indikatorSignal, .integrityError").simpletooltip(true);
+	
+	$(".watchlistShowChartBtn img")
+	.mouseover(function(){$(this).attr("src",imgurl+"chartIcon_02.png");})
+	.mouseout(function(){$(this).attr("src",imgurl+"chartIcon.png");});
+
+	$(".watchlistStockRemove img")
+	.mouseover(function(){$(this).attr("src",imgurl+"closeDeleteIcon_01.png");})
+	.mouseout(function(){$(this).attr("src",imgurl+"closeDeleteIcon_02.png");});
+	
+	$(".watchlistStockRemove").each(function(){$(this).click(function(event){
+		event.preventDefault(); /* Linkklick verhindern */
+		var url = $(this).attr("href");
+		createConfirmDialog(
+				"Wollen Sie diese Transaktion wirklich löschen?", 
+				"Transaktion löschen", 
+				"Ja", 
+				"Abbrechen", 
+				function(){
+					window.location = url;}, 
+				"");
+	})});
+
+	
+	$(".watchlistStockRemove img").hide();
+	$(".editTransaction").hide()
+	
+	$(".performanceMonitorTable tbody tr").mouseover(function()
+			{
+				$(this).find(".editTransaction").show();
+				$(this).find(".watchlistStockRemove img").show();
+			});
+	$(".performanceMonitorTable tbody tr").mouseout(function()
+			{
+				$(this).find(".editTransaction").hide();
+				$(this).find(".watchlistStockRemove img").hide();
+			});
+	
+	
+
+	$(".watchlistShowChartBtn").click(function(event)
+			{
+				event.preventDefault(); //Verhindern, dass der Link ausgefuehrt wird		
+				showLoading();
+				charturl = $(this).attr("href");
+				html = '<div class="stockChartsHead"><div class="stockChartsGetChartBox"><div class="stockChartsGetChart">30</div><div class="stockChartsGetChart">60</div><div class="stockChartsGetChart">120</div><div class="stockChartsGetChart">240</div><div class="stockChartsGetChart">360</div></div></div><div class="stockChartsBody">';
+				html += '</div>';
+				
+				$("#dialog").dialog('destroy');
+				$("#dialog")
+					.html(html)
+					.dialog({
+						bgiframe: true,
+						position: 'top',
+						title: "Charts",
+						dialogClass: 'frameDialog',
+						width: 640,
+						//height: 500,
+						//modal:true,
+						overlay: {
+							backgroundColor: '#000',
+							opacity: 0.7
+						},
+						show:'clip',
+						hide:'clip'
+						})
+					.dialog("open");
+
+				$(".stockChartsGetChart").click(function(event)
+						{
+							event.preventDefault(); //Verhindern, dass der Link ausgefuehrt wird	
+							
+							loadChartData(charturl, $(this).text());
+							$(".stockChartsGetChart").removeClass("activ");
+							$(this).addClass("activ");
+						}); 
+				loadChartData(charturl, 60);
+				$(".stockChartsGetChart:eq(1)").addClass("activ");
+	
+			});
+	
+	api_single_quote_url = "<?php echo $this->url(array(
+		"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), 
+	"api_single_quote"); ?>";
+	
+	$(".addTransaction").click(function(event)
+			{
+				event.preventDefault(); //Verhindern, dass der Link ausgefuehrt wird		
+				showTransactionWindow(this, "add", "Transaktion hinzufügen", api_single_quote_url);
+	}); 
+			
+	$(".editTransaction").click(function(event)
+			{
+				event.preventDefault(); //Verhindern, dass der Link ausgefuehrt wird		
+				showTransactionWindow(this, "edit", "Transaktion bearbeiten", api_single_quote_url);				
+			}); 		
+	   
+});
+
+
+</script>
+
+<h1 style="display:inline;"><?php echo $this->portfolio->getName();?></h1>
+<span class="small" style="margin-left:5px;">
+<?php 
+echo $this->link(
+		$this->url(array(
+			"language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+			'username' => $this->user->getNickname(),
+			'PID' => $this->portfolio->getId()),
+		 "user_portfolio_edit"), $this->translate("[bearbeiten]"));
+		?> 
+<?php 
+if(count($this->jahresbilanzen) == 0 && count($this->portfolioStocks) == 0)
+{
+echo $this->link(
+		$this->url(array(
+			"language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+			'username' => $this->user->getNickname(),
+			'PID' => $this->portfolio->getId()),
+		 "user_portfolio_delete"), $this->translate("[löschen]"));
+}
+		?> 
+</span>
+
+
+<?php if($this->user->getUserId() == Zend_Registry::get("UserObject")->getUserId())
+{
+?>
+<div style="float:right; margin-top:5px;">
+<?php 
+echo $this->link(
+		$this->url(array(
+			"language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+			'username' => $this->user->getNickname(),
+			'PID' => $this->portfolio->getId()),
+		 "user_portfolio_transaction_add"), $this->translate("Transaktion hinzufügen &raquo;"),"abutton blue small addTransaction");
+		?> 
+<?php 
+echo $this->link(
+		$this->url(array(
+			"language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+			'username' => $this->user->getNickname(),
+			'PID' => $this->portfolio->getId(),
+			'type_def' => "dividende"),
+		 "user_portfolio_transaction_add"), $this->translate("Dividende hinzufügen &raquo;"),"abutton blue small addTransaction");
+		?> 
+</div>
+<?php 
+}
+?>
+
+<?php 
+echo $this->messageBox($this->mbox);
+?>
+
+<?php 
+$date = new Zend_Date();
+
+?>
+<div style="clear:left;">
+Stand: <?=$date->get("dd.MM.YYYY");?><br/>
+Depotwert: <?=$this->toNumber($this->portfolioGesamtWert,2)." ".$this->portfolio->getCurrency();?>
+</div>
+<table cellspacing=0 width="100%" class="performanceMonitorTable">
+<thead>
+<tr class="headBilanz">
+<td colspan="5"></td>
+<td>Insgesamt-Bilanz:</td>
+<td colspan="2">
+<?=$this->toNumber($this->overallBilanzErtrag,2, true)." ".$this->portfolio->getCurrency();?><br/>
+<?
+//echo $this->toNumber($this->overallBilanzErtragProzent*100,2)." %";
+?>
+</td>
+<td></td>
+</tr>
+</thead>
+<thead>
+<tr class="small">
+<td width="12"></td>
+<td>Datum</td>
+<td>Name<br/>ISIN </td>
+<td>Preis<br/>Anzahl</td>
+<td>Gesamtpreis<br/>Gebühren</td>
+<td>Wert<br/>Einstandswert</td>
+<td>Ertrag<br/>Ertragsrate</td>
+<td width=90></td><td width="35"></td>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<th colspan="6"><center>Aktuelles Depot</center></th>
+	<th colspan="2"><?=$this->toNumber($this->endBilanzErtrag,2, true)." ".$this->portfolio->getCurrency();?><br/>
+	<small><?=$this->toNumber($this->endBilanzErtragProzent*100,2, true);?> %</small></th>
+	<th></th>
+</tr>
+<?php
+// AUSGLEICH UM aktuelles Portfolio in Performance einfließen zu lassen
+foreach ($this->portfolioStocks as $transaction)
+{
+	echo $this->portfolioPerformanceTransactionRow($transaction, $this->portfolio->getCurrency());
+
+}
+
+if(count($this->portfolioStocks) == 0)
+{
+	echo "<tr><td colspan='9'><center>".$this->translate("Sie haben zur Zeit keine Aktien im Depot")
+	."</center>
+	<div style='text-align:center;margin:20px;'>"
+	.$this->link(
+		$this->url(array(
+			"language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+			'username' => $this->user->getNickname(),
+			'PID' => $this->portfolio->getId()),
+		 "user_portfolio_transaction_add"), $this->translate("Transaktion hinzufügen &raquo;"),"abutton blue large addTransaction")
+		."</div></td></tr>";
+}
+
+?>
+
+
+<?php 
+
+foreach ($this->jahresbilanzen as $jahresbiz)
+{
+	?>
+	
+	<tr>
+	<th colspan="6"><center><?=$jahresbiz["year"];?></center></th>
+	<th colspan="2"><?=$this->toNumber($jahresbiz["ertragWert"],2, true)." ".$this->portfolio->getCurrency();?><br/>
+	<small><? //echo $this->toNumber($jahresbiz["ertragProzent"]*100,2)." %";?></small></th>
+	<th></th>
+	</tr>
+	
+	<?php
+	if(isset($this->transactionsSorted[$jahresbiz["year"]]))
+	{
+		foreach ($this->transactionsSorted[$jahresbiz["year"]] as $transaction)
+		{
+			echo $this->portfolioPerformanceTransactionRow($transaction, $this->portfolio->getCurrency());
+		}
+	}	
+	else
+	{
+		echo "<td colspan='9'><center>".$this->translate("Es wurden keine Transaktionen in diesem Zeitraum ausgeführt")."</center></td>";
+	}
+	
+}
+?>
+
+
+
+</tbody>
+</table>
+
+
+
+<?php
+/*
+print_r($this->transactionsSorted);
+print_r($this->transactions);
+print_r($jahresbiz);
+*/
+?>

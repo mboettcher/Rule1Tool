@@ -1,0 +1,6 @@
+<?=$this->form ?>
+<?php echo $this->link(
+				$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+								"CID" => $this->company->getId()), 
+							"admin_company_edit_pic"),
+			$this->translate("Bild ändern"));?>

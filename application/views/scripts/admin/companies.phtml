@@ -1,0 +1,37 @@
+<table>
+<thead>
+<tr>
+	<td>Name</td>
+	<td>ISIN</td>
+	<td>Website</td>
+	<td>Wikipedia</td>
+</tr>
+</thead>
+<?php 
+
+	if (count($this->paginator))
+	{
+		foreach($this->paginator as $item)
+		{
+			echo '<tr>
+					<td><a href="'.$this->url(array("CID" => $item->company_id, 
+						 "language" => Zend_Registry::get('Zend_Locale')->getLanguage()
+					), "admin_company_edit")
+					.'">'.$item->name.'</a></td>'
+				.'<td>'.$item->isin.'</td>'
+				.'<td>'.$item->website.'</td>'
+				.'<td>'.$item->wikipedia.'</td>'
+				
+				."</tr>";
+		}
+?>
+
+</table>
+<?php 		
+		
+		echo $this->paginationControl($this->paginator,
+                             'Sliding',
+                             'paginator.phtml');
+	}
+	
+?>

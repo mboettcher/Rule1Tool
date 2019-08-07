@@ -1,0 +1,23 @@
+<h2><?= $this->translate("Die Seite ist momentan offline. Bitte versuchen Sie es später noch einmal."); ?></h2>
+<p><?= $this->message; ?></p>
+<img src="<?php echo $this->baseUrlShort();?>/public/images/warnschild.png" style="float:left;margin-right:10px;"/>
+<form name="login" action="<?php echo $this->baseUrl();?>/auth/login" method="POST">
+
+    <table class="login">
+    <tr>
+	<td colspan=2><strong><?= $this->translate("Administrator-Anmeldung");?></strong></td> 
+    </tr>
+	<tr>
+		<td><?= $this->translate("E-Mail-Adresse:");?></td> 
+		<td><input id="email" type="TEXT" name="email"/></td> 
+	</tr>
+	<tr>
+		<td><?= $this->translate("Kennwort:");?></td> 
+		<td><input id="password" type="password" name="password"/></td> 
+    </tr>
+    <tr>
+	<td colspan=2><input type="SUBMIT" value="<?= $this->translate("Anmelden");?>"></td> 
+    </tr>
+    </table>
+
+</form>

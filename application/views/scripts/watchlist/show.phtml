@@ -1,0 +1,316 @@
+<script type="text/javascript">
+imgurl = "<?php echo $this->baseUrlShort().'/public/images/'?>";
+$(document).ready(function() {	
+	$(".indikatorSignal, .watchlistMosNS, #watchlistHeadPbT").simpletooltip(true);
+	$(".watchlistStockRemove img")
+			.mouseover(function(){$(this).attr("src",imgurl+"closeDeleteIcon_01.png");})
+			.mouseout(function(){$(this).attr("src",imgurl+"closeDeleteIcon_02.png");});
+	$(".watchlistShowChartBtn img")
+	.mouseover(function(){$(this).attr("src",imgurl+"chartIcon_02.png");})
+	.mouseout(function(){$(this).attr("src",imgurl+"chartIcon.png");});
+	$("table.stocksOverviewTable tbody tr td")
+		.each(function(){
+			//prüfen ob ein link im td
+			var afound = false;
+			$(this).find("a").each(function(){afound = true;});
+			
+			if(!afound)
+			{
+				$(this)
+				.click(function(event)
+					{
+						window.location = $(this).parent().find("td:first a").attr("href");
+					})
+			}
+				});
+	$(".watchlistDelete").each(function(){$(this).click(function(event){
+		event.preventDefault(); /* Linkklick verhindern */
+		var url = $(this).attr("href");
+		createConfirmDialog(
+				"Wollen Sie die Watchlist wirklich löschen?", 
+				"Watchlist löschen", 
+				"Ja", 
+				"Abbrechen", 
+				function(){
+					window.location = url;}, 
+				"");
+	})});    
+	$(".watchlistStockRemove").each(function(){$(this).click(function(event){
+		event.preventDefault(); /* Linkklick verhindern */
+		var url = $(this).attr("href");
+		createConfirmDialog(
+				"Wollen Sie diese Aktie wirklich von der Watchlist entfernen?", 
+				"Aktie entfernen", 
+				"Ja", 
+				"Abbrechen", 
+				function(){
+					window.location = url;}, 
+				"");
+	})});
+
+	$(".watchlistShowChartBtn").click(function(event)
+			{
+				event.preventDefault(); //Verhindern, dass der Link ausgefuehrt wird		
+				showLoading();
+				charturl = $(this).attr("href");
+				html = '<div class="stockChartsHead"><div class="stockChartsGetChartBox"><div class="stockChartsGetChart">30</div><div class="stockChartsGetChart">60</div><div class="stockChartsGetChart">120</div><div class="stockChartsGetChart">240</div><div class="stockChartsGetChart">360</div></div></div><div class="stockChartsBody">';
+				html += '</div>';
+				$("#dialog").dialog('destroy');
+				$("#dialog")
+					.html(html);
+
+				loadChartData(charturl, 60, function(){
+
+					$("#dialog")
+						.dialog({
+							bgiframe: true,
+							position: 'top',
+							title: "Charts",
+							dialogClass: 'frameDialog',
+							width: 640,
+							//height: 500,
+							//modal:true,
+							overlay: {
+								backgroundColor: '#000',
+								opacity: 0.7
+							},
+							show:'clip',
+							hide:'clip'
+							})
+						.dialog("open");
+
+					$(".stockChartsGetChart").click(function(event)
+							{
+								event.preventDefault(); //Verhindern, dass der Link ausgefuehrt wird	
+								
+								loadChartData(charturl, $(this).text());
+								$(".stockChartsGetChart").removeClass("activ");
+								$(this).addClass("activ");
+							}); 
+					
+					$(".stockChartsGetChart:eq(1)").addClass("activ");
+					});
+				
+				
+	
+			});    
+});
+
+</script>
+
+<h1 style="display:inline;"><?php echo $this->watchlist->getName();?></h1>
+<?php if($this->user->getUserId() == Zend_Registry::get("UserObject")->getUserId())
+{
+?>
+<span class="small" style="margin-left:5px;">
+<?php 
+echo $this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"WID" => $this->watchlist->getWatchlistId()
+												), "user_watchlist_edit"), $this->translate("[bearbeiten]"));
+echo $this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"WID" => $this->watchlist->getWatchlistId()
+												), "user_watchlist_delete"), $this->translate("[löschen]"), "watchlistDelete");
+?>
+</span>
+<?php 
+}
+?>
+
+<?php 
+
+	if (count($this->paginator))
+	{
+	?>
+
+<table cellspacing=0 width="100%" class="stocksOverviewTable watchlist tablesorter">
+<thead>
+<tr>
+	<th><?php echo $this->translate("Aktie");?></th>
+	<th><?php echo $this->translate("Kurs");?></th>
+	<th><?php echo $this->translate("Änderung");?></th>
+	<th><?php echo $this->translate("MOS");?></th>
+	<th id="watchlistHeadPbT" title="Payback Time des aktuellen Aktienkurses">PbT</th>
+	<td><?php echo $this->translate("Indikatoren");?></td>
+	<td></td>
+	<td></td>
+</tr>
+</thead>
+<tbody>	
+	<?php
+	/*
+	$debugTimeSumPhase1 = 0;
+	$debugTimeSumPhase11 = 0;
+	$debugTimeSumPhase12 = 0;
+	$debugTimeSumPhase13 = 0;
+	$debugTimeSumPhase2 = 0;
+	$debugTimeSumPhase3 = 0;
+	$debugTimeSumPhase4 = 0;
+	$debugTimeSumPhase5 = 0;
+	$debugTimeArray = array();*/
+		foreach($this->paginator as $item)
+		{
+			$debugTimePhaseBegin = microtime(true);
+				
+			echo '<tr>'
+					.'<td>'.$this->link(
+								$this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $item->getCompany()->getIsin()
+										), "stock"),
+								//$this->printCompanyPicture($item->getCompany(), "s")
+								//." ".
+								$item->getCompany()->getName()
+								." <br/><small>"
+								.$item->getCompany()->getIsin()
+								."</small>")
+					.'</td>';
+					//$debugTimeSumPhase11 = microtime(true)-$debugTimePhaseBegin;
+			if($item->getLastQuote()->getClose() !== null)
+			{
+				if($item->getLastQuote()->getChange() >= 0)
+					$class = "greenChange";
+				else 	
+					$class = "redChange";
+				//$debugTimeSumPhase12 = microtime(true)-$debugTimePhaseBegin;			
+				echo '<td class="watchlistClose">'.$item->getLastQuote()->getClose(true, 999);
+				if($item->getCompany()->isStock())
+					echo ' '.$item->getLastQuote()->getCurrency();
+				echo '<br/><small>'.$item->getLastQuote()->getDate(false,true).'</small></td>';
+				
+				echo '<td class="change '.$class.'"><big>'.$item->getLastQuote()->getChange(true).' %</big>'
+				.'</td>';		
+				//$debugTimeSumPhase13 = microtime(true)-$debugTimePhaseBegin;
+
+			}		
+			else
+			{
+				echo	'<td>n/a</td>'
+					.'<td class="change">n/a</td>';
+			}
+			
+			//Phase 1 ENDE
+			//$debugTimeSumPhase1 = microtime(true)-$debugTimePhaseBegin;
+			//$debugTimePhaseBegin = microtime(true);
+
+			//$debugTimeSumPhase2 = 0;
+			//$debugTimeSumPhase3 = 0;
+			if($analysis_id = $item->getCompany()->getPreselectedAnalysisId($this->user->getId()))
+			{
+				$analysis = new Analysis_Calculator();
+				$analysis->getAnalysisById($analysis_id);
+				$date = new Zend_Date($analysis->getDateEdit());
+				$mos = '<span title="Analyse vom '.$date->get(Zend_Date::DATES).'" class="watchlistMosNS">'
+						.$analysis->getMOS()
+						." "
+						.$analysis->getCurrency()
+						.'</span>';
+
+				//Phase 2 ENDE
+				//$debugTimeSumPhase2 = microtime(true)-$debugTimePhaseBegin;
+				//$debugTimePhaseBegin = microtime(true);
+					
+				$analyseQuote = $item->getCompany()->getQuotesByCurrency($analysis->getCurrency());
+				if($analyseQuote)
+				{
+					$paybacktimePrice = $analysis->getPaybackTimePrice(true, 0, false, $analyseQuote->getLastQuote()->getClose());
+					if($paybacktimePrice)
+						$paybacktimePrice = '<span title="Analyse vom '.$date->get(Zend_Date::DATES).'" class="watchlistMosNS">'
+											.$paybacktimePrice
+											.' Jahre'.'</span>';
+					else
+						$paybacktimePrice = "n/a";
+				}
+				else 
+					$paybacktimePrice = "n/a";
+				//Phase 3 ENDE
+				//$debugTimeSumPhase3 = microtime(true)-$debugTimePhaseBegin;
+				
+			}
+			else 
+			{
+				$paybacktimePrice = "n/a";
+				$mos = "n/a";
+			}
+			
+			echo 	'<td>'.$mos.'</td>';
+			
+			echo '<td>'.$paybacktimePrice.'</td>';
+			
+			//$debugTimePhaseBegin = microtime(true);
+			
+			$signals = $item->getIndikatorSignal($this->user);
+			
+			echo '<td>';
+			echo $this->indikatorSignalDiv($signals["SMA"][0]["name"], $signals["SMA"][0]["lastSignalDateDates"], $signals["SMA"][0]["lastSignal"]);
+			echo $this->indikatorSignalDiv($signals["MACD"][0]["name"], $signals["MACD"][0]["lastSignalDateDates"], $signals["MACD"][0]["lastSignal"]);
+			echo $this->indikatorSignalDiv($signals["STO"][0]["name"], $signals["STO"][0]["lastSignalDateDates"], $signals["STO"][0]["lastSignal"]);			
+			echo '</td>';
+			
+			//Phase 4 ENDE
+			//$debugTimeSumPhase4 = microtime(true)-$debugTimePhaseBegin;
+			//$debugTimePhaseBegin = microtime(true);
+			
+			if($item->getCompany()->getMainMarketId())
+			{
+				echo '<td>'.$this->link($this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"CID" => $item->getCompany()->getId()
+													), "api_charturls"), 
+													$this->image("chartIcon.png", "Chart"), "watchlistShowChartBtn")
+						.'</td>';
+			}
+			else 
+				echo '<td></td>';
+	
+			if($this->user->getUserId() == Zend_Registry::get("UserObject")->getUserId())
+			{
+				$delete = $this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"WID" => $this->watchlist->getWatchlistId(),
+										"CID" => $item->getCompany()->getId()
+												), "user_watchlist_stock_remove"), $this->image("closeDeleteIcon_02.png", $this->translate("entfernen")), "watchlistStockRemove");
+			}
+			else 
+				$delete = null;
+			echo '<td>'.$delete.'</td>'
+				."</tr>";
+			//Phase 5 ENDE
+			//$debugTimeSumPhase5 = microtime(true)-$debugTimePhaseBegin;
+			
+			//$debugTimeArray[] = array($debugTimeSumPhase1, $debugTimeSumPhase2, $debugTimeSumPhase3, $debugTimeSumPhase4, $debugTimeSumPhase5);
+		}
+?>
+</tbody>
+</table>
+<br/>
+<?php 
+//print_r($debugTimeArray);
+?>
+<p class="note small" style="margin-bottom:2px;">
+<strong><?php echo $this->translate("Signale anwenden nach Regel Nummer 1:");?> </strong>
+</p>
+<ul class="note small">
+<li>Kaufen wenn alle Werkzeuge auf "kaufen" (grün) zeigen</li>
+<li>Verkaufen wenn MACD und Stochastik-Indikator auf "verkaufen" (rot) zeigen UND entweder am Folgetag die Aktie stagniert bzw. fällt oder auch der gleitende Durchschnitt auf "verkaufen" zeigt
+</li>
+</ul>
+
+<p class="note small">
+<strong><?php echo $this->translate("Hinweis:");?> </strong>
+<?php echo $this->translate("Alle Signale basieren auf Tagesendkursen. Beachten Sie das Datum der Signale, dass Sie sehen können, wenn Sie mit der Maus über einen der Indikatorenpunkte gehen. Prüfen Sie vor einem Kauf oder Verkauf unbedingt noch einmal selbstständig die Chart!");?></p>
+
+
+<?php 		
+
+	}
+	else 
+	{
+		echo $this->messageBox($this->mbox);
+	}
+	
+?>

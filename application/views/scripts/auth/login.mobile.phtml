@@ -1,0 +1,44 @@
+<div class="contentContainer">
+<?php 
+if(isset($this->params["fromAuth"]) && $this->params["fromAuth"] == true)
+{
+?>
+<img src="<?php echo $this->baseUrlShort();?>/public/images/warnschild.png" style="margin:10px 15px 0 5px;float:left;">
+
+<h2><?= $this->translate("Die angeforderte Seite ist nur für registrierte Mitglieder zugänglich. Bitte melden Sie sich an."); ?></h2>
+<?php 
+}
+?>
+<?php 
+echo $this->messageBox($this->mbox);
+echo $this->clearDiv();
+?>
+<form class="loginForm" name="login" action="<?php echo $_SERVER["REQUEST_URI"];?>" method="POST">
+
+<div><h2><?= $this->translate("Anmelden");?></h2></div>
+
+<div class="row">
+<div class="left"><?= $this->translate("E-Mail-Adresse:");?></div>
+<div class="right"><input id="email" type="TEXT" name="email"/></div>
+</div>
+
+<div class="row">
+<div class="left"><?= $this->translate("Kennwort:");?> </div>
+<div class="right"><input id="password" type="password" name="password"/></div>
+</div>
+
+
+<div class="row">
+<div class="rightWithOutLeft"><?php echo $this->link($this->url(
+			array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), 
+			"user_resetpw"), $this->translate("Kennwort vergessen?"));?></div>
+</div>
+
+
+
+<div><input type="SUBMIT" value="<?= $this->translate("Anmelden");?>"></div>
+
+    
+
+</form>
+</div>

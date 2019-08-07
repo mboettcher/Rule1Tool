@@ -1,0 +1,34 @@
+<?
+/*
+ * Formular um eine Analyse bearbeiten
+ */
+
+//Prevent that a click on the overlay closes the thickbox
+$clickScript = '$(document).ready(function() {
+
+							parent.tb_unbindOverlay();
+							
+							$("#TB_overlay", parent.document.body).click(
+							function(){alert("'.$this->translate("Um versehentliches schließen zu verhindern, wurde dieser Klickbereich deaktiviert. Bitte klicken Sie auf 'close' um das Fenster zu schließen.").'");});
+							});';
+			$this->headScript()->appendScript($clickScript);
+			
+?>
+
+
+<p><a href="<?=$this->url(array("CID" => $this->company->getId(),
+							 "language" => Zend_Registry::get('Zend_Locale')->getLanguage(),
+							"FRAMED" => $this->isFramed
+						), "analysis_show");?>"><?=$this->translate("zurück zur Übersicht");?></a></p>
+
+
+<h1>Analyse zu <?php echo $this->company->getName();?> bearbeiten</h1>
+<?php 
+	//liegt eine Message vor?
+	if(isset($this->mbox))
+		echo $this->messageBox($this->mbox, "input");
+	?>	
+<?
+echo $this->form;
+?>
+

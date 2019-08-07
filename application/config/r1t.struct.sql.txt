@@ -1,0 +1,690 @@
+-- phpMyAdmin SQL Dump
+-- version 2.11.7
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Erstellungszeit: 18. Oktober 2008 um 12:38
+-- Server Version: 5.0.51
+-- PHP-Version: 5.2.6
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Datenbank: `rule1tool_dev`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `analysisfavourits`
+--
+
+DROP TABLE IF EXISTS `analysisfavourits`;
+CREATE TABLE IF NOT EXISTS `analysisfavourits` (
+  `company_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `analysis_id` int(10) unsigned NOT NULL,
+  `date_add` int(10) unsigned NOT NULL,
+  `date_edit` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`company_id`,`user_id`),
+  KEY `analysis_id` (`analysis_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `analysisfavourits`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `availablestocksonexchanges`
+--
+
+DROP TABLE IF EXISTS `availablestocksonexchanges`;
+CREATE TABLE IF NOT EXISTS `availablestocksonexchanges` (
+  `market_id` tinyint(4) NOT NULL,
+  `company_id` int(10) unsigned NOT NULL,
+  `symbol` varchar(4) collate utf8_unicode_ci NOT NULL,
+  PRIMARY KEY  (`market_id`,`company_id`),
+  KEY `Symbol` (`symbol`),
+  KEY `company_id` (`company_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `availablestocksonexchanges`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `companies`
+--
+
+DROP TABLE IF EXISTS `companies`;
+CREATE TABLE IF NOT EXISTS `companies` (
+  `company_id` int(10) unsigned NOT NULL auto_increment,
+  `add_date` int(10) unsigned NOT NULL,
+  `isin` varchar(12) collate utf8_unicode_ci NOT NULL,
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `main_market` tinyint(4) default NULL,
+  `picture_id` int(10) unsigned default NULL,
+  `group_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`company_id`),
+  UNIQUE KEY `ISIN_2` (`isin`),
+  UNIQUE KEY `group_id` (`group_id`),
+  KEY `name` (`name`),
+  KEY `main_market` (`main_market`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `companies`
+--
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `countrycodes`
+--
+
+DROP TABLE IF EXISTS `countrycodes`;
+CREATE TABLE IF NOT EXISTS `countrycodes` (
+  `ALPHA2` varchar(2) collate utf8_unicode_ci NOT NULL,
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  PRIMARY KEY  (`ALPHA2`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `countrycodes`
+--
+
+INSERT INTO `countrycodes` (`ALPHA2`, `name`) VALUES
+('DE', 'Germany'),
+('US', 'United States of America');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gruppen`
+--
+
+DROP TABLE IF EXISTS `gruppen`;
+CREATE TABLE IF NOT EXISTS `gruppen` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `date_add` int(10) unsigned NOT NULL,
+  `date_edit` int(10) unsigned NOT NULL,
+  `founder_id` int(10) unsigned NOT NULL,
+  `open` enum('y','n') collate utf8_unicode_ci NOT NULL default 'y',
+  `date_delete` int(10) unsigned default NULL,
+  `delete_by` int(10) unsigned default NULL,
+  `picture` varchar(255) collate utf8_unicode_ci default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `founder_id` (`founder_id`),
+  KEY `delete_by` (`delete_by`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Daten für Tabelle `gruppen`
+--
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gruppen_lokalisierung`
+--
+
+DROP TABLE IF EXISTS `gruppen_lokalisierung`;
+CREATE TABLE IF NOT EXISTS `gruppen_lokalisierung` (
+  `group_id` int(10) unsigned NOT NULL,
+  `language` set('de','en') collate utf8_unicode_ci NOT NULL default 'de',
+  `title` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `description` text collate utf8_unicode_ci NOT NULL,
+  PRIMARY KEY  (`group_id`,`language`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `gruppen_lokalisierung`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gruppen_members`
+--
+
+DROP TABLE IF EXISTS `gruppen_members`;
+CREATE TABLE IF NOT EXISTS `gruppen_members` (
+  `group_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `mtype_id` int(10) unsigned NOT NULL,
+  `date_join` int(10) unsigned NOT NULL,
+  `date_delete` int(10) unsigned default NULL,
+  `delete_by` int(10) unsigned default NULL,
+  PRIMARY KEY  (`group_id`,`user_id`),
+  KEY `mtype_id` (`mtype_id`),
+  KEY `user_id` (`user_id`),
+  KEY `delete_by` (`delete_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `gruppen_members`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gruppen_membertypes`
+--
+
+DROP TABLE IF EXISTS `gruppen_membertypes`;
+CREATE TABLE IF NOT EXISTS `gruppen_membertypes` (
+  `mtype_id` int(10) unsigned NOT NULL auto_increment,
+  `titel` varchar(255) character set latin1 NOT NULL,
+  PRIMARY KEY  (`mtype_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Daten für Tabelle `gruppen_membertypes`
+--
+
+INSERT INTO `gruppen_membertypes` (`mtype_id`, `titel`) VALUES
+(1, 'Moderator'),
+(2, 'Mitglied');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gruppen_threads`
+--
+
+DROP TABLE IF EXISTS `gruppen_threads`;
+CREATE TABLE IF NOT EXISTS `gruppen_threads` (
+  `thread_id` int(10) unsigned NOT NULL auto_increment,
+  `group_id` int(10) unsigned NOT NULL,
+  `title` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `type` tinyint(1) unsigned NOT NULL default '1',
+  `date_add` int(10) unsigned NOT NULL,
+  `date_edit` int(10) unsigned NOT NULL,
+  `founder_id` int(10) unsigned NOT NULL,
+  `date_delete` int(10) unsigned default NULL,
+  `delete_by` int(10) unsigned default NULL,
+  `analysis_id` int(10) unsigned default NULL,
+  `language` set('de','en') collate utf8_unicode_ci NOT NULL default 'de',
+  PRIMARY KEY  (`thread_id`),
+  KEY `gruppen_id` (`group_id`),
+  KEY `founder_id` (`founder_id`),
+  KEY `delete_by` (`delete_by`),
+  KEY `type` (`type`),
+  KEY `analysis_id` (`analysis_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=23 ;
+
+--
+-- Daten für Tabelle `gruppen_threads`
+--
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gruppen_thread_replies`
+--
+
+DROP TABLE IF EXISTS `gruppen_thread_replies`;
+CREATE TABLE IF NOT EXISTS `gruppen_thread_replies` (
+  `reply_id` int(10) unsigned NOT NULL auto_increment,
+  `thread_id` int(10) unsigned NOT NULL,
+  `writer_id` int(10) unsigned NOT NULL,
+  `date_add` int(10) unsigned NOT NULL,
+  `date_edit` int(10) unsigned NOT NULL,
+  `text` text collate utf8_unicode_ci NOT NULL,
+  `date_delete` int(10) unsigned default NULL,
+  `delete_by` int(10) unsigned default NULL,
+  PRIMARY KEY  (`reply_id`),
+  KEY `thread_id` (`thread_id`),
+  KEY `delete_by` (`delete_by`),
+  KEY `writer_id` (`writer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `gruppen_thread_replies`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gruppen_thread_typs`
+--
+
+DROP TABLE IF EXISTS `gruppen_thread_typs`;
+CREATE TABLE IF NOT EXISTS `gruppen_thread_typs` (
+  `type_id` tinyint(1) unsigned NOT NULL auto_increment,
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  PRIMARY KEY  (`type_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+--
+-- Daten für Tabelle `gruppen_thread_typs`
+--
+
+INSERT INTO `gruppen_thread_typs` (`type_id`, `name`) VALUES
+(1, 'standard'),
+(2, 'company_comments'),
+(3, 'analysis_comments');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `invitations`
+--
+
+DROP TABLE IF EXISTS `invitations`;
+CREATE TABLE IF NOT EXISTS `invitations` (
+  `invitation_id` int(10) unsigned NOT NULL auto_increment,
+  `key` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `invitor` int(10) unsigned NOT NULL,
+  `date_send` int(10) unsigned NOT NULL,
+  `date_reg` int(10) unsigned default NULL,
+  `invited` int(10) unsigned default NULL,
+  PRIMARY KEY  (`invitation_id`),
+  UNIQUE KEY `key` (`key`),
+  KEY `invited` (`invited`),
+  KEY `invitor` (`invitor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `invitations`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `keydataanalyses`
+--
+
+DROP TABLE IF EXISTS `keydataanalyses`;
+CREATE TABLE IF NOT EXISTS `keydataanalyses` (
+  `analysis_id` int(10) unsigned NOT NULL auto_increment,
+  `company_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `date_add` int(10) unsigned NOT NULL,
+  `date_edit` int(10) unsigned NOT NULL,
+  `note` text collate utf8_unicode_ci NOT NULL,
+  `date_delete` int(10) unsigned default NULL,
+  `delete_by` int(10) unsigned default NULL,
+  `analysts_estimated_growth` double default NULL,
+  `current_eps` double NOT NULL,
+  `my_estimated_growth` double default NULL,
+  `my_future_kgv` double default NULL,
+  PRIMARY KEY  (`analysis_id`),
+  KEY `company_id` (`company_id`),
+  KEY `user_id` (`user_id`),
+  KEY `delete_by` (`delete_by`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `keydataanalyses`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `keydataanalyses_data`
+--
+
+DROP TABLE IF EXISTS `keydataanalyses_data`;
+CREATE TABLE IF NOT EXISTS `keydataanalyses_data` (
+  `analysis_id` int(10) unsigned NOT NULL,
+  `year` int(4) unsigned NOT NULL,
+  `roic` double default NULL,
+  `equity` double default NULL,
+  `equity_rate` double default NULL,
+  `depts` double default NULL,
+  `revenue` double default NULL,
+  `revenue_rate` double default NULL,
+  `eps` double default NULL,
+  `eps_rate` double default NULL,
+  `income_after_tax` double default NULL,
+  `cashflow` double default NULL,
+  `cashflow_rate` double default NULL,
+  `kgv` double default NULL,
+  PRIMARY KEY  (`analysis_id`,`year`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `keydataanalyses_data`
+--
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `logprofiler`
+--
+
+DROP TABLE IF EXISTS `logprofiler`;
+CREATE TABLE IF NOT EXISTS `logprofiler` (
+  `id` int(11) NOT NULL auto_increment,
+  `time_execution` double NOT NULL,
+  `uri` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `date_add` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1224 ;
+
+--
+-- Daten für Tabelle `logprofiler`
+--
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `new_companies`
+--
+
+DROP TABLE IF EXISTS `new_companies`;
+CREATE TABLE IF NOT EXISTS `new_companies` (
+  `company_id` int(10) unsigned NOT NULL,
+  `date_add` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`company_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `new_companies`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `quotes`
+--
+
+DROP TABLE IF EXISTS `quotes`;
+CREATE TABLE IF NOT EXISTS `quotes` (
+  `id` int(10) NOT NULL auto_increment,
+  `author` char(255) collate utf8_unicode_ci default NULL,
+  `quote` text collate utf8_unicode_ci,
+  `date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `lang` char(2) collate utf8_unicode_ci default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+
+--
+-- Daten für Tabelle `quotes`
+--
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `registrations`
+--
+
+DROP TABLE IF EXISTS `registrations`;
+CREATE TABLE IF NOT EXISTS `registrations` (
+  `user_id` int(10) unsigned NOT NULL,
+  `ip` varchar(255) collate utf8_unicode_ci NOT NULL,
+  PRIMARY KEY  (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `registrations`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `stockexchanges`
+--
+
+DROP TABLE IF EXISTS `stockexchanges`;
+CREATE TABLE IF NOT EXISTS `stockexchanges` (
+  `market_id` tinyint(4) NOT NULL auto_increment,
+  `countrycode` varchar(2) collate utf8_unicode_ci NOT NULL,
+  `symbolextension` varchar(2) collate utf8_unicode_ci default NULL,
+  `name` varchar(55) collate utf8_unicode_ci NOT NULL,
+  `time_start` tinyint(4) unsigned zerofill NOT NULL,
+  `time_end` smallint(4) unsigned zerofill NOT NULL,
+  `currency` varchar(5) collate utf8_unicode_ci NOT NULL,
+  PRIMARY KEY  (`market_id`),
+  KEY `countrycode` (`countrycode`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+--
+-- Daten für Tabelle `stockexchanges`
+--
+
+INSERT INTO `stockexchanges` (`market_id`, `countrycode`, `symbolextension`, `name`, `time_start`, `time_end`, `currency`) VALUES
+(1, 'DE', 'DE', 'Xetra', 0000, 1800, 'EUR'),
+(3, 'US', NULL, 'NASDAQ', 0000, 2200, 'USD');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `stockquotes_eod`
+--
+
+DROP TABLE IF EXISTS `stockquotes_eod`;
+CREATE TABLE IF NOT EXISTS `stockquotes_eod` (
+  `company_id` int(10) unsigned NOT NULL,
+  `market_id` tinyint(4) NOT NULL,
+  `open` double unsigned NOT NULL,
+  `close` double unsigned NOT NULL,
+  `high` double unsigned NOT NULL,
+  `low` double unsigned NOT NULL,
+  `volume` double unsigned NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY  (`company_id`,`market_id`,`date`),
+  KEY `market_id` (`market_id`),
+  KEY `date` (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `stockquotes_eod`
+--
+-- --------------------------------------------------------
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int(10) unsigned NOT NULL auto_increment,
+  `nickname` varchar(20) collate utf8_unicode_ci NOT NULL,
+  `password` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `role` varchar(6) collate utf8_unicode_ci NOT NULL default 'member',
+  `lastname` varchar(35) collate utf8_unicode_ci NOT NULL,
+  `firstname` varchar(35) collate utf8_unicode_ci NOT NULL,
+  `email` varchar(55) collate utf8_unicode_ci NOT NULL,
+  `reg_date` int(10) unsigned NOT NULL,
+  `edit_date` int(10) unsigned NOT NULL,
+  `newsletter` enum('y','n') collate utf8_unicode_ci NOT NULL default 'n',
+  `picture_id` int(10) unsigned default NULL,
+  `status` tinyint(1) unsigned NOT NULL default '1',
+  `invitations` tinyint(3) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`user_id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `username` (`nickname`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+
+--
+-- Daten für Tabelle `users`
+--
+
+INSERT INTO `users` (`user_id`, `nickname`, `password`, `role`, `lastname`, `firstname`, `email`, `reg_date`, `edit_date`, `newsletter`, `picture_id`, `status`, `invitations`) VALUES
+(1, 'mb', 'af16f56fffe8f9d2a314b8542ab185d2', 'admin', 'B√∂ttcher', 'Martin', 'mb@mb-designz.de', 1211120890, 0, 'y', NULL, 1, 0),
+(3, 'system', 'af16f56fffe8f9d2a314b8542ab185d2', 'member', 'System', 'Mr.', 'mail@rule1tool.com', 1217184376, 1217184376, 'y', NULL, 1, 0),
+(4, 'tester1', '202cb962ac59075b964b07152d234b70', 'member', 'test', 'tester', 'test@rule1tool.com', 1217921264, 1217921264, 'n', NULL, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `watchlist`
+--
+
+DROP TABLE IF EXISTS `watchlist`;
+CREATE TABLE IF NOT EXISTS `watchlist` (
+  `watchlist_id` int(10) unsigned NOT NULL auto_increment,
+  `owner_id` int(10) unsigned NOT NULL,
+  `date_add` int(10) unsigned NOT NULL,
+  `date_edit` int(10) unsigned NOT NULL,
+  `date_delete` int(10) unsigned default NULL,
+  `delete_by` int(10) unsigned default NULL,
+  PRIMARY KEY  (`watchlist_id`),
+  KEY `owner_id` (`owner_id`),
+  KEY `delete_by` (`delete_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `watchlist`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `watchlist_companies`
+--
+
+DROP TABLE IF EXISTS `watchlist_companies`;
+CREATE TABLE IF NOT EXISTS `watchlist_companies` (
+  `watchlist_id` int(10) unsigned NOT NULL,
+  `company_id` int(10) unsigned NOT NULL,
+  `market_id` tinyint(4) NOT NULL,
+  `date_add` int(10) unsigned NOT NULL,
+  `date_edit` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`watchlist_id`,`company_id`),
+  KEY `market_id` (`market_id`),
+  KEY `company_id` (`company_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `watchlist_companies`
+--
+
+
+--
+-- Constraints der exportierten Tabellen
+--
+
+--
+-- Constraints der Tabelle `analysisfavourits`
+--
+ALTER TABLE `analysisfavourits`
+  ADD CONSTRAINT `analysisfavourits_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `analysisfavourits_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `analysisfavourits_ibfk_3` FOREIGN KEY (`analysis_id`) REFERENCES `keydataanalyses` (`analysis_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `availablestocksonexchanges`
+--
+ALTER TABLE `availablestocksonexchanges`
+  ADD CONSTRAINT `availablestocksonexchanges_ibfk_2` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `availablestocksonexchanges_ibfk_3` FOREIGN KEY (`market_id`) REFERENCES `stockexchanges` (`market_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `companies`
+--
+ALTER TABLE `companies`
+  ADD CONSTRAINT `companies_ibfk_1` FOREIGN KEY (`main_market`) REFERENCES `stockexchanges` (`market_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `companies_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `gruppen` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `gruppen`
+--
+ALTER TABLE `gruppen`
+  ADD CONSTRAINT `gruppen_ibfk_29` FOREIGN KEY (`founder_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_ibfk_30` FOREIGN KEY (`delete_by`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `gruppen_lokalisierung`
+--
+ALTER TABLE `gruppen_lokalisierung`
+  ADD CONSTRAINT `gruppen_lokalisierung_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `gruppen` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `gruppen_members`
+--
+ALTER TABLE `gruppen_members`
+  ADD CONSTRAINT `gruppen_members_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `gruppen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_members_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_members_ibfk_3` FOREIGN KEY (`mtype_id`) REFERENCES `gruppen_membertypes` (`mtype_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_members_ibfk_4` FOREIGN KEY (`delete_by`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `gruppen_threads`
+--
+ALTER TABLE `gruppen_threads`
+  ADD CONSTRAINT `gruppen_threads_ibfk_22` FOREIGN KEY (`group_id`) REFERENCES `gruppen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_threads_ibfk_26` FOREIGN KEY (`type`) REFERENCES `gruppen_thread_typs` (`type_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_threads_ibfk_27` FOREIGN KEY (`founder_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_threads_ibfk_28` FOREIGN KEY (`delete_by`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_threads_ibfk_29` FOREIGN KEY (`analysis_id`) REFERENCES `keydataanalyses` (`analysis_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `gruppen_thread_replies`
+--
+ALTER TABLE `gruppen_thread_replies`
+  ADD CONSTRAINT `gruppen_thread_replies_ibfk_1` FOREIGN KEY (`thread_id`) REFERENCES `gruppen_threads` (`thread_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_thread_replies_ibfk_3` FOREIGN KEY (`writer_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `gruppen_thread_replies_ibfk_4` FOREIGN KEY (`delete_by`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `invitations`
+--
+ALTER TABLE `invitations`
+  ADD CONSTRAINT `invitations_ibfk_1` FOREIGN KEY (`invitor`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `invitations_ibfk_2` FOREIGN KEY (`invited`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `keydataanalyses`
+--
+ALTER TABLE `keydataanalyses`
+  ADD CONSTRAINT `keydataanalyses_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `keydataanalyses_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `keydataanalyses_ibfk_3` FOREIGN KEY (`delete_by`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `keydataanalyses_data`
+--
+ALTER TABLE `keydataanalyses_data`
+  ADD CONSTRAINT `keydataanalyses_data_ibfk_1` FOREIGN KEY (`analysis_id`) REFERENCES `keydataanalyses` (`analysis_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `new_companies`
+--
+ALTER TABLE `new_companies`
+  ADD CONSTRAINT `new_companies_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `registrations`
+--
+ALTER TABLE `registrations`
+  ADD CONSTRAINT `registrations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `stockexchanges`
+--
+ALTER TABLE `stockexchanges`
+  ADD CONSTRAINT `stockexchanges_ibfk_1` FOREIGN KEY (`countrycode`) REFERENCES `countrycodes` (`ALPHA2`) ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `stockquotes_eod`
+--
+ALTER TABLE `stockquotes_eod`
+  ADD CONSTRAINT `stockquotes_eod_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `stockquotes_eod_ibfk_2` FOREIGN KEY (`market_id`) REFERENCES `stockexchanges` (`market_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `watchlist`
+--
+ALTER TABLE `watchlist`
+  ADD CONSTRAINT `watchlist_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `watchlist_ibfk_2` FOREIGN KEY (`delete_by`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `watchlist_companies`
+--
+ALTER TABLE `watchlist_companies`
+  ADD CONSTRAINT `watchlist_companies_ibfk_1` FOREIGN KEY (`watchlist_id`) REFERENCES `watchlist` (`watchlist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `watchlist_companies_ibfk_2` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `watchlist_companies_ibfk_3` FOREIGN KEY (`market_id`) REFERENCES `stockexchanges` (`market_id`) ON UPDATE CASCADE;

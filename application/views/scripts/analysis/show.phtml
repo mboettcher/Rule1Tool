@@ -1,0 +1,27 @@
+<?
+if(!$this->isAjax)
+    echo $this->render("analysis/show_head.phtml"); 
+?>
+<?
+//Analyse anzeigen
+if($this->analysis_show)
+{
+ ?>
+  <?=$this->render("analysis/show_calculation.phtml"); ?>
+ <?
+ if(!$this->isAjax)
+ {
+ 	//echo $this->render("analysis/show_comments.phtml"); 
+ 	echo $this->clearDiv();
+    echo $this->render("analysis/show_keydatas.phtml"); 
+ }
+ ?>
+
+ <?
+}
+else 
+{
+   // echo "error";
+   echo $this->messageBox($this->messageBox);
+}
+?>

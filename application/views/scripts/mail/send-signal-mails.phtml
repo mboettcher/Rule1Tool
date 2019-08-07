@@ -1,0 +1,193 @@
+
+<?php
+/**
+ * 
+ * MAIL
+ * 
+ * 
+ */
+
+//Aktuelle Datum
+$datum = $this->data["zdate"]->get("yyyy-MM-dd");
+
+foreach ($this->data["lists"] as $list)
+{
+	//kann Watchlist oder Depot sein
+	$list->getStocklist();
+	
+	$listOutput = "";
+	$noQuotes = array();
+	
+	foreach ($list as $item)
+	{
+		
+		$signals = $item->getIndikatorSignal($this->data["user"]);
+		//echo $signals["SMA"][0]["lastSignalDate"]." ".$datum."; ";
+		$tr = "";
+		if(
+			$signals["SMA"][0]["lastSignalDate"] == $datum ||
+			$signals["STO"][0]["lastSignalDate"] == $datum ||
+			$signals["MACD"][0]["lastSignalDate"] == $datum
+		)
+		{
+			
+			//mind. ein Indikator ist neu!
+			if($analysis_id = $item->getCompany()->getPreselectedAnalysisId($this->data["user"]->getId()))
+			{
+				$analysis = new Analysis_Calculator();
+				$analysis->getAnalysisById($analysis_id);
+				$date = new Zend_Date($analysis->getDateEdit());
+				$mos = '<div title="Analyse vom '.$date->get(Zend_Date::DATES).'" class="watchlistMosNS">'
+						.$analysis->getMOS()
+						." "
+						.$analysis->getCurrency()
+						.'</div>';
+			}
+			else 
+				$mos = "n/a";
+			
+
+			$tr = '<tr>'
+					.'<td>'.$this->link(
+								$this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $item->getCompany()->getIsin()
+										), "stock"),
+								$item->getCompany()->getName()
+								." <br/><small>"
+								.$item->getCompany()->getIsin()
+								."</small>")
+					.'</td>';
+			if($item->getLastQuote()->getClose() !== null)
+			{
+				if($item->getLastQuote()->getChange() >= 0)
+					$class = "background:#33cc33;color:#fff;";
+				else 	
+					$class = "background:#cd1218;color:#fff;";
+								
+				$tr .= '<td style="white-space:nowrap;">'.$item->getLastQuote()->getClose(true, 999);
+				if($item->getCompany()->isStock())
+					$tr .= ' '.$item->getLastQuote()->getCurrency();
+				$tr .= '<br/><small>'.$item->getLastQuote()->getDate(false,true).'</small></td>';
+				
+				$tr .= '<td style="text-align:center;text-shadow: rgba(0, 0, 0, 0.30) 0px 1px 1px; '.$class.'"><big>'.$item->getLastQuote()->getChange(true).' %</big></td>';		
+
+			}		
+			else
+			{
+				$tr .=	'<td>n/a</td>'
+					.'<td style="text-align:center;">n/a</td>';
+			}
+					
+			$tr .= 	'<td style="padding:5px;">'.$mos.'</td>';
+			
+			if($signals["SMA"][0]["lastSignalDate"] == $datum)
+				$signalHighlight["SMA"] = true;
+			else
+				$signalHighlight["SMA"] = false;
+				
+			if($signals["STO"][0]["lastSignalDate"] == $datum)
+				$signalHighlight["STO"] = true;
+			else
+				$signalHighlight["STO"] = false;
+				
+			if($signals["MACD"][0]["lastSignalDate"] == $datum)
+				$signalHighlight["MACD"] = true;
+			else
+				$signalHighlight["MACD"] = false;						
+			$tr .= '<td>';
+			$tr .= $this->indikatorSignalDiv($signals["SMA"][0]["name"], $signals["SMA"][0]["lastSignalDateDates"], $signals["SMA"][0]["lastSignal"], "mail", $signalHighlight["SMA"]);
+			$tr .= $this->indikatorSignalDiv($signals["MACD"][0]["name"], $signals["MACD"][0]["lastSignalDateDates"], $signals["MACD"][0]["lastSignal"], "mail", $signalHighlight["MACD"]);
+			$tr .= $this->indikatorSignalDiv($signals["STO"][0]["name"], $signals["STO"][0]["lastSignalDateDates"], $signals["STO"][0]["lastSignal"], "mail", $signalHighlight["STO"]);			
+			$tr .= '</td>';
+			
+			if($item->getCompany()->getMainMarketId())
+			{
+				$tr .= '<td>'.$this->link($this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $item->getCompany()->getISIN()
+													), "stock"), 
+													$this->image("chartIcon.png", "Chart"), "watchlistShowChartBtn")
+						.'</td>';
+			}
+			else 
+				$tr .= '<td></td>';
+	
+			$tr .= "</tr>";
+		}
+		else 
+		{
+			//keine Neuen Signale
+			
+			//Woran lag? Vielleicht daran, dass noch kein aktueller Kurs vorhanden ist?
+			
+			if($item->getLastQuote()->getDate() != $datum)
+			{
+				//LastQoute nicht von heute
+				$noQuotes[] = $item->getCompany();
+			}
+		}
+		
+		$listOutput .= $tr;
+	}
+	
+	if($list instanceof Watchlist)
+	{
+		echo '<h2>'.$list->getName()." ".$this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										'username' => $this->data["user"]->getNickname(),
+										"WID" => $list->getWatchlistId()
+												), "user_watchlist_show"), 
+												$this->image("icon_link_ex.gif", "show")).'</h2>';
+												
+
+	}
+	elseif ($list instanceof Portfolio)
+	{
+		echo '<h2>'.$list->getName()." ".$this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										'username' => $this->data["user"]->getNickname(),
+										"PID" => $list->getPortfolioId()
+												), "user_portfolio_transactions"), 
+												$this->image("icon_link_ex.gif", "show")).'</h2>';
+	}
+	else 
+		echo '<h2>'.$list->getName().'</h2>';	
+			
+	if(!empty($listOutput))
+	{
+		echo $this->mailSendSignalsTable($listOutput);
+	}
+	else 
+	{
+		?>
+		<p>Es gab keine Änderungen der Signale.</p>
+		<?php 
+	}
+	if(count($noQuotes) > 0)
+	{
+	?>
+		<p><small>Zu folgenden Unternehmen liegen keine aktuellen Kursdaten (<?=$this->data["zdate"]->get(Zend_Date::DATES);?>) vor:
+	<?php 
+		foreach ($noQuotes as $company)
+			echo $this->link(
+								$this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $company->getIsin()
+										), "stock"),
+								$company->getName())." ";
+		echo "</small></p>";
+	}
+}
+$indikators = $this->data["user"]->getSignalIndikators();
+
+?>
+<p>
+<small>
+<strong>Verwendete Indikatoren:</strong> 
+SMA(<?=$indikators["SMA"][0]["period"];?>), MACD(<?=$indikators["MACD"][0]["fastEMA"];?>, <?=$indikators["MACD"][0]["slowEMA"];?>, <?=$indikators["MACD"][0]["signalEMA"];?>), 
+STO(<?=$indikators["STO"][0]["k"];?>, <?=$indikators["STO"][0]["d"];?>, <?=$indikators["STO"][0]["type"];?>)
+<br/>
+<strong>Stand:</strong> <?=$this->data["zdate"]->get(Zend_Date::DATES);?>
+</small>
+</p>

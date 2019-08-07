@@ -1,0 +1,28 @@
+<div class="contentContainer">
+<?php 
+if($this->form)
+{
+?>
+<h1><?php echo $this->translate("Feedback");?></h1>
+
+<p class="h2InfoLine"><?php 
+echo $this->translate("Wir sind ständig bemüht, Rule1Tool zu verbessern. Haben Sie Fragen oder Verbesserungsvorschläge oder einen Fehler gefunden? 
+			Schreiben Sie uns einfach kurz eine Nachricht.");?></p>
+
+<?php 
+if($this->messages)
+echo $this->messageBox($this->messages, "input");
+echo $this->clearDiv();
+?>
+
+<?php echo $this->form;?>
+
+<?php 
+}
+else 
+{
+	if($this->messages)
+		echo $this->messageBox($this->messages);
+}
+?>
+</div>

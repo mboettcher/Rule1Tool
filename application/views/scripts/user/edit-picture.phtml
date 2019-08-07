@@ -1,0 +1,36 @@
+
+<?php 
+if($this->form)
+{
+?>
+<h1><?php echo $this->user->getDisplayname().$this->translate("s Profilbild ändern");?></h1>
+
+<?php 
+if($this->mbox)
+{
+	echo $this->messageBox($this->mbox, "input");
+	echo $this->clearDiv();
+}
+?>
+
+<div class="userProfilPictureBox">
+
+<?php echo $this->printUserPicture($this->user, "m");?>
+<center>
+<a href="<?php echo $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "username" => $this->user->getNickname()), "user_edit_picture")?>">
+</a></center>
+</div>
+
+<div class="userProfilUserDataBox">
+	<?php echo $this->form;?>
+</div>
+
+<?php 
+}
+else 
+{
+	if($this->mbox)
+		echo $this->messageBox($this->mbox);
+}
+?>
+

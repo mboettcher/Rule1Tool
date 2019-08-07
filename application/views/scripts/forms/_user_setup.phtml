@@ -1,0 +1,40 @@
+<form action="<?= $this->escape($this->element->getAction()) ?>"
+      method="<?= $this->escape($this->element->getMethod()) ?>" class="modernForm">
+      
+<div class="userRegisterTable">
+
+<div class="td1">
+	<div class="head"><span class="headline"><?=$this->translate("Aktuelle E-Mail-Adresse");?></span></div>
+	<div class="body"><?=$this->element->email; ?></div>
+</div>
+
+<div class="td2">
+	<div class="head"><span class="headline"><?=$this->translate("Kennwort");?></span> <span class="note"><?=$this->translate("(6–32 Zeichen)");?></span></div>
+	<div class="body"><?=$this->element->password; ?></div>
+</div>
+
+
+<div class="td2">
+	<div class="head"><span class="headline"><?=$this->translate("Kennwort erneut eingeben");?></span></div>
+	<div class="body"><?=$this->element->password_confirm; ?></div>
+</div>
+
+<div class="td1And2">
+	<div class="head"><?=$this->element->newsletter; ?> <?=$this->translate("Bitte informieren Sie mich über Updates von Rule1Tool.");?></div>
+</div>
+</div>
+
+<div class="userRegisterTable">
+
+<h2>Indikatoren-Einstellungen</h2>
+<div class="td1And2">
+	<div class="head"><span class="headline"><?=$this->translate("Indikator SMA");?></span></div>
+	<div class="body"><?=$this->element->indikator_sma; ?></div>
+</div>
+
+</div>
+
+<?=$this->element->submit; ?>
+<?=$this->element->reset; ?>
+
+</form>

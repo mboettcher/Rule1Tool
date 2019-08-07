@@ -1,0 +1,302 @@
+<div class="analysis_show kennzahlen">
+  <div class="cap top"><div class="left"></div><div class="right"></div></div>
+<table cellspacing="0">
+  <tr>
+    <th colspan='2'></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 0, false); ?></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 1, false); ?></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 2, false); ?></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 3, false); ?></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 4, false); ?></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 5, false); ?></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 6, false); ?></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 7, false); ?></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 8, false); ?></th>
+    <th class="jahreszahl"><?=$this->analysis->getDataNumber("year", 9, false); ?></th>
+  </tr>
+  
+  <tr>
+    <th colspan='12' class="headline">Return on Investment Capital (ROIC) / Kapitalrendite</th>
+  </tr>
+  <tr>
+    <th colspan='2'>ROIC (Gewinn / (Eigenkapital + Verbindlichkeiten) * 100</th>
+    <td><?=$this->analysis->getDataNumber("roic", 0); ?></td>
+    <td><?=$this->analysis->getDataNumber("roic", 1); ?></td>
+    <td><?=$this->analysis->getDataNumber("roic", 2); ?></td>
+    <td><?=$this->analysis->getDataNumber("roic", 3); ?></td>
+    <td><?=$this->analysis->getDataNumber("roic", 4); ?></td>
+    <td><?=$this->analysis->getDataNumber("roic", 5); ?></td>
+    <td><?=$this->analysis->getDataNumber("roic", 6); ?></td>
+    <td><?=$this->analysis->getDataNumber("roic", 7); ?></td>
+    <td><?=$this->analysis->getDataNumber("roic", 8); ?></td>
+    <td><?=$this->analysis->getDataNumber("roic", 9); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Gewinn nach Steuern</th>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 0); ?></td>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 1); ?></td>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 2); ?></td>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 3); ?></td>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 4); ?></td>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 5); ?></td>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 6); ?></td>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 7); ?></td>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 8); ?></td>
+    <td><?=$this->analysis->getDataNumber("income_after_tax", 9); ?></td>
+  </tr>
+    <tr>
+    <td></td>
+    <th>Eigenkapital</th>
+    <td><?=$this->analysis->getDataNumber("equity", 0); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 1); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 2); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 3); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 4); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 5); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 6); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 7); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 8); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 9); ?></td>
+  </tr>
+  <tr>
+    <td></td>
+    <th>Langfristige Verbindlichkeiten</th>
+    <td><?=$this->analysis->getDataNumber("depts", 0); ?></td>
+    <td><?=$this->analysis->getDataNumber("depts", 1); ?></td>
+    <td><?=$this->analysis->getDataNumber("depts", 2); ?></td>
+    <td><?=$this->analysis->getDataNumber("depts", 3); ?></td>
+    <td><?=$this->analysis->getDataNumber("depts", 4); ?></td>
+    <td><?=$this->analysis->getDataNumber("depts", 5); ?></td>
+    <td><?=$this->analysis->getDataNumber("depts", 6); ?></td>
+    <td><?=$this->analysis->getDataNumber("depts", 7); ?></td>
+    <td><?=$this->analysis->getDataNumber("depts", 8); ?></td>
+    <td><?=$this->analysis->getDataNumber("depts", 9); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 10 Jahre</th>
+    <td colspan='10' class="avg"><?=$this->printNA($this->analysis->getDataAverage("roic", 10)); ?></td>
+  </tr>
+  <tr>
+    <td></td>
+    <th>Durchschnitt 5 Jahre</th>
+    <td colspan='5' class="avg"><?=$this->printNA($this->analysis->getDataAverage("roic", 5)); ?></td>
+  </tr>
+  <tr>
+    <td></td>
+    <th>Durchschnitt 1 Jahr</th>
+    <td class="avg"><?=$this->printNA($this->analysis->getDataAverage("roic", 1)); ?></td>
+  </tr>  
+  
+<tr>
+    <th colspan='12' class="headline">Eigenkapital</th>
+  </tr>
+  <tr>
+    <th colspan='2'>Eigenkapital</th>
+    <td><?=$this->analysis->getDataNumber("equity", 0); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 1); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 2); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 3); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 4); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 5); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 6); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 7); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 8); ?></td>
+    <td><?=$this->analysis->getDataNumber("equity", 9); ?></td>
+  </tr>
+  <tr>
+    <th colspan='2'>Wachstumsrate (in Prozent)</th>
+    <td><?=$this->analysis->getDataRate("equity", 0); ?></td>
+    <td><?=$this->analysis->getDataRate("equity", 1); ?></td>
+    <td><?=$this->analysis->getDataRate("equity", 2); ?></td>
+    <td><?=$this->analysis->getDataRate("equity", 3); ?></td>
+    <td><?=$this->analysis->getDataRate("equity", 4); ?></td>
+    <td><?=$this->analysis->getDataRate("equity", 5); ?></td>
+    <td><?=$this->analysis->getDataRate("equity", 6); ?></td>
+    <td><?=$this->analysis->getDataRate("equity", 7); ?></td>
+    <td><?=$this->analysis->getDataRate("equity", 8); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 9 Jahre</th>
+    <td colspan='9' class="avg"><?=$this->printNA($this->analysis->getDataAverage("equity",9)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 5 Jahre</th>
+    <td colspan='5' class="avg"><?=$this->printNA($this->analysis->getDataAverage("equity",5)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 1 Jahr</th>
+    <td class="avg"><?=$this->printNA($this->analysis->getDataAverage("equity",1)); ?></td>
+  </tr> 
+  
+<tr>
+    <th colspan='12' class="headline">Gewinn pro Aktie / Earning per Share (EPS)</th>
+  </tr>
+  <tr>
+    <th colspan='2'>EPS</th>
+    <td><?=$this->analysis->getDataNumber("eps", 0); ?></td>
+    <td><?=$this->analysis->getDataNumber("eps", 1); ?></td>
+    <td><?=$this->analysis->getDataNumber("eps", 2); ?></td>
+    <td><?=$this->analysis->getDataNumber("eps", 3); ?></td>
+    <td><?=$this->analysis->getDataNumber("eps", 4); ?></td>
+    <td><?=$this->analysis->getDataNumber("eps", 5); ?></td>
+    <td><?=$this->analysis->getDataNumber("eps", 6); ?></td>
+    <td><?=$this->analysis->getDataNumber("eps", 7); ?></td>
+    <td><?=$this->analysis->getDataNumber("eps", 8); ?></td>
+    <td><?=$this->analysis->getDataNumber("eps", 9); ?></td>
+  </tr>
+  <tr>
+    <th colspan='2'>Wachstumsrate (in Prozent)</th>
+    <td><?=$this->analysis->getDataRate("eps", 0); ?></td>
+    <td><?=$this->analysis->getDataRate("eps", 1); ?></td>
+    <td><?=$this->analysis->getDataRate("eps", 2); ?></td>
+    <td><?=$this->analysis->getDataRate("eps", 3); ?></td>
+    <td><?=$this->analysis->getDataRate("eps", 4); ?></td>
+    <td><?=$this->analysis->getDataRate("eps", 5); ?></td>
+    <td><?=$this->analysis->getDataRate("eps", 6); ?></td>
+    <td><?=$this->analysis->getDataRate("eps", 7); ?></td>
+    <td><?=$this->analysis->getDataRate("eps", 8); ?></td>
+  </tr>  
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 9 Jahre</th>
+    <td colspan='9' class="avg"><?=$this->printNA($this->analysis->getDataAverage("eps",9)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 5 Jahre</th>
+    <td colspan='5' class="avg"><?=$this->printNA($this->analysis->getDataAverage("eps",5)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 1 Jahr</th>
+    <td class="avg"><?=$this->printNA($this->analysis->getDataAverage("eps",1)); ?></td>
+  </tr>  
+
+<tr>
+    <th colspan='12' class="headline">Umsatz</th>
+  </tr>
+
+  <tr>
+    <th colspan='2'>Umsatz</th>
+    <td><?=$this->analysis->getDataNumber("revenue", 0); ?></td>
+    <td><?=$this->analysis->getDataNumber("revenue", 1); ?></td>
+    <td><?=$this->analysis->getDataNumber("revenue", 2); ?></td>
+    <td><?=$this->analysis->getDataNumber("revenue", 3); ?></td>
+    <td><?=$this->analysis->getDataNumber("revenue", 4); ?></td>
+    <td><?=$this->analysis->getDataNumber("revenue", 5); ?></td>
+    <td><?=$this->analysis->getDataNumber("revenue", 6); ?></td>
+    <td><?=$this->analysis->getDataNumber("revenue", 7); ?></td>
+    <td><?=$this->analysis->getDataNumber("revenue", 8); ?></td>
+    <td><?=$this->analysis->getDataNumber("revenue", 9); ?></td>
+  </tr>
+  <tr>
+    <th colspan='2'>Wachstumsrate (in Prozent)</th>
+    <td><?=$this->analysis->getDataRate("revenue", 0); ?></td>
+    <td><?=$this->analysis->getDataRate("revenue", 1); ?></td>
+    <td><?=$this->analysis->getDataRate("revenue", 2); ?></td>
+    <td><?=$this->analysis->getDataRate("revenue", 3); ?></td>
+    <td><?=$this->analysis->getDataRate("revenue", 4); ?></td>
+    <td><?=$this->analysis->getDataRate("revenue", 5); ?></td>
+    <td><?=$this->analysis->getDataRate("revenue", 6); ?></td>
+    <td><?=$this->analysis->getDataRate("revenue", 7); ?></td>
+    <td><?=$this->analysis->getDataRate("revenue", 8); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 9 Jahre</th>
+    <td colspan='9' class="avg"><?=$this->printNA($this->analysis->getDataAverage("revenue",9)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 5 Jahre</th>
+    <td colspan='5' class="avg"><?=$this->printNA($this->analysis->getDataAverage("revenue",5)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 1 Jahr</th>
+    <td class="avg"><?=$this->printNA($this->analysis->getDataAverage("revenue",1)); ?></td>
+  </tr>  
+<tr>
+    <th colspan='12' class="headline">Cashflow</th>
+  </tr>
+  <tr>
+    <th colspan='2'>Cashflow</th>
+    <td><?=$this->analysis->getDataNumber("cashflow", 0); ?></td>
+    <td><?=$this->analysis->getDataNumber("cashflow", 1); ?></td>
+    <td><?=$this->analysis->getDataNumber("cashflow", 2); ?></td>
+    <td><?=$this->analysis->getDataNumber("cashflow", 3); ?></td>
+    <td><?=$this->analysis->getDataNumber("cashflow", 4); ?></td>
+    <td><?=$this->analysis->getDataNumber("cashflow", 5); ?></td>
+    <td><?=$this->analysis->getDataNumber("cashflow", 6); ?></td>
+    <td><?=$this->analysis->getDataNumber("cashflow", 7); ?></td>
+    <td><?=$this->analysis->getDataNumber("cashflow", 8); ?></td>
+    <td><?=$this->analysis->getDataNumber("cashflow", 9); ?></td>
+  </tr>
+  <tr>
+    <th colspan='2'>Wachstumsrate (in Prozent)</th>
+    <td><?=$this->analysis->getDataRate("cashflow", 0); ?></td>
+    <td><?=$this->analysis->getDataRate("cashflow", 1); ?></td>
+    <td><?=$this->analysis->getDataRate("cashflow", 2); ?></td>
+    <td><?=$this->analysis->getDataRate("cashflow", 3); ?></td>
+    <td><?=$this->analysis->getDataRate("cashflow", 4); ?></td>
+    <td><?=$this->analysis->getDataRate("cashflow", 5); ?></td>
+    <td><?=$this->analysis->getDataRate("cashflow", 6); ?></td>
+    <td><?=$this->analysis->getDataRate("cashflow", 7); ?></td>
+    <td><?=$this->analysis->getDataRate("cashflow", 8); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 9 Jahre</th>
+    <td colspan='9' class="avg"><?=$this->printNA($this->analysis->getDataAverage("cashflow",9)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 5 Jahre</th>
+    <td colspan='5' class="avg"><?=$this->printNA($this->analysis->getDataAverage("cashflow",5)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 1 Jahr</th>
+    <td class="avg"><?=$this->printNA($this->analysis->getDataAverage("cashflow",1)); ?></td>
+  </tr>  
+
+<tr>
+    <th colspan='12' class="headline">KGV</th>
+  </tr>
+  <tr>
+    <th colspan='2'>KGV</th>
+    <td><?=$this->analysis->getDataNumber("kgv", 0); ?></td>
+    <td><?=$this->analysis->getDataNumber("kgv", 1); ?></td>
+    <td><?=$this->analysis->getDataNumber("kgv", 2); ?></td>
+    <td><?=$this->analysis->getDataNumber("kgv", 3); ?></td>
+    <td><?=$this->analysis->getDataNumber("kgv", 4); ?></td>
+    <td><?=$this->analysis->getDataNumber("kgv", 5); ?></td>
+    <td><?=$this->analysis->getDataNumber("kgv", 6); ?></td>
+    <td><?=$this->analysis->getDataNumber("kgv", 7); ?></td>
+    <td><?=$this->analysis->getDataNumber("kgv", 8); ?></td>
+    <td><?=$this->analysis->getDataNumber("kgv", 9); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 10 Jahre</th>
+    <td colspan='10' class="avg"><?=$this->printNA($this->analysis->getDataAverage("kgv",10)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 5 Jahre</th>
+    <td colspan='5' class="avg"><?=$this->printNA($this->analysis->getDataAverage("kgv",5)); ?></td>
+  </tr>
+  <tr>
+  	<td></td>
+    <th>Durchschnitt 1 Jahr</th>
+    <td class="avg"><?=$this->printNA($this->analysis->getDataAverage("kgv",1)); ?></td>
+  </tr> 
+
+</table>
+<div class="cap bottom"><div class="left"></div><div class="right"></div></div>
+</div>

@@ -1,0 +1,19 @@
+#wcontainer {
+	width:959px;
+	margin: 0 auto;
+}
+#wsite_container{
+	background-image: url(../images/logo.png);
+	background-repeat:no-repeat;
+	background-position:20px 90px;
+	float:left;
+	width:791px;
+	height:185px;
+}
+
+#wcontainer_content{
+	clear:both;
+	margin: 0 auto;
+	width:402px;
+	height:277px;
+}

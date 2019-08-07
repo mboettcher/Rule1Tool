@@ -1,0 +1,11 @@
+<div class="contentContainer">
+<h1><?php echo $this->translate("Einladung senden");?></h1>
+<p class="h2InfoLine"><?php echo $this->translate("Lassen Sie auch Ihre Freunde und Bekannte von Rule1Tool profitieren und versenden Sie jetzt Einladungen! Mit dem in der Einladungs-E-Mail enthaltenen Einladungsschlüssel können sich auch Ihre Freunde und Bekannte bei Rule1Tool registrieren.");?></p>
+<p><?php echo $this->translate("Sie haben %1\$s Einladung übrig.", Zend_Registry::get("UserObject")->getInvitations());?></p>
+<?php 
+if($this->mbox)
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+?>
+<?php echo $this->form;?>
+</div>

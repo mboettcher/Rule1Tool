@@ -1,0 +1,58 @@
+
+<?php echo $this->doctype(); ?>
+
+<head>
+	<meta name="robots" content="noindex, nofollow" />	
+	
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="verify-v1" content="wIRJjPh9cxaFP7vxhN1gwbPPKB5VWhaar52gT7SSKVY=" />
+	
+	<link rel="stylesheet" href="<?php echo $this->baseUrlShort();?>/public/minify/?g=webcss&147" type="text/css" media="screen, projection" />
+
+			
+    <link rel="shortcut icon" type="image/png" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_32.png" />
+    <link rel="icon" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_32.png" sizes="32x32"/>
+	<link rel="icon" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_64.png" sizes="64x64"/>	
+	
+	<script type="text/javascript">var baseUrlShort = "<?php echo $this->baseUrlShort();?>";</script>	
+	<script type="text/javascript">var baseUrl = "<?php echo $this->baseUrl();?>";</script>
+	<script type="text/javascript">var layoutEnviroment = "standard";</script>
+	<script type="text/javascript">var tb_pathToImage = "<?php echo $this->baseUrlShort();?>/public/images/loadingAnimation.gif";</script>
+
+	<script type="text/javascript" src="<?php echo $this->baseUrlShort();?>/public/minify/?g=jquerybase&147"></script>
+		
+	<?= $this->headTitle() ?>
+	<?= $this->headMeta(); ?>
+    <?= $this->headScript() ?>
+    <?= $this->headStyle() ?>
+</head>
+<body class="framedBody">
+<div id="framedContainer">
+	<?php echo $this->layout()->content;?>
+</div>
+<div id="rule1Loading"><p>loading...</p></div>
+
+<script type="text/javascript" src="<?php echo $this->baseUrlShort();?>/public/minify/?g=webjs&150"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+
+
+<?php 
+if(Zend_Registry::get('systemtype') == "live" && Zend_Registry::get("UserObject")->getRole() !== "admin")
+{
+	?>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-404043-6");
+pageTracker._trackPageview();
+} catch(err) {}</script>	
+	
+	<?php
+}
+?>	
+</body>
+</html>

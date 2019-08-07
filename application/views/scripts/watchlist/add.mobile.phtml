@@ -1,0 +1,8 @@
+<div class="contentContainer">
+<?php
+if($this->messages)
+	echo $this->messageBox($this->messages, "input");
+if($this->form)
+	echo $this->form;
+?>
+</div>

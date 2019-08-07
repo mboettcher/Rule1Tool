@@ -1,0 +1,26 @@
+<div class="contentContainer">
+<?php 
+if($this->form)
+{
+?>
+<h1><?php echo $this->translate("Registrierung");?></h1>
+
+<p class="h2InfoLine"><?php echo $this->translate("Melden Sie sich jetzt kostenlos bei Rule1Tool an, und erleben Sie wie einfach Sie mehr aus Ihrem Geld machen können.");?></p>
+
+<?php 
+if($this->mbox)
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+?>
+
+<?php echo $this->form;?>
+
+<?php 
+}
+else 
+{
+	if($this->mbox)
+		echo $this->messageBox($this->mbox);
+}
+?>
+</div>

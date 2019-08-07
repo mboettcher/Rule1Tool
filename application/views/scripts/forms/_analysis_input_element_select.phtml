@@ -1,0 +1,12 @@
+
+	<td><?= $this->formLabel($this->element->getName(),
+                         $this->element->getLabel()); ?>
+        <p><span class="note small"><?= $this->element->getDescription() ?></span></p>
+                         </td>
+	<td><?= $this->{$this->element->helper}(
+        $this->element->getFullyQualifiedName(),
+        $this->element->getValue(),
+        $this->element->getAttribs(),
+        $this->element->getMultiOptions()
+    ) ?>
+    <?if($errors = $this->element->getMessages()) echo $this->formErrors($errors) ?></td>

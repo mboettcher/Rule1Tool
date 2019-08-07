@@ -1,0 +1,29 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	var max = 0;
+	var maxEle = null;
+    $("dt").each(function(){
+        if ($(this).width() > max)
+        {
+            max = $(this).width();
+			maxEle = this;
+        }
+    });
+    $("dt").not(maxEle).width(max);
+	
+	
+});
+</script>
+	
+<h1><?php echo $this->translate("Depot anlegen");?></h1>
+<p class="h2InfoLine">
+<?php 
+echo $this->translate("Legen Sie hier ein eigenes Depot an, das entweder als Ebenbild Ihres Depots bei Ihrer Bank oder als Paper-Trading-Depot dienen kann. Dabei ist Ihr Depot ausschließlich für Sie selbst sichtbar, andere Mitglieder haben keinen Zugriff.");
+?></p>
+<?php 
+if($this->mbox)
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+?>
+<?php echo $this->form;?>

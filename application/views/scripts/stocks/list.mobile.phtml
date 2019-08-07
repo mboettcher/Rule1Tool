@@ -1,0 +1,126 @@
+<div class="contentContainer">
+<div style="text-align:center;">
+<?php 
+
+$alphabet = array(
+"a" => "A",
+"b" => "B",
+"c" => "C",
+"d" => "D",
+"e" => "E",
+"f" => "F",
+"g" => "G",
+"h" => "H",
+"i" => "I",
+"j" => "J",
+"k" => "K",
+"l" => "L",
+"m" => "M",
+"n" => "N",
+"o" => "O",
+"p" => "P",
+"q" => "Q",
+"r" => "R",
+"s" => "S",
+"t" => "T",
+"u" => "U",
+"v" => "V",
+"w" => "W",
+"x" => "X",
+"y" => "Y",
+"z" => "Z",
+);
+
+foreach ($alphabet as $key => $value)
+{
+	echo "<span>".$this->link($this->url(array('needle' => $key,
+												"alpha" => true, 
+												"language" => Zend_Registry::get('Zend_Locale')->getLanguage())
+										, 'stocksearch'), $value)."</span> ";
+}
+?>
+
+</div>
+<table cellspacing=0 width="100%" class="stocksOverviewTable">
+<thead>
+<tr>
+	<td><?php echo $this->translate("Name");?></td>
+	<td><?php echo $this->translate("Kurs");?></td>
+	<td><?php echo $this->translate("Änderung");?></td>
+</tr>
+</thead>
+<tbody>
+<?
+
+if (count($this->paginator))
+{
+	foreach($this->paginator as $item)
+	{
+		$url = $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "isin" => $item->getIsin()), "stock");
+		echo '<tr>
+				<td>'.$this->link(
+								$this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $item->getIsin()
+										), "stock"),
+								$item->getName())
+				.' <small>'.$this->link(
+								$this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $item->getIsin()
+										), "stock"),
+								$item->getIsin())
+				.'</small></td>';
+				
+				
+		if($item->getQuotes($item->getMainMarketId()))
+		{
+			if($item->getQuotes($item->getMainMarketId())->getLastQuote()->getClose() !== null)
+			{
+				if($item->getQuotes($item->getMainMarketId())->getLastQuote()->getChange() >= 0)
+					$class = "greenChange";
+				else 	
+					$class = "redChange";
+				
+				echo	'<td>'.$item->getQuotes($item->getMainMarketId())->getLastQuote()->getClose(true);
+				if($item->isStock()) 
+				{
+					echo ' '
+						.$item->getQuotes($item->getMainMarketId())->getMarket()->getCurrency();
+				}
+				echo '</td>';
+				echo '<td class="change '.$class.'">'.$item->getQuotes($item->getMainMarketId())->getLastQuote()->getChange(true).' %</td>';				
+			}		
+			else
+			{
+				echo	'<td>n/a</td>'
+					.'<td>n/a</td>';
+			}
+		}
+		else
+		{
+			echo	'<td>n/a</td>'
+				.'<td>n/a</td>';
+		}		
+
+				
+
+		
+
+			
+		echo '</tr>';
+	}
+
+
+}
+
+?>
+</tbody>
+</table>
+<?
+
+echo $this->paginationControl($this->paginator,
+	                             'Sliding',
+	                             "paginator.phtml");
+?>
+</div>

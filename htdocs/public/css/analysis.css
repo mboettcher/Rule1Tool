@@ -1,0 +1,257 @@
+#analysis_head_analysisauswahl {
+	float:left; 
+	width:302px;
+	height:106px;
+	border:1px solid #b9b9b9;
+	overflow-y:scroll;
+	overflow-x:hidden;
+}
+#analysis_head_analysisauswahl table tr{
+	background-color:#ffffff;
+}
+#analysis_head_analysisauswahl table td{
+	padding:2px;
+	padding-left:4px;
+}
+#analysis_head_analysisauswahl table td.star{
+	padding:0px;
+	padding-right:4px;
+	width:17px;
+	background-repeat:no-repeat;
+	background-position:0px 0px;
+}
+#analysis_head_analysisauswahl table td.star.off{
+	background-image: url(../images/star_small_off.png);
+}
+#analysis_head_analysisauswahl table td.star.on{
+	background-image: url(../images/star_small_on.png);
+}
+#analysis_head_analysisauswahl table tr:hover{
+	background-color:#f4f4f4;
+	cursor:pointer;
+}
+#analysis_head_analysisauswahl table tr.active{
+	background-color:#f4f4f4;
+}
+#analysis_head_analysisdetails {
+	float:left;
+	width:301px;
+	height:106px;
+	border:1px solid #b9b9b9;
+	background-color:#f4f4f4;
+	overflow:hidden;
+}
+#analysis_head_details_description{
+	float:left;
+	width:216px;
+	height:58px;
+	background-color:#ffffff;
+	border:1px solid #b9b9b9;
+	margin-left:4px;
+	margin-top:4px;
+	overflow:auto;
+	padding:2px;
+	white-space:pre;
+}
+#analysis_head_details_dates{
+	float:left;
+	width:146px;
+	height:30px;
+	margin-left:4px;
+	margin-top:4px;
+}
+#analysis_head_details_dates p{
+	margin:0px;
+}
+#analysis_head_pfeil {
+	margin-left:4px;
+	margin-right:4px;
+	margin-top:1px;
+	width:26px;
+	height:104px;
+	float:left;
+}
+.analysis_show {margin-top:5px; margin-bottom:5px;}
+.analysis_show table td, th{
+	padding: 5px;
+	text-align: center;
+	background-color:#fff; /* hack für Safari, da sonst highlight nicht geht */
+}
+.analysis_show table .active{
+	background-color:#ffa200;
+	font-weight:bold;
+}
+.analysis_show table .headline{
+	font-weight:bold;
+	background-color:#f4f4f4;
+	border-bottom: 1px solid #b9b9b9;
+	text-align: left;
+}
+.analysis_show table .headline.topborder{
+	border-top: 1px solid #b9b9b9;
+}
+.analysis_show table .topborder{
+	border-top: 1px solid #b9b9b9;
+}
+.analysis_show table .leftborder{
+	border-left: 1px solid #b9b9b9;
+}
+.analysis_show table .number{
+	
+}
+.analysis_show table {
+	background-color:#fff;
+	border-spacing:0px;
+	border-collapse: separate;
+	border: 1px solid #b9b9b9;
+}
+
+/* MOS */
+.mos{ 
+	width:350px;
+	margin-left:60px;
+	clear:left;
+	 float:left;
+}
+.mos table {width:350px;}
+.mos table td{text-align: left;}
+.mos table .number{	border-left: 1px solid #b9b9b9; text-align: right;}
+.mos .cap {width:350px;}
+.mos h3{margin-bottom:5px;margin-left:4px;}
+
+/* Payback Time */
+.paybacktime{ 
+	width:250px;
+	margin-left:20px;
+	float:left;
+}
+.paybacktime table {width:250px;}
+.paybacktime table td{text-align: left;}
+.paybacktime table .number{	border-left: 1px solid #b9b9b9; text-align: right;}
+.paybacktime .cap {width:250px;}
+.paybacktime h3{margin-bottom:5px;margin-left:4px;}
+
+/* Future EPS */
+.future_eps {width:285px; float:left; margin-left:10px;}
+.future_eps .cap {width:285px;}
+.future_eps table {width:285px;}
+.future_eps table td{text-align: left;}
+.future_eps table .number{border-left: 1px solid #b9b9b9; text-align: right;}
+
+/* Future KGV */
+.future_kgv {width:450px; float:left;}
+.future_kgv .cap {width:450px;}
+.future_kgv table {width:450px;}
+.future_kgv table .number{ text-align:center;	}
+
+/* historical_growth */
+.additionalkeydatas {width:285px; float:left; margin-left:10px;}
+.additionalkeydatas .cap {width:285px;}
+.additionalkeydatas table {width:285px;}
+.additionalkeydatas table .number{ text-align:center;}
+
+
+/* rule1growth */
+.rule1growth {width:450px; float:left;}
+.rule1growth .cap {width:450px;}
+.rule1growth table {width:450px;}
+
+
+/* kennzahlen */
+.kennzahlen {width:745px; float:left;}
+.kennzahlen .cap {width:745px;}
+.kennzahlen table {width:745px; float:left;}
+.kennzahlen table .number{ text-align: right;	}
+.kennzahlen table .headline{
+	text-align:center;
+	border-top: 1px solid #b9b9b9;
+}
+.kennzahlen table td{
+	text-align: right;
+}
+.kennzahlen table td.avg{
+	text-align: center;
+	background-color:#f4f4f4;
+}
+.kennzahlen table th{
+	text-align: left;
+}
+.kennzahlen table .jahreszahl{text-align: right;}
+
+#analysis_calculation .highlight{
+background-color: #ff00ff;} 
+#analysis_calculation .nonhighlight{background-color: #ffff00;
+} 
+
+/* analysis_input */
+.analysis_input {width:745px; float:left;margin-bottom:5px;}
+.analysis_input .cap {width:745px;}
+.analysis_input table 
+{
+	width:745px;
+	border-left: 1px solid #b9b9b9;
+	border-right: 1px solid #b9b9b9;
+}
+.analysis_input table td
+{
+	padding:5px;
+}
+.analysis_input table tr.odd
+{
+	background-color:#f4f4f4;
+}
+.analysis_input table tr.even
+{
+	background-color:#ffffff;
+}
+.analysis_input table td.headline
+{
+	border-top: 1px solid #b9b9b9;
+	border-bottom: 1px solid #b9b9b9;
+}
+.analysis_input table .lastline td
+{
+	border-bottom: 1px solid #b9b9b9;
+}
+/* KommentarBox */
+.stock_comments.analysis .head3{
+	background-position:0px -20px;
+}
+.stock_comments.analysis{
+	margin-left:140px;
+}
+
+/* Moat / Burggraben */
+#analysis_head_moat {width:315px;float:left; margin:20px 0 0 104px;}
+#analysis_head_moat .cap {width:315px;}
+#analysis_head_moat .head {width:303px;border:1px solid #b9b9b9;background:#f4f4f4;font-weight:bold;padding:5px;}
+#analysis_head_moat .description{width:303px;height:56px;background:#fff; border-left:1px solid #b9b9b9; border-right:1px solid #b9b9b9; border-bottom:1px solid #b9b9b9;padding:5px;	overflow:auto;white-space:pre;}
+
+/* Moat / Burggraben */
+#analysis_head_management {width:316px; float:left; margin:20px 0 0 10px;}
+#analysis_head_management .cap {width:316px;}
+#analysis_head_management .head {width:304px;border:1px solid #b9b9b9;background:#f4f4f4;font-weight:bold;padding:5px;}
+#analysis_head_management .description{width:304px;height:56px;background:#fff; border-left:1px solid #b9b9b9; border-right:1px solid #b9b9b9; border-bottom:1px solid #b9b9b9;padding:5px;	overflow:auto;white-space:pre;}
+
+/* HELP */
+/* analysis_input */
+#analysis_help {width:745px; float:left;margin-bottom:5px;}
+#analysis_help .cap {width:745px;}
+#analysis_help table 
+{
+	width:745px;
+	border: 1px solid #b9b9b9;
+}
+#analysis_help table td
+{
+	padding:5px;
+}
+#analysis_help table th
+{
+	padding:5px;
+	text-align:left;
+	font-weight:normal;
+	background:#f4f4f4;
+
+}
+#analysis_help table thead {background:#f4f4f4;font-weight:bold;padding:5px;}

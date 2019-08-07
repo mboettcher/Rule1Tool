@@ -1,0 +1,73 @@
+<form action="<?= $this->escape($this->element->getAction()) ?>"
+      method="<?= $this->escape($this->element->getMethod()) ?>">
+      
+<div class="userRegisterTable modernForm depotTradeAdd">
+<?=$this->element->type; ?>
+
+<?php 
+if($this->element->portfolio_id->helper != "formHidden")
+{
+?>
+<div class="td1And2">
+	<div class="head"><span class="headline"><?=$this->translate("Depot auswählen");?></span></div>
+	<div class="body"><?=$this->element->portfolio_id; ?></div>
+</div>
+<?php 
+}
+else 
+{
+	?>
+	<?=$this->element->portfolio_id; ?>
+	<?php 
+}
+?>
+
+
+<div class="td1And2">
+	<div class="head"><span class="headline"><?=$this->translate("Unternehmen auswählen");?></span></div>
+	<div class="body"><?=$this->element->company_id; ?></div>
+</div>
+
+<div class="td1">
+	<div class="head"><span class="headline"><?=$this->translate("Kurs");?></span> <span class="currency small note"></span></div>
+	<div class="body"><?=$this->element->price; ?></div>
+</div>
+
+<div class="td2">
+	<div class="head"><span class="headline"><?=$this->translate("Stückzahl");?></span></div>
+	<div class="body"><?=$this->element->anzahl; ?></div>
+</div>
+<div class="td1">
+	<div class="head" style="white-space:nowrap;"><span class="headline"><?=$this->translate("Gebühren");?></span> <span class="currency small note"></span></div>
+	<div class="body"><?=$this->element->gebuehren; ?></div>
+</div>
+<div class="td2">
+	<div class="head"><span class="headline"><?=$this->translate("Typ");?></span></div>
+	<?php 
+	if($this->element->type->getValue() != "dividende")
+	{
+	?>
+		<div class="body"><div class="buysell buy">BUY</div><div class="buysell sell">SELL</div></div>
+	<?php 
+	}
+	else 
+	{
+	?>
+		<div class="body"><div class="buysell dividende">DIVIDENDE</div></div>
+	<?php 
+	}
+	?>
+</div>
+<div class="td1And2">
+	<div class="head"><span class="headline"><?=$this->translate("Datum / Uhrzeit");?></span></div>
+	<div class="body"><?=$this->element->date; ?> <?=$this->element->time; ?></div>
+</div>
+
+</div>
+  
+<div class="depotFormSubmit">
+<?=$this->element->submit; ?>
+<?=$this->element->reset; ?>
+</div>
+
+</form>

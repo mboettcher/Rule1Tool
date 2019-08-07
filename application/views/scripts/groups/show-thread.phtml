@@ -1,0 +1,32 @@
+<?php		
+if($this->messages)
+	echo $this->messageBox($this->messages);
+if($this->thread)
+{
+	?>
+	
+	<h1><?php echo $this->thread->getTitle();?></h1>
+	
+	<?php 
+		?>
+<!-- PRE -->
+	<?php 
+	if (count($this->paginator))
+	{
+
+		foreach($this->paginator as $item)
+		{
+			echo '<div>'
+				
+					.$item->getWriter()->getDisplayname().': '
+					.$item->getText()
+			
+				.'</div>';
+		}
+
+	}	
+	?>
+<!-- AFTER -->	
+	<?php
+}
+?>		

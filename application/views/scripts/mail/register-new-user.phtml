@@ -1,0 +1,14 @@
+<h1 style="font-size:1.5em;
+	line-height:1.8em;
+	margin:0px;"><?php echo $this->translate("Herzlich Willkommen %1\$s", $this->data["nickname"], Zend_Registry::get('Zend_Locale'));?></h1>
+<p style="font-size:1.2em;
+	line-height:1.6em;
+	margin:0px 0px 8px;"><?php echo $this->translate("Schön, dass Sie sich bei Rule1Tool angemeldet haben. Um Ihre Anmeldung abzuschließen und Ihren Account zu aktivieren, müssen Sie noch auf den unten angegebenen Link klicken.");?>
+</p>
+<p style="margin:0px 0px 5px;">
+<?php echo $this->translate("Account aktivieren:");?><br/>
+<a href="<?php echo "http://".$_SERVER["SERVER_NAME"].$this->url(array("UID" => $this->data["user_id"], "ActKey" => $this->data["activationkey"],"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "user_activate");?>
+"><?php echo "http://".$_SERVER["SERVER_NAME"].$this->url(array("UID" => $this->data["user_id"], "ActKey" => $this->data["activationkey"],"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "user_activate");?></a>
+</p>
+<p style="margin:10px 0px 5px;"><?php echo $this->translate("Ihr Rule1Tool Team");?>
+</p>

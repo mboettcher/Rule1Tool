@@ -1,0 +1,8 @@
+<?php 
+$zdate = new Zend_Date($this->date, Zend_Date::ISO_8601);
+
+?>
+<div id="homeNewsFeed<?php echo $this->number;?>" class="homeNewsFeed">
+<h2><?php echo $this->title;?></h2>
+<p><small><?php echo $zdate->get(Zend_Date::DATES); ?>:</small> <?php echo $this->text;?></p>
+</div>

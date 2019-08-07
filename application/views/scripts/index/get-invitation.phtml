@@ -1,0 +1,13 @@
+<h1><?php echo $this->translate("Für einen Einladungsschlüssel registrieren");?></h1>
+<p class="h2InfoLine"><?php echo $this->translate("Tragen Sie sich jetzt für einen Einladungsschlüssel ein, um schon bald auch Mitglied bei Rule1Tool zu werden.");?></p>
+<?php 
+if($this->mbox)
+{
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+}
+?>
+<?php
+if($this->form)
+echo $this->form;
+?>

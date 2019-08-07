@@ -1,0 +1,15 @@
+<?php
+
+if(Zend_Registry::get('Zend_Auth')->hasIdentity())
+{
+	echo $this->translate("Hallo %1\$s.", Zend_Registry::get("UserObject")->getDisplayName())." "."<a href=\"".$this->baseUrl()."/auth/logout\">".$this->translate("Abmelden")."</a>";
+}
+else
+{
+	echo "<a href=\"".$this->baseUrl()."/auth/login\">".$this->translate("Anmelden")."</a>";
+	
+	echo " | ";
+	echo $this->link(
+					$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "user_register"), $this->translate("Registrieren"));
+	
+}

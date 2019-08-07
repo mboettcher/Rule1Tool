@@ -1,0 +1,163 @@
+<form action="<?= $this->escape($this->element->getAction()) ?>"
+      method="<?= $this->escape($this->element->getMethod()) ?>">
+
+<div class="analysis_input">
+<?=Zend_Registry::get("Zend_View")->capTop();?>
+<?=$this->element->basicdata->company_id; ?><?=$this->element->basicdata->analysis_id; ?>
+	<table cellspacing="0">
+	<thead><tr class="odd"><td class="headline" colspan=2><?=$this->translate("Allgemein"); ?></td></tr></thead>
+	<tbody>
+		
+	<tr class="even"><?=$this->element->basicdata->note; ?>
+					
+	
+	</tr>
+	<tr class="odd"><?=$this->element->basicdata->management; ?></tr>
+	<tr class="even"><?=$this->element->basicdata->moat; ?></tr>
+	
+	<tr class="odd"><?=$this->element->basicdata->currency; ?></tr>
+	<tr class="even"><?=$this->element->basicdata->analysts_estimated_growth; ?></tr>
+	<tr class="odd"><?=$this->element->basicdata->current_eps; ?></tr>
+	<tr class="even"><?=$this->element->basicdata->my_estimated_growth; ?></tr>
+	<tr class="odd"><?=$this->element->basicdata->my_future_kgv; ?></tr>
+	<tr class="even"><?=$this->element->basicdata->private; ?></tr>
+	</tbody>
+
+	</table>
+	
+	<table cellspacing="0">
+	<thead>
+	<tr><td colspan=11> </td></tr>
+		<tr class="odd">
+			<td class="headline" colspan=11><?=$this->translate("Jahresdaten"); ?></td>
+		</tr>
+		<tr>
+			<td align="center" valign="middle">
+<?=$this->element->moveOneYear; ?>
+</td>
+			<td>Jahr 1</td>
+			<td>Jahr 2</td>
+			<td>Jahr 3</td>
+			<td>Jahr 4</td>
+			<td>Jahr 5</td>
+			<td>Jahr 6</td>
+			<td>Jahr 7</td>
+			<td>Jahr 8</td>
+			<td>Jahr 9</td>
+			<td>Jahr 10</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="odd">
+			<td><?=$this->translate("Jahreszahl"); ?></td>
+			<?=$this->element->keydata->a->year; ?>
+			<?=$this->element->keydata->b->year; ?>
+			<?=$this->element->keydata->c->year; ?>
+			<?=$this->element->keydata->d->year; ?>
+			<?=$this->element->keydata->e->year; ?>
+			<?=$this->element->keydata->f->year; ?>
+			<?=$this->element->keydata->g->year; ?>
+			<?=$this->element->keydata->h->year; ?>
+			<?=$this->element->keydata->i->year; ?>
+			<?=$this->element->keydata->j->year; ?>
+		</tr>
+		<tr>
+			<td><?=$this->translate("Ertrag nach Steuern"); ?></td>
+			<?=$this->element->keydata->a->income_after_tax; ?>
+			<?=$this->element->keydata->b->income_after_tax; ?>
+			<?=$this->element->keydata->c->income_after_tax; ?>
+			<?=$this->element->keydata->d->income_after_tax; ?>
+			<?=$this->element->keydata->e->income_after_tax; ?>
+			<?=$this->element->keydata->f->income_after_tax; ?>
+			<?=$this->element->keydata->g->income_after_tax; ?>
+			<?=$this->element->keydata->h->income_after_tax; ?>
+			<?=$this->element->keydata->i->income_after_tax; ?>
+			<?=$this->element->keydata->j->income_after_tax; ?>
+		</tr>
+		<tr class="odd">
+			<td><?=$this->translate("Umsatz"); ?></td>
+			<?=$this->element->keydata->a->revenue; ?>
+			<?=$this->element->keydata->b->revenue; ?>
+			<?=$this->element->keydata->c->revenue; ?>
+			<?=$this->element->keydata->d->revenue; ?>
+			<?=$this->element->keydata->e->revenue; ?>
+			<?=$this->element->keydata->f->revenue; ?>
+			<?=$this->element->keydata->g->revenue; ?>
+			<?=$this->element->keydata->h->revenue; ?>
+			<?=$this->element->keydata->i->revenue; ?>
+			<?=$this->element->keydata->j->revenue; ?>
+		</tr>
+		<tr>
+			<td><?=$this->translate("Eigenkapital"); ?></td>
+			<?=$this->element->keydata->a->equity; ?>
+			<?=$this->element->keydata->b->equity; ?>
+			<?=$this->element->keydata->c->equity; ?>
+			<?=$this->element->keydata->d->equity; ?>
+			<?=$this->element->keydata->e->equity; ?>
+			<?=$this->element->keydata->f->equity; ?>
+			<?=$this->element->keydata->g->equity; ?>
+			<?=$this->element->keydata->h->equity; ?>
+			<?=$this->element->keydata->i->equity; ?>
+			<?=$this->element->keydata->j->equity; ?>
+		</tr>
+		<tr class="odd">
+			<td><?=$this->translate("Earning per Share(EPS)/Ertrag pro Aktie(EPA)"); ?></td>
+			<?=$this->element->keydata->a->eps; ?>
+			<?=$this->element->keydata->b->eps; ?>
+			<?=$this->element->keydata->c->eps; ?>
+			<?=$this->element->keydata->d->eps; ?>
+			<?=$this->element->keydata->e->eps; ?>
+			<?=$this->element->keydata->f->eps; ?>
+			<?=$this->element->keydata->g->eps; ?>
+			<?=$this->element->keydata->h->eps; ?>
+			<?=$this->element->keydata->i->eps; ?>
+			<?=$this->element->keydata->j->eps; ?>
+		</tr>
+		<tr>
+			<td><?=$this->translate("Cashflow"); ?></td>
+			<?=$this->element->keydata->a->cashflow; ?>
+			<?=$this->element->keydata->b->cashflow; ?>
+			<?=$this->element->keydata->c->cashflow; ?>
+			<?=$this->element->keydata->d->cashflow; ?>
+			<?=$this->element->keydata->e->cashflow; ?>
+			<?=$this->element->keydata->f->cashflow; ?>
+			<?=$this->element->keydata->g->cashflow; ?>
+			<?=$this->element->keydata->h->cashflow; ?>
+			<?=$this->element->keydata->i->cashflow; ?>
+			<?=$this->element->keydata->j->cashflow; ?>
+		</tr>
+		<tr class="odd">
+			<td><?=$this->translate("langfristige Verbindlichkeiten"); ?></td>
+			<?=$this->element->keydata->a->depts; ?>
+			<?=$this->element->keydata->b->depts; ?>
+			<?=$this->element->keydata->c->depts; ?>
+			<?=$this->element->keydata->d->depts; ?>
+			<?=$this->element->keydata->e->depts; ?>
+			<?=$this->element->keydata->f->depts; ?>
+			<?=$this->element->keydata->g->depts; ?>
+			<?=$this->element->keydata->h->depts; ?>
+			<?=$this->element->keydata->i->depts; ?>
+			<?=$this->element->keydata->j->depts; ?>
+		</tr>
+		<tr class="lastline">
+			<td><?=$this->translate("KGV"); ?></td>
+			<?=$this->element->keydata->a->kgv; ?>
+			<?=$this->element->keydata->b->kgv; ?>
+			<?=$this->element->keydata->c->kgv; ?>
+			<?=$this->element->keydata->d->kgv; ?>
+			<?=$this->element->keydata->e->kgv; ?>
+			<?=$this->element->keydata->f->kgv; ?>
+			<?=$this->element->keydata->g->kgv; ?>
+			<?=$this->element->keydata->h->kgv; ?>
+			<?=$this->element->keydata->i->kgv; ?>
+			<?=$this->element->keydata->j->kgv; ?>
+		</tr>
+	</tbody>
+	</table>
+	
+<?=Zend_Registry::get("Zend_View")->capBottom();?>
+</div>
+
+<?=$this->element->submit; ?>
+
+</form>

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html>
+<head>
+<meta name="robots" content="noindex, nofollow" />	
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+
+<style>
+body { padding:0px; margin:0px; }
+</style>
+
+<link rel="stylesheet" href="<?php echo $this->baseUrlShort();?>/public/minify/?g=mobilecss&147" type="text/css"/>
+
+<link rel="apple-touch-icon" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_32.png"/>
+<link rel="shortcut icon" type="image/png" href="<?php echo $this->baseUrlShort();?>/public/images/logo_icon_32.png" />
+
+<script type="text/javascript">var baseUrlShort = "<?php echo $this->baseUrlShort();?>";</script>	
+<script type="text/javascript">var baseUrl = "<?php echo $this->baseUrl();?>";</script>
+<script type="text/javascript">var layoutEnviroment = "mobile";</script>
+
+<script type="text/javascript" src="<?php echo $this->baseUrlShort();?>/public/minify/?g=jquerybase&147"></script>
+
+	<?= $this->headTitle() ?>
+	<?= $this->headMeta(); ?>
+    <?= $this->headScript() ?>
+    <?= $this->headStyle() ?>
+ 
+</head>
+<body>
+<div id="header">
+<img border=0 id="headerLogo" src="<?php echo $this->baseUrlShort();?>/public/images/mobile/iphoneGUI_header_logo.png" alt="Rule1Tool"/>
+<img border=0 id="headerMenuScrollLeft" alt="L" src="<?php echo $this->baseUrlShort();?>/public/images/mobile/iphoneGUI_menuScrollLeft.png"/>
+<div id="headerMenu">
+<?php echo $this->createMenu("iPhone");?>
+</div>
+<img border=0 id="headerMenuScrollRight" alt="R" src="<?php echo $this->baseUrlShort();?>/public/images/mobile/iphoneGUI_menuScrollRight.png"/>
+<?php
+
+if(Zend_Registry::get('Zend_Auth')->hasIdentity())
+{
+	//Nutzer ist angemeldet - zeige On-Icon mit LogOut-Link
+	echo $this->link(
+					$this->url(
+					array(
+						"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), 
+						"user_logout"), 
+					$this->image("mobile/iphoneGUI_On.png", "LogOut", null, "headerLogInOut"), null, null, null, "headerLogOut");	
+}
+else
+{
+	//kein Nutzer angemeldet - Login-Link
+	echo $this->link(
+					$this->url(
+					array(
+						"language" => Zend_Registry::get('Zend_Locale')->getLanguage()), 
+						"user_login"), 
+					$this->image("mobile/iphoneGUI_Off.png", "LogIn", null, "headerLogInOut"));	
+}
+?>
+
+</div>
+<?php echo $this->createSubMenu();?>
+<div id="content">
+<?php echo $this->layout()->content;?>
+</div>
+<div id="footer">
+<center>
+	<span><?php echo $this->link(
+					$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "feedback"), $this->translate("Feedback"));?>
+	</span>
+		|			
+	<span><?php echo $this->link(
+					$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "imprint"), $this->translate("Impressum"));?>
+	</span>
+		|	
+	<span><?php echo $this->link(
+					$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "layout" => "standard"), "setlayout"), $this->translate("Web-Ansicht"));?>
+	</span>		
+			
+
+</center>
+</div>
+
+<script type="text/javascript" src="<?php echo $this->baseUrlShort();?>/public/minify/?g=mobilejs&148"></script>
+
+<?php 
+if(Zend_Registry::get('systemtype') == "live" && Zend_Registry::get("UserObject")->getRole() !== "admin")
+{
+	?>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-404043-6");
+pageTracker._trackPageview();
+} catch(err) {}</script>	
+	
+	<?php
+}
+?>	
+</body>
+</html>

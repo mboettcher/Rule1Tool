@@ -1,0 +1,7 @@
+<td<? if($this->element->getMessages()) echo " class='errors'"; ?>>
+<?= $this->{$this->element->helper}(
+        $this->element->getFullyQualifiedName(),
+        $this->element->getValue(),
+        $this->element->getAttribs()
+    ) ?>
+</td>

@@ -1,0 +1,113 @@
+<div class="homeBgContainer">
+
+<div class="homeTLayerNew homeLayerAbout">
+
+	<img src="<?php echo $this->baseUrlShort();?>/public/images/home_teaser_h1.png" alt="Gute Investments sind kein Zufall" title=""/>
+	<p class="h2InfoLine"><?php echo $this->translate("Basierend auf den hervorragenden Grundlagen des Buchs “Regel Nummer 1” von Phil Town, bietet Rule1Tool die Werkzeuge für erfolgreiche Anleger.");?></p>
+
+</div>
+
+<div class="homeTLayerNew homeLayerStocks">
+	<div class="left">
+	<?php 
+	if(count($this->watchlists) > 0)
+	{
+	?>	
+		<div class="head">
+			<div id="indexWatchlistTitleDesc">Watchlist:</div>
+			<div id="indexWatchlistName"></div>
+			<div id="indexWatchlistPrevNextButton"><a href=""><</a><a href="">></a></div>
+		</div>
+		
+		
+		<script>
+
+		var url = baseUrl+"/watchlist/show-json/";
+		//showLoading();
+
+		var i = 0;
+		//array mit watchlist_ids
+		var watchlists  = new Array();
+<?php 
+		$i = 0;
+		foreach ($this->watchlists as $watchlist)
+		{	
+			echo "watchlists[$i] = new Array();";
+			echo "watchlists[$i]['id'] = ".$watchlist["watchlist_id"].";";
+			echo "watchlists[$i]['name'] = '".addslashes($watchlist["name"])."';";
+			
+			echo "watchlists[$i]['url'] = '".$this->url(array(
+							"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+							"username" => Zend_Registry::get("UserObject")->getNickname(),
+							"WID" => $watchlist["watchlist_id"]), 
+						"user_watchlist_show")."';";
+			
+			$i++;
+		}
+
+?>
+		var currentWatchlist = 0;
+
+		$(document).ready(function() {
+
+			initIndexWatchlistPrevNextButtons();
+			
+			//starten
+			getWatchlistAndPrint(watchlists[currentWatchlist]["id"], watchlists[currentWatchlist]["name"], watchlists[currentWatchlist]["url"]);
+		
+		});
+
+		</script>
+		<div class="body"></div>
+	<?php 
+			
+	}
+	else 
+	{
+		//Keine Watchlist vorhanden
+	}
+	?>
+	</div>
+	<div class="right">
+		
+			<div class="head">Indiz</div>
+		    
+			<div class="stock"><a href="<?php echo $this->dax->getUrl();?>"><?php echo $this->dax->getName();?></a></div>
+			<div class="kurs <?php if($this->dax->getQuotes($this->dax->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "plus"; else echo "minus";?>"><?php echo $this->dax->getQuotes($this->dax->getMainMarketId())->getLastQuote()->getChange(true)." %";?></div>
+		
+			<div class="stock"><a href="<?php echo $this->mdax->getUrl();?>"><?php echo $this->mdax->getName();?></a></div>
+			<div class="kurs <?php if($this->mdax->getQuotes($this->mdax->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "plus"; else echo "minus";?>"><?php echo $this->mdax->getQuotes($this->mdax->getMainMarketId())->getLastQuote()->getChange(true)." %";?></div>
+		
+			<div class="stock"><a href="<?php echo $this->tecdax->getUrl();?>"><?php echo $this->tecdax->getName();?></a></div>
+			<div class="kurs <?php if($this->tecdax->getQuotes($this->tecdax->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "plus"; else echo "minus";?>"><?php echo $this->tecdax->getQuotes($this->tecdax->getMainMarketId())->getLastQuote()->getChange(true)." %";?></div>
+		
+			<div class="stock"><a href="<?php echo $this->dow->getUrl();?>"><?php echo $this->dow->getName();?></a></div>
+			<div class="kurs <?php if($this->dow->getQuotes($this->dow->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "plus"; else echo "minus";?>"><?php echo $this->dow->getQuotes($this->dow->getMainMarketId())->getLastQuote()->getChange(true)." %";?></div>
+		
+			<div class="stock"><a href="<?php echo $this->nasdaq->getUrl();?>"><?php echo $this->nasdaq->getName();?></a></div>
+			<div class="kurs <?php if($this->nasdaq->getQuotes($this->nasdaq->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "plus"; else echo "minus";?>"><?php echo $this->nasdaq->getQuotes($this->nasdaq->getMainMarketId())->getLastQuote()->getChange(true)." %";?></div>
+		
+			<div class="stock"><a href="<?php echo $this->nikkei->getUrl();?>"><?php echo $this->nikkei->getName();?></a></div>
+			<div class="kurs <?php if($this->nikkei->getQuotes($this->nikkei->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "plus"; else echo "minus";?>"><?php echo $this->nikkei->getQuotes($this->nikkei->getMainMarketId())->getLastQuote()->getChange(true)." %";?></div>
+		
+	</div>
+	
+</div>
+
+</div>
+
+<?php echo $this->clearDiv();?>
+<script type="text/javascript">
+$(document).ready(function () {
+  $('#r1trssfeed').rssfeed('<?=$this->baseUrlServer().$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()
+											), "rssr1tnews");?>', {
+    limit: 5,
+    snippet: false,
+    titletag: "h2"
+    });
+});
+</script>
+<h1>Aktuelle Meldungen zu Rule1Tool</h1>
+<div id="r1trssfeed"></div>
+
+

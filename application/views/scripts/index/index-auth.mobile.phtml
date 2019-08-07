@@ -1,0 +1,55 @@
+<div class="contentContainer">
+<table cellspacing=0 width="100%" class="stocksOverviewTable" id="homeIndizTable">
+		<thead>
+			<tr>
+				<td><?php echo $this->translate("Index");?></td>
+				<td>Kurs</td>
+				<td>Änderung</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><a href="<?php echo $this->dax->getUrl();?>"><?php echo $this->dax->getName();?></a></td>
+				<td><?php echo $this->dax->getQuotes($this->dax->getMainMarketId())->getLastQuote()->getClose(true);?></td>
+				<td class="change <?php if($this->dax->getQuotes($this->dax->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "greenChange"; else echo "redChange";?>"><?php echo $this->dax->getQuotes($this->dax->getMainMarketId())->getLastQuote()->getChange(true)." %";?></td>
+			</tr>
+			<tr>
+				<td><a href="<?php echo $this->mdax->getUrl();?>"><?php echo $this->mdax->getName();?></a></td>
+				<td><?php echo $this->mdax->getQuotes($this->mdax->getMainMarketId())->getLastQuote()->getClose(true);?></td>
+				<td class="change <?php if($this->mdax->getQuotes($this->mdax->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "greenChange"; else echo "redChange";?>"><?php echo $this->mdax->getQuotes($this->mdax->getMainMarketId())->getLastQuote()->getChange(true)." %";?></td>
+			</tr>
+			<tr>
+				<td><a href="<?php echo $this->tecdax->getUrl();?>"><?php echo $this->tecdax->getName();?></a></td>
+				<td><?php echo $this->tecdax->getQuotes($this->tecdax->getMainMarketId())->getLastQuote()->getClose(true);?></td>
+				<td class="change <?php if($this->tecdax->getQuotes($this->tecdax->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "greenChange"; else echo "redChange";?>"><?php echo $this->tecdax->getQuotes($this->tecdax->getMainMarketId())->getLastQuote()->getChange(true)." %";?></td>
+			</tr>
+			<tr>
+				<td><a href="<?php echo $this->dow->getUrl();?>"><?php echo $this->dow->getName();?></a></td>
+				<td><?php echo $this->dow->getQuotes($this->dow->getMainMarketId())->getLastQuote()->getClose(true);?></td>
+				<td class="change <?php if($this->dow->getQuotes($this->dow->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "greenChange"; else echo "redChange";?>"><?php echo $this->dow->getQuotes($this->dow->getMainMarketId())->getLastQuote()->getChange(true)." %";?></td>	
+			</tr>
+			<tr>
+				<td><a href="<?php echo $this->nasdaq->getUrl();?>"><?php echo $this->nasdaq->getName();?></a></td>
+				<td><?php echo $this->nasdaq->getQuotes($this->nasdaq->getMainMarketId())->getLastQuote()->getClose(true);?></td>
+				<td class="change <?php if($this->nasdaq->getQuotes($this->nasdaq->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "greenChange"; else echo "redChange";?>"><?php echo $this->nasdaq->getQuotes($this->nasdaq->getMainMarketId())->getLastQuote()->getChange(true)." %";?></td>
+			</tr>
+			<tr>
+				<td><a href="<?php echo $this->nikkei->getUrl();?>"><?php echo $this->nikkei->getName();?></a></td>
+				<td><?php echo $this->nikkei->getQuotes($this->nikkei->getMainMarketId())->getLastQuote()->getClose(true);?></td>
+				<td class="change <?php if($this->nikkei->getQuotes($this->nikkei->getMainMarketId())->getLastQuote()->getChange(false) > 0) echo "greenChange"; else echo "redChange";?>"><?php echo $this->nikkei->getQuotes($this->nikkei->getMainMarketId())->getLastQuote()->getChange(true)." %";?></td>
+			</tr>
+		</tbody>
+		</table>
+		
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#accordion").accordion({
+			autoHeight: false,
+			collapsible: true,
+			active:false
+		});
+	});
+	</script>
+
+
+</div>

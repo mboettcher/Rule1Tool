@@ -1,0 +1,152 @@
+<script type="text/javascript">
+$(document).ready(function() {	
+	$(".watchlistMosNS").simpletooltip(true);   
+});
+</script>
+<div style="text-align:center;">
+<?php 
+
+$alphabet = array(
+"a" => "A",
+"b" => "B",
+"c" => "C",
+"d" => "D",
+"e" => "E",
+"f" => "F",
+"g" => "G",
+"h" => "H",
+"i" => "I",
+"j" => "J",
+"k" => "K",
+"l" => "L",
+"m" => "M",
+"n" => "N",
+"o" => "O",
+"p" => "P",
+"q" => "Q",
+"r" => "R",
+"s" => "S",
+"t" => "T",
+"u" => "U",
+"v" => "V",
+"w" => "W",
+"x" => "X",
+"y" => "Y",
+"z" => "Z",
+);
+
+foreach ($alphabet as $key => $value)
+{
+	echo "<span>".$this->link($this->url(array('needle' => $key,
+												"alpha" => true, 
+												"language" => Zend_Registry::get('Zend_Locale')->getLanguage())
+										, 'stocksearch'), $value)."</span> ";
+}
+?>
+
+</div>
+
+<table cellspacing=0 width="100%" class="stocksOverviewTable" id="companyTable">
+<thead>
+<tr>
+	<td><?php if($this->orderby == "isin")
+	{	
+		echo $this->link($this->url(array('orderby' => 'name',
+												"language" => Zend_Registry::get('Zend_Locale')->getLanguage())
+										, 'stocklist'), $this->translate("Name"));
+	}
+	else 
+	{echo $this->translate("Name");}?></td>
+	<td><?php 
+	if($this->orderby == "name")
+	{	
+		echo $this->link($this->url(array('orderby' => 'isin',
+												"language" => Zend_Registry::get('Zend_Locale')->getLanguage())
+										, 'stocklist'), $this->translate("ISIN"));
+	}
+	else 
+	{echo $this->translate("ISIN");}
+	?></td>
+	<td><?php echo $this->translate("Kurs");?></td>
+	<td><?php echo $this->translate("MOS");?></td>
+</tr>
+</thead>
+<tbody>
+<?
+
+if (count($this->paginator))
+{
+	foreach($this->paginator as $item)
+	{
+		if(($analysis_id = $item->getPreselectedAnalysisId(Zend_Registry::get("UserObject")->getUserId())))
+		{
+			$analysis = new Analysis_Calculator();
+			$analysis->getAnalysisById($analysis_id);
+			//$mos = $analysis->getMOS()." ".$analysis->getCurrency();
+			$date = new Zend_Date($analysis->getDateEdit());
+			$mos = '<span title="Analyse erstellt am '.$date->get(Zend_Date::DATES).' von '.$analysis->getCreator()->getNickname().'" class="watchlistMosNS">'
+						.$analysis->getMOS()
+						." "
+						.$analysis->getCurrency()
+						.'</span>';	
+		}
+		else 
+			$mos = "n/a";
+			
+		$url = $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "isin" => $item->getIsin()), "stock");
+		echo '<tr>
+				<td>'.$this->link(
+								$this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $item->getIsin()
+										), "stock"),
+								$item->getName())
+				.'</td>
+				<td>'.$this->link(
+								$this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $item->getIsin()
+										), "stock"),
+								$item->getIsin())
+				.'</td>
+				<td>';
+		if($item->getQuotes($item->getMainMarketId()))
+		{
+			if($item->getQuotes($item->getMainMarketId())->getLastQuote()->getClose() !== null)
+			{
+				echo $item->getQuotes($item->getMainMarketId())->getLastQuote()->getClose(true);
+				if($item->isStock()) 
+				{
+					echo ' '
+						.$item->getQuotes($item->getMainMarketId())->getMarket()->getCurrency();
+				}
+			}			
+			else 
+				echo 'n/a';			
+		}
+		else 
+			echo 'n/a';		
+
+		echo '</td>
+				<td>'.$mos.'</td>
+		</tr>';
+	}
+
+
+}
+
+?>
+</tbody>
+</table>
+<?
+
+echo $this->paginationControl($this->paginator,
+	                             'Sliding',
+	                             "paginator.phtml");
+?>
+<p class="note small"><strong>Hinweis:</strong> 
+In dieser Liste sind nur Unternehmen enthalten, 
+nach denen bereits mind. einmal gesucht wurde. 
+Wenn Ihr gesuchtes Unternehmen nicht in der Liste enthalten ist, 
+benutzen Sie bitte die Suchfunktion um die Unternehmensdaten nach Rule1Tool zu importieren.
+</p>

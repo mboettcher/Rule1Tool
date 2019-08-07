@@ -1,0 +1,47 @@
+<h1 style="width:400px;float:left;"><?php echo $this->portfolio->getName();?></h1>
+
+<?php 
+echo $this->messageBox($this->mbox);
+?>
+
+<table cellspacing=0 width="100%" class="stocksOverviewTable">
+<thead>
+<tr>
+	<th><?php echo $this->translate("Aktie");?></th>
+	<th rowspan=2><?php echo $this->translate("Stück / Nominale");?></th>
+	<th><?php echo $this->translate("Einstandskurs");?></th>
+	<th><?php echo $this->translate("Schlusskurs");?></th>
+	<th><?php echo $this->translate("Gewinn/Verlust");?></th>
+</tr>
+<tr>
+	<th><?php echo $this->translate("ISIN");?></th>
+
+	<th><?php echo $this->translate("Einstandswert");?></th>
+	<th><?php echo $this->translate("Kurswert");?></th>
+	<th><?php echo $this->translate("in Prozent");?></th>
+</tr>
+</thead>
+<tbody>	
+<?php 
+	$stocks = $this->portfolio->getCurrentPortfolio();
+	if (count($stocks) > 0)
+	{
+		foreach ($stocks as $stock)
+		{
+			echo "<tr>";
+			$company = new Company($stock["company_id"]);
+			echo "<td>".$company->getName()." <small>".$company->getISIN()."</small></td>";
+			echo "<td>".$stock["realcount"]." Stück</td>";
+			echo "<td>".$stock["einstandsKurs"]." </br>".$stock["einstandsWert"]."</td>";
+			echo "<td>".$stock["schlussKurs"]." </br>".$stock["schlussWert"]."</td>";
+			echo "<td>".$stock["ertragWert"]." </br>".$stock["ertragProzent"]."</td>";
+			
+			echo "</tr>";
+		}
+
+	}
+
+	
+?>
+</tbody>
+</table>

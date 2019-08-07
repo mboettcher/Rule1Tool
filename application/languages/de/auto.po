@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Rule1Tool\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-06-07 12:20+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Bernhard Wanger <mail@bernhardwanger.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: application\n"
+"X-Poedit-SearchPath-1: library/Custom\n"
+
+#: application/controllers/AuthController.php:36
+msgid "Bitte einen Nutzernamen eingeben."
+msgstr "Bitte einen Nutzernamen eingeben."
+
+#: application/controllers/AuthController.php:64
+msgid "Nutzernamen oder Passwort ist nicht korrekt. Bitte Eingabe überprüfen."
+msgstr "Nutzernamen oder Passwort ist nicht korrekt. Bitte Eingabe überprüfen."
+
+#: application/controllers/ErrorController.php:21
+msgid "Angefragte wurde Seite nicht gefunden!"
+msgstr "Angefragte wurde Seite nicht gefunden!"
+
+#: application/controllers/ErrorController.php:22
+msgid "Bitte überprüfen Sie die URL oder versuchen es später nocheinmal."
+msgstr "Bitte überprüfen Sie die URL oder versuchen es später nocheinmal."
+
+#: application/controllers/ErrorController.php:30
+msgid "Fehler!"
+msgstr "Fehler!"
+
+#: application/controllers/ErrorController.php:31
+msgid "Ein unerwarteter Fehler trat in der Anwendung auf. Bitte versuchen Sie es etwas später nocheinmal."
+msgstr "Ein unerwarteter Fehler trat in der Anwendung auf. Bitte versuchen Sie es etwas später nocheinmal."
+
+#: application/library/Company.php:76
+#, php-format
+msgid "Die ISIN %1$s wurde nicht gefunden."
+msgstr "Die ISIN %1$s wurde nicht gefunden."
+
+#: application/views/scripts/index/index.phtml:1
+msgid "Hallo Welt!"
+msgstr "Hallo Welt!"
+
+#: application/views/scripts/index/index.phtml:2
+#: application/views/scripts/index/index2.phtml:2
+msgid "Ich spreche Deutsch!"
+msgstr "Ich spreche Deutsch!"
+
+#: application/views/scripts/index/index.phtml:6
+msgid "Zufälliges Zitat"
+msgstr "Zufälliges Zitat"
+

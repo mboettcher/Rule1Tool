@@ -1,0 +1,28 @@
+<?php 
+if($this->analysis)
+{
+		if($this->CommentPageAnalysis== 1)
+		{
+		?>
+		<div class="stockNewCommentBox">
+			<input type="hidden" id="stock_comment_a_thread_id" value="<?=$this->analysis->getThread()->getThreadId();?>"/>
+			<?php echo $this->printUserPicture(Zend_Registry::get("UserObject"), "s");?>
+			<textarea id="stock_new_a_comment_text" class="commentNewBox"></textarea>
+			<input type="button" id="stock_new_a_comment_send" value="Kommentar abschicken">
+		</div>
+		<?php 
+		}
+		else //Wenn nicht, dann bitte Box-AUSKLAPPEN! 
+		{
+			$selectScript = '$(document).ready(function() {
+				commentBoxAnalysisToggle();
+			});';
+			$this->headScript()->appendScript($selectScript);
+		}
+		?>
+		<div id="stockCommentsAnalysis">
+			<?=$this->commentPaginator($this->commentPaginatorAnalysis, "analysis");?>
+		</div>
+<?php 
+}
+?>

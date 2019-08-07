@@ -1,0 +1,58 @@
+<form action="<?= $this->escape($this->element->getAction()) ?>"
+      method="<?= $this->escape($this->element->getMethod()) ?>" class="modernForm">
+      
+<div class="userRegisterTable">
+
+<div class="td1">
+	<div class="head"><span class="headline"><?=$this->translate("Gewünschter Mitgliedsname");?></span> <span class="note"><?=$this->translate("(2–20 Zeichen)");?></span></div>
+	<div class="body"><?=$this->element->nickname; ?></div>
+</div>
+<div class="td2">
+	<div class="head"><span class="headline"><?=$this->translate("Aktuelle E-Mail-Adresse");?></span></div>
+	<div class="body"><?=$this->element->email; ?></div>
+</div>
+
+<div class="td1">
+	<div class="head"><span class="headline"><?=$this->translate("Kennwort");?></span> <span class="note"><?=$this->translate("(6–32 Zeichen)");?></span></div>
+	<div class="body"><?=$this->element->password; ?></div>
+</div>
+<div class="td2">
+	<div class="head"><span class="headline"><?=$this->translate("Kennwort erneut eingeben");?></span></div>
+	<div class="body"><?=$this->element->password_confirm; ?></div>
+</div>
+
+	<?php 
+	if(Zend_Registry::get("config")->general->invitations->active == true)
+	{?>
+<div class="td1And2">
+	<div class="head"><span class="headline"><?=$this->translate("Einladungsschlüssel");?></span></div>
+	<div class="body"><?=$this->element->invitation; ?></div>
+</div>
+
+<div class="td1And2">
+	<div class="body"><span class="note small">
+		<?=$this->translate("Rule1Tool befindet sich momentan noch in einer geschlossenen Beta-Phase. Für die Anmeldung bei Rule1Tool benötigen Sie daher eine Einladung eines anderen Mitgliedes.");?>
+		<?php echo $this->link(
+			$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "get_invitation"),
+			$this->translate("Jetzt Einladungsschlüssel holen!"));?>
+		</span></div>
+</div>
+	<?php
+	}
+	?>
+
+
+<div class="td1And2">
+	<div class="head"><?=$this->element->newsletter; ?> <?=$this->translate("Bitte informieren Sie mich über Updates von Rule1Tool.");?></div>
+	<?php /* 
+	<div class="head"><?=$this->element->agb; ?> <?=$this->translate("Ich habe die %1\$s gelesen und akzeptiere diese.", $this->link(
+			$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "agb"),
+			$this->translate("Allgemeinen Geschäftsbedingungen"), null, null, "_blank"));?></div>
+*/?>
+</div>
+
+</div>
+  
+<?=$this->element->submit; ?>
+<?=$this->element->reset; ?>
+</form>

@@ -1,0 +1,36 @@
+<!--
+See http://developer.yahoo.com/ypatterns/pattern.php?pattern=searchpagination
+-->
+
+<?php if ($this->pageCount): ?>
+<div class="paginationControl">
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+  <a href="<?= $this->url(array('CommentPageCompany' => $this->previous, 'CommentPageAnalysis' => 1)); ?>">
+    &lt;
+  </a> |
+<?php else: ?>
+  <span class="disabled">&lt;</span> |
+<?php endif; ?>
+
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+    <a href="<?= $this->url(array('CommentPageCompany' => $page, 'CommentPageAnalysis' => 1)); ?>">
+        <?= $page; ?>
+    </a> |
+  <?php else: ?>
+    <?= $page; ?> |
+  <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+  <a href="<?= $this->url(array('CommentPageCompany' => $this->next, 'CommentPageAnalysis' => 1)); ?>">
+     &gt;
+  </a>
+<?php else: ?>
+  <span class="disabled">&gt;</span>
+<?php endif; ?>
+</div>
+<?php endif; ?>

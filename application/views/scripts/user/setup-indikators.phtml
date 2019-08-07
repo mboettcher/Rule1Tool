@@ -1,0 +1,23 @@
+
+<?php 
+if($this->form)
+{
+?>
+<h1><?php echo $this->translate("Indikatoren einstellen");?></h1>
+
+<?php 
+if($this->mbox)
+	echo $this->messageBox($this->mbox, "input");
+?>
+
+	<?php echo $this->form;?>
+
+<?php 
+}
+else 
+{
+	if($this->mbox)
+		echo $this->messageBox($this->mbox);
+}
+?>
+

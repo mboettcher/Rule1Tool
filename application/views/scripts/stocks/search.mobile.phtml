@@ -1,0 +1,60 @@
+<div class="contentContainer">
+<?php
+
+if (count($this->paginator))
+{
+	?>
+<table cellspacing=0 width="100%" class="stocksOverviewTable">
+<thead>
+<tr>
+	<td><?php echo $this->translate("Name");?></td>
+	<td><?php echo $this->translate("ISIN");?></td>
+</tr>
+</thead>
+<tbody>	
+	<?php 
+	foreach($this->paginator as $item)
+	{
+		echo '<tr>
+				<td>'.$this->link(
+						$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "isin" => $item->getIsin()), "stock"),$item->getName())
+				.'</td>
+				<td>'.$this->link(
+						$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage(), "isin" => $item->getIsin()), "stock"),$item->getIsin())
+				.'</td>
+		</tr>';
+	}
+	?>
+</tbody>
+</table>	
+	<?php
+}
+else 
+{
+if($this->mbox)
+{
+	echo $this->messageBox($this->mbox, "input");
+	echo $this->clearDiv();
+}
+?>
+<div class="stockSearchBox" style="text-align:center;">
+<form action="<?php echo $this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()), "stocksearch")?>">
+<input name="q" type="text" class="inputtext" onfocus="this.value='';this.style.color='#333';" onblur="if(this.value == '') {this.value='ISIN oder Name oder Symbol';this.style.color='#b9b9b9';}" value="ISIN oder Name oder Symbol"/>
+</form>	
+</div>
+
+<?php 
+
+}
+
+?>
+
+<?
+if (count($this->paginator))
+{
+echo $this->paginationControl($this->paginator,
+	                             'Sliding',
+	                             "paginator.phtml");
+}
+?>
+</div>

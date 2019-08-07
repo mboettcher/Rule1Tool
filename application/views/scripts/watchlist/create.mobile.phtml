@@ -1,0 +1,13 @@
+<div class="contentContainer">
+<h1><?php echo $this->translate("Watchlist anlegen");?></h1>
+<p class="h2InfoLine">
+<?php 
+echo $this->translate("Mit Hilfe einer Watchlist können Sie all Ihre Lieblingsunternehmen ganz einfach im Blick behalten.");
+?></p>
+<?php 
+if($this->mbox)
+echo $this->messageBox($this->mbox, "input");
+echo $this->clearDiv();
+?>
+<?php echo $this->form;?>
+</div>

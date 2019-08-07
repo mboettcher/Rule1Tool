@@ -1,0 +1,70 @@
+<?php 
+
+	if (count($this->paginator))
+	{
+	?>
+	
+<script type="text/javascript">
+$(document).ready(function() {
+	$(".watchlistDelete").each(function(){$(this).click(function(event){
+		event.preventDefault(); /* Linkklick verhindern */
+		var url = $(this).attr("href");
+		createConfirmDialog(
+				"Wollen Sie die Watchlist wirklich löschen?", 
+				"Watchlist löschen", 
+				"Ja", 
+				"Abbrechen", 
+				function(){
+					window.location = url;}, 
+				"");
+	})});    
+
+});
+</script>
+
+
+<table cellspacing=0 width="100%" class="stocksOverviewTable">
+<thead>
+<tr>
+	<td><?php echo $this->translate("Titel der Watchlist");?></td>
+	<td><?php echo $this->translate("Anzahl der Aktien");?></td>
+	<td></td>
+</tr>
+</thead>	
+	<?php
+		foreach($this->paginator as $item)
+		{
+			if($this->user->getUserId() == Zend_Registry::get("UserObject")->getUserId())
+			{
+				$delete = $this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"WID" => $item->getWatchlistId()
+												), "user_watchlist_delete"),
+									 $this->translate("löschen"), 
+									 "watchlistDelete");
+			}
+			else 
+				$delete = null;
+			echo '<tr>'
+					.'<td>'.$this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"WID" => $item->getWatchlistId()
+												), "user_watchlist_show"),$item->getName()).'</td>'
+					.'<td>'.count($item).'</td>'
+					.'<td>'.$delete.'</td>'
+				."</tr>";
+		}
+?>
+
+</table>
+<?php 		
+
+	}
+	else 
+	{
+		echo $this->messageBox($this->mbox);
+	}
+	
+?>

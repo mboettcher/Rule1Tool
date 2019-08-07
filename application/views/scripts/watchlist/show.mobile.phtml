@@ -1,0 +1,147 @@
+<div class="contentContainer">
+<h1><?php echo $this->watchlist->getName();?></h1>
+<script type="text/javascript">
+$(document).ready(function() {
+	$(".watchlistDelete").each(function(){$(this).click(function(event){
+		event.preventDefault(); /* Linkklick verhindern */
+		var url = $(this).attr("href");
+		createConfirmDialog(
+				"Wollen Sie die Watchlist wirklich löschen?", 
+				"Watchlist löschen", 
+				"Ja", 
+				"Abbrechen", 
+				function(){
+					window.location = url;}, 
+				"");
+	})});    
+	$(".watchlistStockRemove").each(function(){$(this).click(function(event){
+		event.preventDefault(); /* Linkklick verhindern */
+		var url = $(this).attr("href");
+		createConfirmDialog(
+				"Wollen Sie diese Aktie wirklich von der Watchlist entfernen?", 
+				"Aktie entfernen", 
+				"Ja", 
+				"Abbrechen", 
+				function(){
+					window.location = url;}, 
+				"");
+	})});
+});
+</script>
+
+<?php 
+
+	if (count($this->paginator))
+	{
+	?>
+	
+<table cellspacing=0  width="100%" class="stocksOverviewTable tablesorter">
+<thead>
+<tr>
+	<td></td>
+	<th width="40%"><?php echo $this->translate("Aktie");?></th>
+	<th><?php echo $this->translate("Kurs");?></th>
+	<th></th>
+	
+	<td></td>
+</tr>
+</thead>
+<tbody>
+	<?php
+		foreach($this->paginator as $item)
+		{
+			if($analysis_id = $item->getCompany()->getPreselectedAnalysisId($this->user->getId()))
+			{
+				$analysis = new Analysis_Calculator();
+				$analysis->getAnalysisById($analysis_id);
+			}
+			
+			if($this->user->getUserId() == Zend_Registry::get("UserObject")->getUserId())
+			{
+				$delete = $this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"WID" => $this->watchlist->getWatchlistId(),
+										"CID" => $item->getCompany()->getId()
+												), "user_watchlist_stock_remove"), $this->translate("x"), "watchlistStockRemove");
+			}
+			else 
+				$delete = null;
+			echo '<tr>';
+			
+			$signals = $item->getIndikatorSignal($this->user);
+			echo '<td>';
+			echo $this->indikatorSignalDiv($signals["SMA"][0]["name"], $signals["SMA"][0]["lastSignalDateDates"], $signals["SMA"][0]["lastSignal"]);
+			echo $this->indikatorSignalDiv($signals["MACD"][0]["name"], $signals["MACD"][0]["lastSignalDateDates"], $signals["MACD"][0]["lastSignal"]);
+			echo $this->indikatorSignalDiv($signals["STO"][0]["name"], $signals["STO"][0]["lastSignalDateDates"], $signals["STO"][0]["lastSignal"]);
+			echo '</td>';
+			
+			echo'<td>'.$this->link(
+								$this->url(array(
+											"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+											"isin" => $item->getCompany()->getIsin()
+										), "stock"),
+								$item->getCompany()->getName()." <small>".$item->getCompany()->getIsin()."</small>")
+					.'</td>';
+			
+			if($item->getLastQuote()->getClose() !== null)
+			{
+				if($item->getLastQuote()->getChange() >= 0)
+					$class = "greenChange";
+				else 	
+					$class = "redChange";
+				
+				$zdate = new Zend_Date($item->getLastQuote()->date, Zend_Date::ISO_8601);
+				
+				echo '<td>'.$item->getLastQuote()->getClose(true,999);
+				if($item->getCompany()->isStock())
+					echo ' '.$item->getCurrency();
+				echo '<br/><small>'.$zdate->get(Zend_Date::DATES).'</small></td>';
+				
+				echo '<td class="change '.$class.'">'.$item->getLastQuote()->getChange(true).' %</td>';				
+			}		
+			else
+			{
+				echo	'<td>n/a</td>'
+					.'<td>n/a</td>';
+			}
+				
+			
+			echo 	'<td>'.$delete.'</td>'
+				."</tr>";
+		}
+?>
+</tbody>	
+</table>
+<?php 	
+
+	}
+	else 
+	{
+		echo $this->messageBox($this->mbox);
+	}
+	
+?>
+<?php if($this->user->getUserId() == Zend_Registry::get("UserObject")->getUserId())
+{
+?>
+<br/>
+<div>
+<span class="small">
+<?php 
+echo $this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"WID" => $this->watchlist->getWatchlistId()
+												), "user_watchlist_edit"), $this->translate("[Watchlist bearbeiten]"));
+echo $this->link($this->url(array(
+										"language" => Zend_Registry::get('Zend_Locale')->getLanguage(), 
+										"username" => $this->user->getNickname(),
+										"WID" => $this->watchlist->getWatchlistId()
+												), "user_watchlist_delete"), $this->translate("[Watchlist löschen]"), "watchlistDelete");
+						?>
+</span></div>
+<?php 
+}
+?>
+</div>

@@ -1,0 +1,28 @@
+<div class="cleardiv"></div>
+	
+	<div class="stock_comments analysis">
+		<div class="head head1" id="stock_comment_header">
+
+			<div class="content" id="stock_comments_analysis_toggle"><div style="float:left;"><?if($this->commentPaginatorAnalysis) echo $this->commentPaginatorAnalysis->getTotalItemCount(); else echo "0";?> Kommentare zur Analyse</div><img id="stock_comment_head_pf_2_left" style="display:block;margin-top:3px;margin-left:3px;float:left"  src="<?php echo $this->baseUrlShort();?>/public/images/pfeil_left_grau.png" alt=""/><img id="stock_comment_head_pf_2_down" style="display:none;margin-top:3px;margin-left:3px;float:left" src="<?php echo $this->baseUrlShort();?>/public/images/pfeil_down_grau.png" alt=""/></div>
+
+		</div>
+		<div style="float:left;">
+		<div style="float:left;" id="stock_comment_body">
+			<div class="body">
+				<div class="content">
+					<div id="stock_comments_analysis">
+						<?php echo $this->render("stocks/commentsAnalysis.phtml"); ?>
+					</div>
+					
+				</div>
+			</div>
+			<div class="foot">
+				<div class="left"></div>
+				<div class="main"></div>
+				<div class="right"></div>
+			</div>
+		</div>
+		</div>
+	</div>
+
+<div class="cleardiv"></div>

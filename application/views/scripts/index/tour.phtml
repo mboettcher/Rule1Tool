@@ -1,0 +1,81 @@
+<div class="tour">
+
+
+<h1 class="huge" style="text-align:center;margin:0 auto;"><?php echo $this->translate("Die richtigen Investments zur richtigen Zeit.");?></h1>
+
+<p class="h2InfoLine" style="text-align:center;">
+Mit Rule1Tool wird Aktienanlage nach "Regel Nummer 1" von Phil Town zum Kinderspiel. 
+Analysieren Sie zusammen mit anderen Mitgliedern Unternehmen und speichern Sie Ihre Ergebnisse ab. 
+Durch die vorkonfigurierten Charts inklusive Indikatoren sehen Sie auf einen Blick, wann Sie Aktien kaufen oder verkaufen sollten.</p>
+<?php echo $this->clearDiv();?>
+
+
+<div class="left"><?php /*echo $this->image("tour_arrow_left.png", "back");*/?></div>
+<div class="content">
+
+
+
+<div class="stage1"><?php echo $this->image("tour_stage1v2.png", "Rule1 Watchlist")?></div>
+
+<div class="stage2">
+<?php echo $this->image("tour_stage2.png", "Unternehmensübersicht mit Regel Nummer 1 Informationen")?>
+<h2>Alle wichtigen Unternehmens-Informationen auf einer Seite</h2>
+<p>
+Rule1Tool zeigt Ihnen auf den Unternehmensseiten nicht nur die "Regel Nummer 1"-Daten wie MOS und Wachstumsraten, sondern auch gleich den aktuellen Kurs, aktuelle Nachrichten zum Unternehmen und außerdem Charts mit den von Phil Town vorgeschlagenen Indikatoren.
+</p>
+</div>
+
+<div class="stage3">
+<?php echo $this->image("tour_stage3.png", "Regel-1 Analyse")?>
+<h2>Erstellen Sie Aktien-Analysen nach "Regel Nummer 1"</h2>
+<p>
+Rule1Tool sagt Ihnen welche Daten Sie für eine Analyse brauchen und stellt ein einfaches Formular zur Eingabe der Daten bereit. So wird das Erstellen der Analyse zum Kinderspiel.
+Sie können Ihre eigene Analyse für die Community freigeben und andere können Ihre Analyse als Ausgangsbasis für eigene Analysen nehmen und diese wiederum Ihnen zur Verfügung stellen.
+</p>
+</div>
+
+<div class="stage4">
+<?php echo $this->image("tour_stage4.png", "Charts mit technischen Indikatoren nach Regel Nummer 1")?>
+<h2>Die richtigen Charts sofort parat</h2>
+<p>
+Bei Rule1Tool verlieren Sie keine Zeit mit nervenden Einstellungen, sondern haben sofort die richtigen Charts mit den Indikatoren aus "Regel Nummer 1" auf einen Blick.
+Neben den normalen Charts bietet Rule1Tool auch eine Signalanzeige direkt in Ihrer persönlichen Watchlist &ndash; so sehen Sie sofort, wann Sie kaufen oder verkaufen sollten.
+</p>
+</div>
+
+<div class="stage6">
+<?php echo $this->image("tour_stage6.png", "Depot mit Performance-Monitor")?>
+<h2>Die beste Depot-Übersicht aller Zeiten</h2>
+<p>
+Mit dem Rule1Tool-Performance-Monitor haben Sie Ihr Depot immer im Blick. Sie sehen mit einem Blick wann Sie welches Unternehmen gekauft oder verkauft haben und können sofort erkennen wie Ihre aktuelle Bilanz ist.
+Natürlich werden Ihnen auch gleich die aktuellen Signale angezeigt, sodass Sie sofort sehen wann es Zeit ist zu verkaufen; und auch die Chart ist nur einen Klick entfernt.
+</p>
+</div>
+
+<div class="stage5">
+<?php echo $this->image("tour_stage5a.png", "iPhone Rule1Tool Gui Watchlist", null, "iponHori")?>
+<div style="margin-left:25px;float:left;width:400px;">
+<h2>Mit dem iPhone auch von Unterwegs alles im Blick</h2>
+<p>
+Wir haben für Sie eine tolle iPhone-Oberfläche entwickelt, damit Sie auch von Unterwegs Ihre Aktien immer im Blick haben. Mit wenigen Fingertips sehen Sie Ihre Watchlist, die Charts und die Indikatoren.
+</p>
+</div>
+<?php echo $this->image("tour_stage5b.png", "Optimierte Charts direkt auf dem iPhone", null, "iponVerti")?>
+</div>
+
+</div>
+<div class="right"><?php /*echo $this->image("tour_arrow_right.png", "next");*/?></div>
+</div>
+
+<div style="float:right; margin-top:10px;">
+<?php 
+echo $this->link(
+		$this->url(array("language" => Zend_Registry::get('Zend_Locale')->getLanguage()),
+		 "user_register"), $this->translate("Zur Registrierung &raquo;"),"abutton blue large");?>
+</div>
+
+
+
+
+
+
